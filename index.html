@@ -11,6 +11,8 @@
 		<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 		<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="themes/font-awesome/css/font-awesome.min.css" />
+		  <link rel="stylesheet" type="text/css" href="styles/bootstrap-dropdown-checkbox.css" />
+
 
 		<!--[if IE 7]>
 		  <link rel="stylesheet" href="themes/font-awesome/css/font-awesome-ie7.min.css" />
@@ -35,6 +37,21 @@
 		<![endif]-->
 
 		<!--inline styles if any-->
+		<style type="text/css">
+
+	      .departement {
+	        cursor: pointer;
+	        stroke:white;
+	        stroke-width:.5px;
+	      }
+
+	      .departement:hover {
+	        stroke: white;
+	        stroke-width: 3px;
+	        fill-opacity: .67;
+
+	      }
+    </style>
 	</head>
 
 	<body>
@@ -61,7 +78,7 @@
 		</a>
 
 		<!--basic scripts-->
-
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script type="text/javascript">
 			window.jQuery || document.write("<script src='themes/js/jquery-1.9.1.min.js'>"+"<"+"/script>");
@@ -86,30 +103,26 @@
 		<!-- Handlebars templates script-->
 		<script src="Handlebars.js"> </script>
 		<script src="scripts/templates.js"> </script>
+		<script src="scripts/bootstrap-dropdown-checkbox.js"></script>
+		<script src="scripts/departements.js"> </script>
+
+
 		
 		<!--inline scripts related to this page-->
 
-		<script type="text/javascript">
-			$('.dropdown-submenu').hover(
-		        function(){
-		        //hover in 
-		            $('.dropdown-submenu > ul').css('top', '-' + $('.dropdown-submenu > ul').css('height'));
-
-		        },
-		        //hover out
-		        function(){
-		        }
-		    );
-		</script>
+		
 		<script type="text/javascript">
 			$('#sidebar').html(Handlebars.templates.sidebar());
 			$('#main-content').html(Handlebars.templates.maincontent());
 			$('#navbar').html(Handlebars.templates.navbar());
 
 
+
 		</script>
 		<script type="text/javascript">
 			$(function() {
+
+				$('#mapcontainer').drawMap({},'mapcontainer');
 			
 				$('.dialogs,.comments').slimScroll({
 			        height: '300px'

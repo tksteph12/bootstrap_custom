@@ -43,7 +43,7 @@
     <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
       <script src="HTTP://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 
-      <script type="text/javascript">
+  <script type="text/javascript">
       var geodatas = [
     {'rgn':'42', 'dpts': [
       { 'code':'67', 'path':'M 480.71875,112.28125 L 477,113.3125 L 475.28125,116.3125 L 475.28125,119.25 L 473.71875,120.625 L 472.34375,120.625 L 469.8125,118.84375 L 467.84375,120.21875 L 465.5,120.21875 L 463.5625,118.28125 L 459.84375,117.6875 L 457.6875,116.71875 L 456.90625,113.78125 L 455.15625,115.71875 L 454.1875,120.21875 L 451.625,121 L 451.625,123.53125 L 454.1875,124.71875 L 456.125,126.09375 L 455.34375,127.84375 L 457.125,129 L 460.25,126.65625 L 465.6875,129.78125 L 463.375,134.09375 L 463.5625,135.46875 L 465.125,137.03125 L 463.9375,141.125 L 460.03125,145.03125 L 457.875,144.84375 L 459.25,146.1875 L 458.46875,149.71875 L 459.25,155 L 462.96875,155.96875 L 462.65625,156.6875 L 465.59375,156.53125 L 467.3125,158.625 L 468.84375,160.53125 L 472.6875,160.34375 L 474.40625,165.3125 L 477.40625,166.625 L 477.375,166 L 482.46875,156.03125 L 481.875,150.375 L 484.21875,142.75 L 484.8125,136.09375 L 489.875,132.40625 L 489.875,130.0625 L 491.84375,127.5 L 493.40625,127.5 L 495.15625,125.75 L 494.78125,122.4375 L 496.53125,117.75 L 499.25,117.15625 L 496.53125,115 L 491.65625,114.4375 L 487.34375,112.28125 L 484.40625,114.03125 L 482.84375,112.28125 L 480.71875,112.28125 z '},
@@ -208,7 +208,7 @@
 
 
 
-      </script>
+    </script>
 
 
     <script type="text/javascript">
@@ -324,20 +324,20 @@
         return "#ccc"; //gris pas de données*/
 
         if (dpts[dpt]> 3*space)
-          {legendArray[3].color ="#c00"; return "#c00";} //rouge foncé
+           if (dpts[dpt]> 3*space)
+          {legendArray[3].color ="#A91101"; return "#A91101";} //rouge foncé
         if (dpts[dpt]> 2*space)
-          {legendArray[2].color ="#f44"; return "#f44";} //rouge
+          {legendArray[2].color ="#DB1702"; return "#DB1702";} //rouge
         if (dpts[dpt]> space)
           {legendArray[1].color ="#f80"; return "#f80";} //oranger foncéé
         if (dpts[dpt]< space)
-          {legendArray[0].color ="#fB3"; return "#fB3";} //oranger
+          {legendArray[0].color ="#F9C181"; return "#F9C181";} //oranger
         legendArray[4].color = "#ccc";
         return "#ccc"; //gris pas de données
       }
 
       var width = 700;
       var height = 800;
-
       
       var svg = d3.select('#map').append("svg:svg")
           .attr("width", width)
@@ -401,7 +401,6 @@
           .attr("height", 100)
           .attr("width", 100)
           .attr('transform', 'translate(-20,50)')    
-            
           
           legend.selectAll('rect')
             .data(legendArray)
