@@ -14,28 +14,19 @@
 
 							<b class="arrow icon-angle-down"></b>
 						</a>
-
-						<ul class="submenu">
-							<li class="dropdown-submenu">
-								<a href="#" title="Piles et Accumulateurs"> 
-									<i class="icon-double-angle-right"></i>
-									<span class = "myDropdownCheckboxBasic dropdown-checkbox dropdown"></span>
-								</a>
-								
-							</li>
-
-							<li  class="dropdown-submenu">
-								<a href="#" title="Déchets d'équipements ménagers" >
-									<i class="icon-double-angle-right"></i>
-									<span class = "myDropdownCheckboxBasic2 dropdown-checkbox dropdown"></span>
-								</a>
-								
-							</li>
-
-						</ul>
 					</li>
-										
-										
+					<li>
+						<select class="selectorClass" onchange='updateCheckboxes()' >
+			                <option value=" " name="filiereSelector">
+			                    PA
+			                </option>
+			                <option>DEE</option>
+			            </select>
+					</li>
+					<li>
+						<div id = "changingCheckboxes">
+        				</div>
+					</li>							
 				</ul><!--/.nav-list-->
 
 				<div id="sidebar-collapse">
@@ -43,6 +34,9 @@
 				</div>
 
 				<script type="text/javascript">
+
+					//Appeller une fonction ajax qui remplis deux tableaux ici
+					//un pour chaque groupe de type d'équipements par filière
 
 					var tab = [
 				    { id: "1", label: "Forever.", isChecked: true },
@@ -74,12 +68,47 @@
 				    autosearch: true, 
 				    title: "My Dropdown Checkbox",
 				    hideHeader: true,
-				    templateButton: '<a class="dropdown-checkbox-toggle" data-toggle="dropdown" href="#">DEE<b class="caret"></b></button>'
+				    templateButton: '<a class="dropdown-checkbox-toggle" data-toggle="dropdown" href="#">Type de matériel<b class="caret"></b></button>'
 				  });
 
 				  $('.myDropdownCheckboxBasic2').dropdownCheckbox("append", { id: "15", label: "added by itself", isChecked: true });
 
 
-
-
 				</script>
+
+				<script type="text/javascript">
+					$(document).ready(function(){
+                
+		            updateCheckboxes = function updateCheckboxes(){
+
+		                var tab = [
+		                    { id: "1", label: "Forever.", isChecked: true },
+		                    { id: "2", label: "I love cheese.", isChecked: true },
+		                    { id: "3", label: "Meat for all", isChecked: true },
+		                    { id: "4", label: "Again and again", isChecked: true },
+		                    { id: "5", label: "Hey bro!", isChecked: true },
+		                    { id: "6", label: "It's working?", isChecked: true },
+		                    { id: "7", label: "Horse", isChecked: true },
+		                    { id: "8", label: "z-index", isChecked: true },
+		                    { id: "9", label: "language scala", isChecked: true },
+		                    { id: "10", label: "Yahoo", isChecked: true },
+		                    { id: "11", label: "yellow", isChecked: true },
+		                    { id: "12", label: "Gooooooooooogle", isChecked: true },
+		                    { id: "13", label: "NO WAY!", isChecked: true    },
+		                    { id: "14", label: "2 times?", isChecked: true }
+		                  ];
+		                  $('#changingCheckboxes').dropdownCheckbox({ 
+		                    data: tab, 
+		                    autosearch: true, 
+		                    title: "My Dropdown Checkbox",
+		                    hideHeader: true,
+		                    templateButton: '<a class="dropdown-checkbox-toggle" data-toggle="dropdown" href="#">Type de matériel<b class="caret"></b></button>'
+		                  });
+
+		                  $('#changingCheckboxes').dropdownCheckbox("append", { id: "15", label: "added by itself", isChecked: true });
+		                
+		            }
+	    		});
+				</script>
+
+
