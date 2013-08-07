@@ -37,8 +37,28 @@
 
 						<div class="row-fluid">
 							<!-- Main container for the map-->
-							<div id="mapcontainer" class="span8 ">
-							
+							<div  class="span8 ">
+								<div id="ace-settings-container">
+									<div class="btn btn-app btn-mini btn-warning" id="ace-settings-btn">
+										<i class="icon-cog"></i>
+									</div>
+
+									<div id="ace-settings-box">
+										<span>&nbsp; Affichage</span>
+										<div>
+											<input type="radio" name = "affichage" class="ace-checkbox-2" id="ace-settings-procuced" />
+											<label class="lbl" for="ace-settings-procuced"> Production</label>
+										</div>
+
+										<div>
+											<input type="radio" name = "affichage" class="ace-checkbox-2" id="ace-settings-collect" />
+											<label class="lbl" for="ace-settings-collect"> Collecte</label>
+										</div>
+									</div>							
+
+								</div><!--/#ace-settings-container-->
+								
+								<div id="mapcontainer"></div>
 							
 							</div>
 
@@ -146,33 +166,4 @@
 					</div><!--/row-->
 				</div><!--/#page-content-->
 
-				<div id="ace-settings-container">
-					<div class="btn btn-app btn-mini btn-warning" id="ace-settings-btn">
-						<i class="icon-cog"></i>
-					</div>
-
-					<div id="ace-settings-box">
-						<span>&nbsp; Affichage</span>
-						<!--
-						<div>
-							<input type="checkbox" class="ace-checkbox-2" id="ace-settings-procuced" />
-							<label class="lbl" for="ace-settings-procuced"> Production</label>
-						</div>
-
-						<div>
-							<input type="checkbox" class="ace-checkbox-2" id="ace-settings-collect" />
-							<label class="lbl" for="ace-settings-collect"> Collecte</label>
-						</div>-->
-
-						<div>
-							<input type="radio" name = "affichage" class="ace-checkbox-2" id="ace-settings-procuced" />
-							<label class="lbl" for="ace-settings-procuced"> Production</label>
-						</div>
-
-						<div>
-							<input type="radio" name = "affichage" class="ace-checkbox-2" id="ace-settings-collect" />
-							<label class="lbl" for="ace-settings-collect"> Collecte</label>
-						</div>
-					</div>							
-
-				</div><!--/#ace-settings-container-->
+				

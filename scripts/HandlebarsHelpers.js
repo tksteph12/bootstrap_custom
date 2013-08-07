@@ -7,19 +7,15 @@ $(document).ready(function() {
 		for (var text in this[value].years) {
 		    var val = years[text];
 		    $('<option/>').val(val).text(text).appendTo($('#yearselector'))
-		};
-		
+		};		
 	});
 
-	Handlebars.registerHelper('update', function(value, options) {
-		if (this[value] === undefined) {
-			throw " year picker  error:" + value + " value is not defined in your JSON.";
-		}
+	//Helper pour mise à jour des filières
+	Handlebars.registerHelper('updateSectorSelector', function(value, options) {
+				
 		
-		for (var text in this[value].years) {
-		    var val = years[text];
-		    $('<option/>').val(val).text(text).appendTo($('#yearselector'))
-		};
 		
 	});
+	
+
 });
