@@ -99,9 +99,9 @@
 		<script src="themes/js/jquery.easy-pie-chart.min.js"></script>
 		<script src="themes/js/jquery.sparkline.min.js"></script>
 		
-		<script src="themes/js/jquery.flot.min.js"></script>
+		<!--<script src="themes/js/jquery.flot.min.js"></script>
 		<script src="themes/js/jquery.flot.pie.min.js"></script>
-		<script src="themes/js/jquery.flot.resize.min.js"></script>
+		<script src="themes/js/jquery.flot.resize.min.js"></script>-->
 
 		<!--w8 scripts-->
 
@@ -123,9 +123,6 @@
 			$('#sidebar').html(Handlebars.templates.sidebar());
 			$('#main-content').html(Handlebars.templates.maincontent());
 			$('#navbar').html(Handlebars.templates.navbar());
-
-
-
 		</script>
 		<script type="text/javascript">
 			$(function() {
@@ -173,7 +170,7 @@
 			  ];
 			
 			  var placeholder = $('#piechart-placeholder').css({'width':'90%' , 'min-height':'150px'});
-			  $.plot(placeholder, data, {
+			 /* $.plot(placeholder, data, {
 				
 				series: {
 			        pie: {
@@ -211,7 +208,7 @@
 				}
 				
 			 });
-			
+			*/
 			 
 			  var $tooltip = $("<div class='tooltip top in' style='display:none;'><div class='tooltip-inner'></div></div>").appendTo('body');
 			  placeholder.data('tooltip', $tooltip);
@@ -251,7 +248,7 @@
 				
 			
 				var sales_charts = $('#sales-charts').css({'width':'100%' , 'height':'220px'});
-				$.plot("#sales-charts", [
+				/*$.plot("#sales-charts", [
 					{ label: "Domains", data: d1 },
 					{ label: "Hosting", data: d2 },
 					{ label: "Services", data: d3 }
@@ -277,7 +274,7 @@
 						borderColor:'#555'
 					}
 				});
-			
+			*/
 			
 				$('#recent-box [data-rel="tooltip"]').tooltip({plw8ment: tooltip_plw8ment});
 				function tooltip_plw8ment(context, source) {
