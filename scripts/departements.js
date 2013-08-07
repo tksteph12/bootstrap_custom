@@ -446,7 +446,7 @@
       url: "deee.csv",
       dataType: "text",
       success: function(data) {
-        processData(data);
+        processData(data, idElement);
       }
     });
 
@@ -464,7 +464,7 @@
       return values;
     }
 
-    function processData(allText) {
+    function processData(allText, idElement) {
 
       var width = 700;
       var height = 600;
@@ -594,8 +594,8 @@
            var idElement = $(this).attr('id');
         }
       width = $(this).width();
-      width = $('#mapcontainer').width();
-      var svg = d3.select('#mapcontainer').append("svg:svg")
+      width = $('#'+idElement).width();
+      var svg = d3.select('#'+idElement).append("svg:svg")
         .attr("width", width)
         .attr("height", height);
 
