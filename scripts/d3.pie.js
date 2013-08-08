@@ -3,10 +3,15 @@ var drawPieChart = function(datas,id) {
 	var unit = datas.unit;
 	//-----------------------------------------------------
 	var defaultColors = d3.scale.category20c();
-	var width = 600;
-	var height = 500;
-	var radius = 200;
-	var innerradius = 100;
+	var container = $("#"+id);
+	var width = 330;
+
+	if (container){
+		width = container.width();
+	}
+	var height = 350;
+	var radius = 120;
+	var innerradius = 45;
 	var textOffset = 24;
 	var tweenDuration = 1050;
 
@@ -129,11 +134,10 @@ var drawPieChart = function(datas,id) {
 			.attr("stroke", "white")
 			.attr("stroke-width", 0.5)
 			.attr("fill", function(d, i) {
-			console.log(d);
-			if (d.color === undefined) {
+			if (d.data.color === undefined) {
 				return color(i);
 			}
-			return d.color;
+			return d.data.color;
 		})
 			.transition()
 			.duration(tweenDuration)

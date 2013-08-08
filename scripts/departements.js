@@ -598,8 +598,10 @@
       var svg = d3.select('#'+idElement).append("svg:svg")
         .attr("width", width)
         .attr("height", height);
-
+      
+      
       for (var i in geodatas) {
+         console.log(i+"-----------");
         var rgn = geodatas[i];
         //On construit une unité (set) de regroupement de tous les départements de la région
         for (j in rgn['dpts']) {
@@ -610,11 +612,104 @@
             .attr("d", dpt['path'])
             .duration(2000).delay(j * 200)
             .attr("class", "departement")
+            .attr("code",dpt['code'])   //On ajoute un attribut code pour pouvoir récupérer le code du département plustard
             .style("fill", colors(dpt['code']))
             .style("opacity", 1)
             .select("title").text(dpt['code']);
         } //for j
       }
+
+
+
+        svg.selectAll("path")
+          .on("mouseover", function (d,i) {
+            d3.select(this).style("fill","grey");
+            var codeDept = d3.select(this)[0][0].attributes['code'].value;
+            var title = "Departement "+codeDept;
+            var data = {title:title}
+          $('#infobox').html(Handlebars.templates.infobox(data));
+            var coll = getTonneCollectedValue(codeDept);
+            var val = getTonneProducedValue(codeDept) - coll;
+            var departmt = getDepartement(codeDept);
+            var donnee = {unit: "tonnes", data:[{
+              "itemLabel": "Collecté",
+              "itemValue": coll,
+              "color": "#e6550d"
+              }, {
+              "itemLabel": "Reste",
+              "itemValue": val,
+              "color": "#3182bd"
+              }
+            ]};
+            drawPieChart(donnee,"idPiechart");
+          })
+          .on("mouseout", function (d, i) {
+            var data = {title:"Departements France Métropolitaine + DOM TOM"}
+            $('#infobox').html(Handlebars.templates.infobox(data));
+            $("#idPiechart").html("");
+            var codeDept = d3.select(this)[0][0].attributes['code'].value;
+            d3.select(this).style("fill", colors(codeDept))
+
+          })
+          .on("click", function (d, i) {
+            d3.select(this).style("fill","grey");
+            var codeDept = d3.select(this)[0][0].attributes['code'].value;
+            var title = "Departement "+codeDept;
+          });
+
+          //cette fonction retourne le tonnage collecté pour le département passé en paramètres
+          function getTonneCollectedValue(dpt){
+            if (dpt === "2a") dpt = "2A";
+            if (dpt === "2b") dpt = "2B";
+            if (dpt === "01") dpt = "1";
+            if (dpt === "02") dpt = "2";
+            if (dpt === "03") dpt = "3";
+            if (dpt === "04") dpt = "4";
+            if (dpt === "05") dpt = "5";
+            if (dpt === "06") dpt = "6";
+            if (dpt === "07") dpt = "7";
+            if (dpt === "08") dpt = "8";
+            if (dpt === "09") dpt = "9";
+
+            return dpts[dpt];
+          }
+
+          //cette fonction retourne le tonnage produits pour le département passé en paramètres
+          //ne disposant pas de cette valeur pour le nous nous contenterons de retourner la valeur max de toutes les données récoltées
+          function getTonneProducedValue(dpt){
+            if (dpt === "2a") dpt = "2A";
+            if (dpt === "2b") dpt = "2B";
+            if (dpt === "01") dpt = "1";
+            if (dpt === "02") dpt = "2";
+            if (dpt === "03") dpt = "3";
+            if (dpt === "04") dpt = "4";
+            if (dpt === "05") dpt = "5";
+            if (dpt === "06") dpt = "6";
+            if (dpt === "07") dpt = "7";
+            if (dpt === "08") dpt = "8";
+            if (dpt === "09") dpt = "9";
+
+            return d3.max(d3.values(dpts));
+          }
+
+          //retourne le nom du département passé en paramètres
+          function getDepartement(dpt){
+
+            if (dpt === "2a") dpt = "2A";
+            if (dpt === "2b") dpt = "2B";
+            if (dpt === "01") dpt = "1";
+            if (dpt === "02") dpt = "2";
+            if (dpt === "03") dpt = "3";
+            if (dpt === "04") dpt = "4";
+            if (dpt === "05") dpt = "5";
+            if (dpt === "06") dpt = "6";
+            if (dpt === "07") dpt = "7";
+            if (dpt === "08") dpt = "8";
+            if (dpt === "09") dpt = "9";
+
+            return "Departement "+dpt;
+          }
+
 
       //Représentation du trait pour la Corse
       svg.append("svg:path")
@@ -649,6 +744,7 @@
         .style("stroke-width", '1.5')
         .style("stroke-opacity", '1');
 
+        //idPiechart
       //===================================Legend==============================
       var legend = svg.append("g")
         .attr("class", "legend")

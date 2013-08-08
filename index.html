@@ -113,7 +113,7 @@
 		<script src="scripts/templates.js"> </script>
 		<script src="scripts/bootstrap-dropdown-checkbox.js"></script>
 		<script src="scripts/departements.js"> </script>
-
+		<script src="scripts/d3.pie.js"> </script>
 
 		
 		<!--inline scripts related to this page-->
@@ -123,6 +123,9 @@
 			$('#sidebar').html(Handlebars.templates.sidebar());
 			$('#main-content').html(Handlebars.templates.maincontent());
 			$('#navbar').html(Handlebars.templates.navbar());
+			var data = {title:"Departements France Métropolitaine + DOM TOM"}
+			$('#infobox').html(Handlebars.templates.infobox(data));
+
 		</script>
 		<script type="text/javascript">
 			$(function() {
