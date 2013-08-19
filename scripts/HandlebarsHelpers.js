@@ -10,10 +10,10 @@ $(document).ready(function() {
 		};		
 	});
 
-	//Helper pour mise à jour des filières
-	Handlebars.registerHelper('updateSectorSelector', function(value, options) {
+	//Helper pour le slider
+	Handlebars.registerHelper('toSlider', function(value, options) {
 				
-		
+		$('select#years').selectToUISlider().next();
 		
 	});
 	
