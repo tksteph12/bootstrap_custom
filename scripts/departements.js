@@ -167,7 +167,8 @@
       }, {
         'rgn': '11',
         'dpts': [
-          /*75*/ {
+          /*75*/
+          {
             'code': '',
             'path': 'M 280.28125,129.0625 L 277.75,129.09375 L 276.625,129.59375 L 276.15625,130.21875 L 275.125,130.28125 L 274.1875,131.34375 L 274.21875,131.9375 L 274.4375,132.625 L 276,133.0625 L 277.90625,134.03125 L 279.125,134.09375 L 279.9375,133.875 L 280.78125,133.28125 L 281.0625,133.53125 L 282.875,133.78125 L 283.1875,133.125 L 283.1875,132.46875 L 282.875,132.34375 L 281.625,132.40625 L 281.71875,132.71875 L 281.5,132.90625 L 281.09375,132.90625 L 281.25,132.5 L 281.3125,132.0625 L 281.25,132.0625 L 281.09375,130.3125 L 280.28125,129.0625 z '
           }, {
@@ -180,15 +181,18 @@
             'code': '91',
             'path': 'M 274.21875,136.40625 L 272.46875,137.1875 L 270.5625,137.9375 L 270.1875,140.0625 L 267.3125,141.40625 L 266.9375,143.5 L 268.28125,145.8125 L 266.34375,148.46875 L 263.5,148.46875 L 264.625,150.1875 L 263.28125,151.71875 L 262.8125,154.8125 L 263.75,155 L 264.125,157.53125 L 264.53125,158.125 L 264.9375,163.375 L 271.1875,162.8125 L 273.71875,160.46875 L 275.875,162.21875 L 281.125,162.59375 L 281.875,163.71875 L 281.875,159.78125 L 286.25,156.90625 L 284.9375,155.1875 L 285.5,150 L 286.25,148.875 L 285.3125,143.6875 L 287.03125,142.34375 L 286.6875,139.90625 L 284.53125,138.90625 L 280.90625,138.90625 L 278.8125,137.75 L 277.28125,138.53125 L 274.21875,136.40625 z '
           },
-          /*92*/ {
+          /*92*/
+          {
             'code': '',
             'path': 'M 277.3125,125.78125 L 273.8125,127.65625 L 273.4375,127.71875 L 271.71875,131.46875 L 272.8125,134.4375 L 274.5625,136.40625 L 274.5625,136.625 L 277.28125,138.53125 L 277.9375,138.1875 L 277.4375,137.25 L 277.9375,135.78125 L 277.625,135.25 L 277.96875,134.03125 L 277.90625,134.03125 L 276,133.0625 L 274.4375,132.625 L 274.21875,131.9375 L 274.1875,131.34375 L 275.125,130.28125 L 276.15625,130.21875 L 276.625,129.59375 L 277.75,129.09375 L 277.375,128.1875 L 277.90625,128.09375 L 278.3125,127.21875 L 277.90625,126.59375 L 277.46875,126.5 L 277.3125,125.78125 z '
           },
-          /*93*/ {
+          /*93*/
+          {
             'code': '',
             'path': 'M 287.28125,122.8125 L 285.4375,124.125 L 282.5625,125.4375 L 277.3125,125.78125 L 277.46875,126.5 L 277.90625,126.59375 L 278.3125,127.21875 L 277.90625,128.09375 L 277.375,128.1875 L 277.75,129.09375 L 280.28125,129.0625 L 281.09375,130.3125 L 281.25,132.0625 L 282.125,131.9375 L 282.9375,131.28125 L 284.15625,131.34375 L 285.6875,132.21875 L 286.5625,133.1875 L 286.96875,133.375 L 287.21875,133.84375 L 288.1875,134.09375 L 288.1875,131.25 L 287.03125,124.375 L 287.28125,122.8125 z '
           },
-          /*94*/ {
+          /*94*/
+          {
             'code': '',
             'path': 'M 282.9375,131.28125 L 282.125,131.9375 L 281.3125,132.0625 L 281.25,132.5 L 281.09375,132.90625 L 281.5,132.90625 L 281.71875,132.71875 L 281.625,132.40625 L 282.875,132.34375 L 283.1875,132.46875 L 283.1875,133.125 L 282.875,133.78125 L 281.0625,133.53125 L 280.78125,133.28125 L 279.9375,133.875 L 279.125,134.09375 L 277.96875,134.03125 L 277.625,135.25 L 277.9375,135.78125 L 277.4375,137.25 L 277.9375,138.1875 L 278.8125,137.75 L 280.90625,138.90625 L 284.53125,138.90625 L 286.6875,139.90625 L 286.65625,139.6875 L 288.1875,135.84375 L 288.1875,134.09375 L 287.21875,133.84375 L 286.96875,133.375 L 286.5625,133.1875 L 285.6875,132.21875 L 284.15625,131.34375 L 282.9375,131.28125 z '
           }, {
@@ -437,7 +441,7 @@
       var container = $(this);
 
       //----------------------------------------------------
-      var url = sourcefile; // find the way to build a proper url once the app is running on a server
+      var url = mapParameters.url; // find the way to build a proper url once the app is running on a server
       $.ajax({
         type: "GET",
         url: url,
@@ -452,15 +456,15 @@
       function processData(allText, idElement) {
 
         var height = 600;
-        var dpts = {};//contiendra les départements et les tonnages collectés
+        var dpts = {}; //contiendra les départements et les tonnages collectés
         //----------------------------
 
         var allTextLines = allText.split(/\r\n|\n/);
-        var headers = allTextLines[0].split(',');
+        var headers = allTextLines[0].split(';');
         var lines = [];
 
         for (var i = 1; i < allTextLines.length; i++) {
-          var data = allTextLines[i].split(',');
+          var data = allTextLines[i].split(';');
           if (data.length == headers.length) {
 
             var line = {};
@@ -473,22 +477,31 @@
 
         for (i in lines) {
           var line = lines[i];
-          var dpt = line["dpt"];
-          var flux = line["flux"];
-          var tonnage = Number(line["tonnage"]);
-          var annee = Number(line["annee"]);
-          var id = dpt; //+ "-" + flux;
+          var annee = line["Campagne"];
+          if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
+            // ou alors la phrase réupérer contient cette année là
 
-          var list = mapParameters.types;
+            var dpt = line["Departement"];
+            var flux = line["Flux"];
+            if (flux === undefined) {
+              flux = line["Origine_collecte"]
+            }
+            var tonnage = Number(line["Tonnage"]);
+            
+            var id = dpt; //+ "-" + flux;
 
-          if (dpts[id]) {
-            if (annee === mapParameters.year) {
-              if (list.indexOf(flux) != -1) {
-                tonnage += Number(dpts[id]);
+            var list = mapParameters.types;
+
+            if (dpts[id]) {
+              if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
+                // ou alors la phrase réupérer contient cette année là
+                if (list.indexOf(flux) != -1) {
+                  tonnage += Number(dpts[id]);
+                }
               }
             }
+            dpts[id] = (list.length === 0) ? undefined : tonnage;
           }
-          dpts[id] = (list.length === 0) ? undefined : tonnage;
         }
 
         //  construction de la légende
@@ -528,7 +541,7 @@
 
         var avg = sum / count;
 
-        
+
         var colors = function(idpt) {
           var dpt = idpt;
           if (dpt === "2a") dpt = "2A";
@@ -572,9 +585,9 @@
         width = $('#' + idElement).width();
         var svg = d3.select('#' + idElement).append("svg:svg")
           .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
-          .attr("preserveAspectRatio", "xMidYMid meet");
-          //.append("g") // incompatible firefox
-          /*.attr("width", width)
+        .attr("preserveAspectRatio", "xMidYMid meet");
+        //.append("g") // incompatible firefox
+        /*.attr("width", width)
           .attr("height", height)
           .attr("viewBox", "0 0 100 100")
           ;*/
@@ -593,21 +606,20 @@
               .attr("class", "departement")
               .attr("id", dpt['code'])
               .attr("code", dpt['code']) //On ajoute un attribut code pour pouvoir récupérer le code du département plustard
-              .style("fill", colors(dpt['code']))
+            .style("fill", colors(dpt['code']))
               .style("opacity", 1)
               .select("title").text(dpt['code']);
 
-              //fillColor(dpt["code"], colors(dpt['code']));
+            //fillColor(dpt["code"], colors(dpt['code']));
           } //for j
         }
 
 
-        
 
         var auxcolor = "";
         svg.selectAll("path")
           .on("mouseover", function(d, i) {
-           toolTip.transition().duration(200).style("opacity", 1);
+          toolTip.transition().duration(200).style("opacity", 1);
           auxcolor = d3.select(this)[0][0].style.fill;
           d3.select(this).style("fill", "grey");
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
@@ -637,22 +649,19 @@
           drawPieChart(donnee, "idPiechart");
         })
           .on("mousemove", function(d) {
-            var codeDept = d3.select(this)[0][0].attributes['code'].value;
-            toolTip.text(
-              function(){
-                if(getTonneCollectedValue(codeDept) === undefined){
-                  return " Aucune information disponible en "+mapParameters.year;
-                }
-                else{
-                 return getTonneCollectedValue(codeDept)+" Tonnes de déchets collectés dans le "+codeDept+" en "+mapParameters.year;
-               }
-              }
-              )
+          var codeDept = d3.select(this)[0][0].attributes['code'].value;
+          toolTip.text(function() {
+            if (getTonneCollectedValue(codeDept) === undefined) {
+              return " Aucune information disponible en " + mapParameters.year;
+            } else {
+              return getTonneCollectedValue(codeDept) + " Tonnes de déchets collectés dans le " + codeDept + " en " + mapParameters.year;
+            }
+          })
             .style("left", (d3.event.pageX - 34) + "px")
             .style("top", (d3.event.pageY - 50) + "px");
-          })
+        })
           .on("mouseout", function(d, i) {
-            toolTip.transition().duration(200).style("opacity", 1e-6);
+          toolTip.transition().duration(200).style("opacity", 1e-6);
           var data = {
             title: "Departements France Métropolitaine + DOM TOM"
           }
@@ -666,7 +675,7 @@
           d3.select(this).style("fill", "grey");
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
         });
-          //.call(d3.helper.tooltip(function(d, i){return tooltipText(d);}));
+        //.call(d3.helper.tooltip(function(d, i){return tooltipText(d);}));
 
 
 
@@ -766,9 +775,9 @@
         //.attr("x", w - 65)
         //.attr("y", 50)
         .attr("viewBox", "0 0 100 100") //adapter le composant à la fenêtre
-          .attr("preserveAspectRatio", "xMidYMid meet")
+        .attr("preserveAspectRatio", "xMidYMid meet")
           .attr('transform', 'translate(-20,50)')
-          .attr("id","dptLegend")
+          .attr("id", "dptLegend")
 
         legend.selectAll('rect')
           .data(legendArray)
@@ -780,9 +789,9 @@
         })
           .attr("width", 10)
           .attr("height", 10)
-          .attr("id", function(d,i){
-            return "dptLegend"+i;
-          })
+          .attr("id", function(d, i) {
+          return "dptLegend" + i;
+        })
           .style("fill", function(d) {
           var color = d.color;
           return color;
@@ -803,8 +812,8 @@
         });
 
         var toolTip = d3.select("#" + idElement).append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 1e-6);
+          .attr("class", "tooltip")
+          .style("opacity", 1e-6);
 
 
       }
@@ -814,12 +823,12 @@
 
       var legendArray = [];
       var container = $(this);
-
+      var url = mapParameters.url;
       //----------------------------------------------------
 
       $.ajax({
         type: "GET",
-        url: "deee.csv",
+        url: url,
         dataType: "text",
         success: function(data) {
           processupdatedData(data, idElement);
@@ -831,15 +840,15 @@
       function processupdatedData(allText, idElement) {
 
         var height = 600;
-        var dpts = {};//contiendra les départements et les tonnages collectés
+        var dpts = {}; //contiendra les départements et les tonnages collectés
         //----------------------------
 
         var allTextLines = allText.split(/\r\n|\n/);
-        var headers = allTextLines[0].split(',');
+        var headers = allTextLines[0].split(';');
         var lines = [];
 
         for (var i = 1; i < allTextLines.length; i++) {
-          var data = allTextLines[i].split(',');
+          var data = allTextLines[i].split(';');
           if (data.length == headers.length) {
 
             var line = {};
@@ -852,22 +861,33 @@
 
         for (i in lines) {
           var line = lines[i];
-          var dpt = line["dpt"];
-          var flux = line["flux"];
-          var tonnage = Number(line["tonnage"]);
-          var annee = Number(line["annee"]);
-          var id = dpt; //+ "-" + flux;
+          var annee = line["Campagne"];
+          if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
+            // ou alors la phrase réupérer contient cette année là
+            
+            var dpt = line["Departement"];
+            var flux = line["Flux"];
+            if (flux === undefined) {
+              flux = line["Origine_collecte"];
+            }
+            var tonnage = Number(line["Tonnage"]);
+            //var annee = Number(line["annee"]);
+            //var annee = Number(line["Campagne"]);
 
-          var list = mapParameters.types;
+            var id = dpt; //+ "-" + flux;
 
-          if (dpts[id]) {
-            if (annee === mapParameters.year) {
-              if (list.indexOf(flux) != -1) {
-                tonnage += Number(dpts[id]);
+            var list = mapParameters.types;
+
+            if (dpts[id]) {
+              if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
+                // ou alors la phrase réupérer contient cette année là
+                if (list.indexOf(flux) != -1) {
+                  tonnage += Number(dpts[id]);
+                }
               }
             }
+            dpts[id] = (list.length === 0) ? undefined : tonnage;
           }
-          dpts[id] = (list.length === 0) ? undefined : tonnage;
         }
 
         //  construction de la légende
@@ -907,15 +927,15 @@
 
         var avg = sum / count;
 
-        var fillColor = function(id, color){
+        var fillColor = function(id, color) {
           var entity = document.getElementById(id);
-          if(entity){
-          
-          entity.style.fill = color;
-          entity.setAttribute("class", "animate")
+          if (entity) {
 
-          
-       }
+            entity.style.fill = color;
+            entity.setAttribute("class", "animate")
+
+
+          }
         };
         var updateColor = function(idpt) {
           var dpt = idpt;
@@ -958,10 +978,10 @@
         width = $(this).width();
         width = $('#' + idElement).width();
         var svg = d3.select('#' + idElement).select("svg")
-        .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
+          .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
         .attr("preserveAspectRatio", "xMidYMid meet");
 
-        for( var r in dpts){
+        for (var r in dpts) {
           if (r === "2A") r = "2a";
           if (r === "2B") r = "2b";
           if (r === "1") r = "01";
@@ -985,10 +1005,10 @@
           .attr("class", "legend")
         //.attr("x", w - 65)
         //.attr("y", 50)
-          //.attr("viewBox", "0 0 100 100") //adapter le composant à la fenêtre
-          //.attr("preserveAspectRatio", "xMidYMid meet")
-          .attr('transform', 'translate(-20,50)')
-          .attr("id","dptLegend")
+        //.attr("viewBox", "0 0 100 100") //adapter le composant à la fenêtre
+        //.attr("preserveAspectRatio", "xMidYMid meet")
+        .attr('transform', 'translate(-20,50)')
+          .attr("id", "dptLegend")
 
         legend.selectAll('rect')
           .data(legendArray)
@@ -998,11 +1018,11 @@
           .attr("y", function(d, i) {
           return i * 20;
         })
-          .attr("width",10)
-          .attr("height",10)
-          .attr("id", function(d,i){
-            return "dptLegend"+i;
-          })
+          .attr("width", 10)
+          .attr("height", 10)
+          .attr("id", function(d, i) {
+          return "dptLegend" + i;
+        })
           .style("fill", function(d) {
           var color = d.color;
           return color;
@@ -1024,7 +1044,5 @@
 
       }
     }
-
-
 
   }(jQuery));
