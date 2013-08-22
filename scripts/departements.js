@@ -433,7 +433,7 @@
         ]
       }
     ];
-
+  var departs = {}
 
     $.fn.drawMap = function(sourcefile, idElement) {
 
@@ -484,7 +484,7 @@
             var dpt = line["Departement"];
             var flux = line["Flux"];
             if (flux === undefined) {
-              flux = line["Origine_collecte"]
+              flux = line["Type_pile"]
             }
             var tonnage = Number(line["Tonnage"]);
             
@@ -503,6 +503,7 @@
             dpts[id] = (list.length === 0) ? undefined : tonnage;
           }
         }
+        departs = dpts;
 
         //  construction de la légende
         var sum = 0;
@@ -592,7 +593,6 @@
           .attr("viewBox", "0 0 100 100")
           ;*/
 
-
         for (var i in geodatas) {
           var rgn = geodatas[i];
           //On construit une unité (set) de regroupement de tous les départements de la région
@@ -613,8 +613,6 @@
             //fillColor(dpt["code"], colors(dpt['code']));
           } //for j
         }
-
-
 
         var auxcolor = "";
         svg.selectAll("path")
@@ -672,69 +670,25 @@
           d3.select(this).style("fill", auxcolor)
         })
           .on("click", function(d, i) {
-          d3.select(this).style("fill", "grey");
-          var codeDept = d3.select(this)[0][0].attributes['code'].value;
+            var path= {};
+            var data = d3.select(this)[0][0] ;
+            //path.style = data.attributes['style'].value;
+            path.style = 'red';
+            path.code = data.attributes['code'].value;
+            path.class = data.attributes['class'].value;
+            path.id = data.attributes['id'].value;
+            path.d = data.attributes['d'].value;
+
+
+
+
+          $('#body').html(Handlebars.templates.departement(path));
         });
         //.call(d3.helper.tooltip(function(d, i){return tooltipText(d);}));
+        
 
 
-
-        //cette fonction retourne le tonnage collecté pour le département passé en paramètres
-
-        function getTonneCollectedValue(dpt) {
-          if (dpt === "2a") dpt = "2A";
-          if (dpt === "2b") dpt = "2B";
-          if (dpt === "01") dpt = "1";
-          if (dpt === "02") dpt = "2";
-          if (dpt === "03") dpt = "3";
-          if (dpt === "04") dpt = "4";
-          if (dpt === "05") dpt = "5";
-          if (dpt === "06") dpt = "6";
-          if (dpt === "07") dpt = "7";
-          if (dpt === "08") dpt = "8";
-          if (dpt === "09") dpt = "9";
-
-          return dpts[dpt];
-        }
-
-        //cette fonction retourne le tonnage produits pour le département passé en paramètres
-        //ne disposant pas de cette valeur pour le nous nous contenterons de retourner la valeur max de toutes les données récoltées
-
-        function getTonneProducedValue(dpt) {
-          if (dpt === "2a") dpt = "2A";
-          if (dpt === "2b") dpt = "2B";
-          if (dpt === "01") dpt = "1";
-          if (dpt === "02") dpt = "2";
-          if (dpt === "03") dpt = "3";
-          if (dpt === "04") dpt = "4";
-          if (dpt === "05") dpt = "5";
-          if (dpt === "06") dpt = "6";
-          if (dpt === "07") dpt = "7";
-          if (dpt === "08") dpt = "8";
-          if (dpt === "09") dpt = "9";
-
-          return d3.max(d3.values(dpts));
-        }
-
-        //retourne le nom du département passé en paramètres
-
-        function getDepartement(dpt) {
-
-          if (dpt === "2a") dpt = "2A";
-          if (dpt === "2b") dpt = "2B";
-          if (dpt === "01") dpt = "1";
-          if (dpt === "02") dpt = "2";
-          if (dpt === "03") dpt = "3";
-          if (dpt === "04") dpt = "4";
-          if (dpt === "05") dpt = "5";
-          if (dpt === "06") dpt = "6";
-          if (dpt === "07") dpt = "7";
-          if (dpt === "08") dpt = "8";
-          if (dpt === "09") dpt = "9";
-
-          return "Departement " + dpt;
-        }
-
+       
         //Représentation du trait pour la Corse
         svg.append("svg:path")
           .style("stroke", 'white')
@@ -864,11 +818,10 @@
           var annee = line["Campagne"];
           if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
             // ou alors la phrase réupérer contient cette année là
-            
             var dpt = line["Departement"];
             var flux = line["Flux"];
             if (flux === undefined) {
-              flux = line["Origine_collecte"];
+              flux = line["Type_pile"];
             }
             var tonnage = Number(line["Tonnage"]);
             //var annee = Number(line["annee"]);
@@ -889,7 +842,7 @@
             dpts[id] = (list.length === 0) ? undefined : tonnage;
           }
         }
-
+        departs = dpts;
         //  construction de la légende
         var sum = 0;
         var count = 0;
@@ -934,10 +887,15 @@
             entity.style.fill = color;
             entity.setAttribute("class", "animate")
 
-
           }
         };
         var updateColor = function(idpt) {
+
+          if (getTonneCollectedValue(idpt) === undefined) {
+
+             return "#ccc";
+          }
+
           var dpt = idpt;
           if (dpt === "2a") dpt = "2A";
           if (dpt === "2b") dpt = "2B";
@@ -981,6 +939,10 @@
           .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
         .attr("preserveAspectRatio", "xMidYMid meet");
 
+        if(jQuery.isEmptyObject(dpts)){
+         //Do something here
+
+        }else{
         for (var r in dpts) {
           if (r === "2A") r = "2a";
           if (r === "2B") r = "2b";
@@ -995,6 +957,7 @@
           if (r === "9") r = "09";
 
           fillColor(r, updateColor(r));
+        }
         }
 
         //idPiechart
@@ -1043,6 +1006,68 @@
         });
 
       }
+    
     }
+
+     //cette fonction retourne le tonnage collecté pour le département passé en paramètres
+
+        function getTonneCollectedValue(dpt) {
+          if (dpt === "2a") dpt = "2A";
+          if (dpt === "2b") dpt = "2B";
+          if (dpt === "01") dpt = "1";
+          if (dpt === "02") dpt = "2";
+          if (dpt === "03") dpt = "3";
+          if (dpt === "04") dpt = "4";
+          if (dpt === "05") dpt = "5";
+          if (dpt === "06") dpt = "6";
+          if (dpt === "07") dpt = "7";
+          if (dpt === "08") dpt = "8";
+          if (dpt === "09") dpt = "9";
+
+          //return dpts[dpt];
+          return departs[dpt];
+
+        }
+
+        //cette fonction retourne le tonnage produits pour le département passé en paramètres
+        //ne disposant pas de cette valeur pour le nous nous contenterons de retourner la valeur max de toutes les données récoltées
+
+        function getTonneProducedValue(dpt) {
+          if (dpt === "2a") dpt = "2A";
+          if (dpt === "2b") dpt = "2B";
+          if (dpt === "01") dpt = "1";
+          if (dpt === "02") dpt = "2";
+          if (dpt === "03") dpt = "3";
+          if (dpt === "04") dpt = "4";
+          if (dpt === "05") dpt = "5";
+          if (dpt === "06") dpt = "6";
+          if (dpt === "07") dpt = "7";
+          if (dpt === "08") dpt = "8";
+          if (dpt === "09") dpt = "9";
+
+          return d3.max(d3.values(departs));
+        }
+
+        //retourne le nom du département passé en paramètres
+
+        function getDepartement(dpt) {
+
+          if (dpt === "2a") dpt = "2A";
+          if (dpt === "2b") dpt = "2B";
+          if (dpt === "01") dpt = "1";
+          if (dpt === "02") dpt = "2";
+          if (dpt === "03") dpt = "3";
+          if (dpt === "04") dpt = "4";
+          if (dpt === "05") dpt = "5";
+          if (dpt === "06") dpt = "6";
+          if (dpt === "07") dpt = "7";
+          if (dpt === "08") dpt = "8";
+          if (dpt === "09") dpt = "9";
+
+          return "Departement " + dpt;
+        }
+
+
+    
 
   }(jQuery));
