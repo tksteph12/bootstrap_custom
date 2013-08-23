@@ -455,7 +455,11 @@
 
       function processData(allText, idElement) {
 
-        var height = 600;
+        //var height = 600;
+        width = $(this).width();
+        width = $('#' + idElement).width();
+        var height = 3*width/5;
+        console.log(width);
         var dpts = {}; //contiendra les départements et les tonnages collectés
         //----------------------------
 
@@ -582,8 +586,9 @@
         if (!($('#' + idElement).length)) {
           var idElement = $(this).attr('id');
         }
-        width = $(this).width();
-        width = $('#' + idElement).width();
+        
+        
+        console.log(width);
         var svg = d3.select('#' + idElement).append("svg:svg")
           .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
         .attr("preserveAspectRatio", "xMidYMid meet");
@@ -793,7 +798,10 @@
 
       function processupdatedData(allText, idElement) {
 
-        var height = 600;
+        width = $(this).width();
+        width = $('#' + idElement).width();
+        var height = 3*width/5;
+        console.log("height"+height);
         var dpts = {}; //contiendra les départements et les tonnages collectés
         //----------------------------
 
@@ -812,7 +820,6 @@
             lines.push(line);
           }
         }
-
         for (i in lines) {
           var line = lines[i];
           var annee = line["Campagne"];
@@ -933,8 +940,7 @@
         if (!($('#' + idElement).length)) {
           var idElement = $(this).attr('id');
         }
-        width = $(this).width();
-        width = $('#' + idElement).width();
+        
         var svg = d3.select('#' + idElement).select("svg")
           .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
         .attr("preserveAspectRatio", "xMidYMid meet");

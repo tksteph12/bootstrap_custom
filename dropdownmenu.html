@@ -61,7 +61,19 @@
         <div id = "changingCheckboxes">
 
         </div>
-
+		<script>
+			$(document).ready(function(){
+			var tab = [];
+				$('#changingCheckboxes').change(function(event) {
+					tab.length = 0;				
+					$('#changingCheckboxes input:checked').each(function() {
+						tab.push(this.nextSibling.innerHTML);
+					});
+					console.log(tab);
+				});
+				console.log("final table"+tab);
+			});
+		</script>
     </body>
 
 </html>
