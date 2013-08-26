@@ -126,10 +126,8 @@
 		.tooltip {
 	        border-bottom: 1px dotted #000000; color: #000000; outline: none;
 			text-decoration: none;
-			border-radius: 5px 5px; 
-			-moz-border-radius: 5px; 
-			-webkit-border-radius: 5px; 
-			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
+			border-radius: 5px 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; 
+			box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); -webkit-box-shadow: 5px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
 			position: absolute; left: 1em; top: 2em; z-index: 99;
 			margin-left: 0; width: 250px;
 			font-family: Candara, Tahoma, Geneva, sans-serif; font-size: 1.2em; font-weight: bold;
@@ -191,8 +189,7 @@
 		
 		<!--w8 scripts-->
 
-		<script src="themes/js/w8-elements.min.js"></script>
-		<script src="themes/js/w8.min.js"></script>
+		
 
 		<!-- Handlebars templates script-->
 		<script src="Handlebars.js"> </script>
@@ -209,37 +206,7 @@
 	<body id="body">
 		<div class="navbar navbar-inverse">
 		</div>
-
-		<div class="container-fluid" id="main-container">
-			<a id="menu-toggler" href="#">
-				<span></span>
-			</a>
-
-			<div id="sidebar">
-				
-			</div>
-
-			<div id="main-content" class="clearfix">
-			</div><!--/#main-content-->
-		</div><!--/.fluid-container#main-container-->
-
-		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
-			<i class="icon-double-angle-up icon-only bigger-110"></i>
-		</a>
-
-		
-
-		
-		<script type="text/javascript">
-			$('#sidebar').html(Handlebars.templates.sidebar());
-			$('#main-content').html(Handlebars.templates.maincontent());
-			$('#navbar').html(Handlebars.templates.navbar());
-			var data = {title:"Departements France Métropolitaine + DOM TOM"}
-			$('#infobox').html(Handlebars.templates.infobox(data));
-
-		</script>
-		
-<input id = "test"type="button" value="Print Image"  />
+		<div id="idDpt"></div>
 
 	</body>
 </html>
