@@ -725,39 +725,43 @@
         var auxcolor = "";
         svg.selectAll("path")
           .on("mouseover", function(d, i) {
-          toolTip.transition().duration(200).style("opacity", 1);
-          auxcolor = d3.select(this)[0][0].style.fill;
-          d3.select(this).style("fill", "grey");
-          var codeDept = d3.select(this)[0][0].attributes['code'].value;
-          var departement = d3.select(this)[0][0].attributes['dept'].value;
-          var title = departement + ' ( ' + codeDept + ')';
-          var title = departement + ' ( ' + codeDept + ')';
-          var text = "Types d'équipement collectés:" + mapParameters.types.toString();
-          var data = {
-            title: title,
-            text: text
-          }
-          $('#infobox').html(Handlebars.templates.infobox(data));
-          var coll = getTonneCollectedValue(codeDept);
-          var val = getTonneProducedValue(codeDept) - coll;
-          var donnee = {
-            unit: "tonnes",
-            data: [{
-                "itemLabel": "Collecté",
-                "itemValue": coll,
-                "color": "#9FDAEE"
-              }, {
-                "itemLabel": "Reste",
-                "itemValue": val,
-                "color": "#e6550d"
+              toolTip.transition().duration(200).style("opacity", 1);
+              auxcolor = d3.select(this)[0][0].style.fill;
+              d3.select(this).style("fill", "grey");
+              var codeDept = d3.select(this)[0][0].attributes['code'].value;
+              var departement = d3.select(this)[0][0].attributes['dept'].value;
+              var title = departement + ' ( ' + codeDept + ')';
+              var title = departement + ' ( ' + codeDept + ')';
+              var text = "Types d'équipement collectés:" + mapParameters.types.toString();
+              var data = {
+                title: title,
+                text: text
               }
-            ]
-          };
-          drawPieChart(donnee, "idPiechart");
-          var donnee_hist;
-          donnee_hist.types = mapParameters.types;
-          donnee_hist.filiere = mapParameters.filiere;
-          plotHistory(donnee,"idHisoty");
+              $('#infobox').html(Handlebars.templates.infobox(data));
+              var coll = getTonneCollectedValue(codeDept);
+              var val = getTonneProducedValue(codeDept) - coll;
+              var donnee = {
+                unit: "tonnes",
+                data: [{
+                    "itemLabel": "Collecté",
+                    "itemValue": coll,
+                    "color": "#9FDAEE"
+                  }, {
+                    "itemLabel": "Reste",
+                    "itemValue": val,
+                    "color": "#e6550d"
+                  }
+                ]
+              };
+              drawPieChart(donnee, "idPiechart");
+              var donnee_hist = {};
+              donnee_hist.types = mapParameters.types;
+              donnee_hist.filiere = mapParameters.filiere;
+              donnee_hist.codeDept = codeDept;
+              donnee_hist.departement = departement;
+              donnee_hist.sourcefile = mapParameters.url;
+              plotHistory(donnee_hist,"idHisoty");
+
         })
           .on("mousemove", function(d) {
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
