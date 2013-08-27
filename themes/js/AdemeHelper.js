@@ -12,7 +12,7 @@ jQuery(function() {
 
 //Paramètres globaux
 
-function setGlobalParameters() {
+function setGlobalParameters(){
     var parameters = {};
     var defaultTypes = ["ND"];
 
@@ -43,7 +43,7 @@ function handle_side_menu() {
         return false
     });
     var a = false;
-    
+
     $(".nav-list").on("click", function(d) {
         if (a) {
             return
@@ -62,17 +62,21 @@ function handle_side_menu() {
             return false
         }
     })
-}
 
+}
 //fonction d'impression de l'image svg à appeller comme action sur un bouton.
 //Une fois appelée, elle ouvre un nouvel onglet avec l'image.
 
 
 function printImg() {
     pwin = window.open();
-    pwin.document.write("<div class = &quot;page-header&quot; > <h1>"+" " +" </h1></div>");
+    pwin.document.write("<div class = &quot;page-header&quot; > <h1>Cartographie des collectes de déchets dans les départements de france</h1></div>");
     pwin.document.write($("#mapcontainer").html());
+    pwin.document.write("<div class = &quot;page-header&quot; > <h1> Filière "+mapParameters.filiere+"</h1></div>");
+    pwin.document.write("<div class = &quot;page-header&quot; > <h1> Type d'équipements :" +mapParameters.types.toString() + " </h1></div>");
+    pwin.focus();
     pwin.document.close();
+    
     pwin.onload = function() {
         window.print();
     }
@@ -87,6 +91,8 @@ function enable_search_ahead() {
         }
     })
 }
+
+
 
 function general_things() {
     var PLAY_PAUSE = 1;
@@ -127,38 +133,38 @@ function general_things() {
     $("#sectorSelector").change(function(event) {
 
         var filiere = $('#sectorSelector option:selected').text();
-        if(filiere==="Filières"){
+        if (filiere === "Filières") {
             $("#changingCheckboxes").empty();
             //mapParameters.url = getSourceFile("DEE");
             $("#sliderbar").hide();
+        } else {
+            mapParameters.filiere = filiere;
+            mapParameters.url = getSourceFile(filiere);
+            fetchCheckboxOptions(filiere);
+            updateMap();
+            $("#sliderbar").show();
         }
-        else{
-         mapParameters.url = getSourceFile(filiere);
-        fetchCheckboxOptions(filiere);
-        updateMap();
-        $("#sliderbar").show();}
     });
 
     var change;
     playing = function() {
-        change = window.setInterval(function(){
-            mapParameters.year = mapParameters.year+1;
-            if (mapParameters.year==2014){
-               mapParameters.year=2006; 
+        change = window.setInterval(function() {
+            mapParameters.year = mapParameters.year + 1;
+            if (mapParameters.year == 2013) {
+                mapParameters.year = 2006;
             }
-            $("#yearSlider").slider("value",mapParameters.year);
+            $("#yearSlider").slider("value", mapParameters.year);
             $("#yearSlider").find(".ui-slider-handle").text(mapParameters.year);
             $('#mapcontainer').updateColors({}, 'mapcontainer');
-        },4000);
+        }, 4000);
     }
 
     $("#play").click(function() {
-        if(PLAY_PAUSE==1){
+        if (PLAY_PAUSE == 1) {
             $(this).removeClass("icon-play").addClass("icon-pause");
-            PLAY_PAUSE=0;
+            PLAY_PAUSE = 0;
             playing();
-        }
-        else if (PLAY_PAUSE==0){
+        } else if (PLAY_PAUSE == 0) {
             $(this).removeClass("icon-pause").addClass("icon-play");
             PLAY_PAUSE = 1;
             clearInterval(change);
@@ -189,15 +195,15 @@ function general_things() {
         //orientation: "vertical",
         value: 2010,
         min: 2006,
-        max: 2013,
-        step: 1,        
+        max: 2012,
+        step: 1,
 
         slide: function(event, ui) {
             $("#amount").val("$" + ui.value);
             $("#yearSlider").find(".ui-slider-handle").text(ui.value);
             mapParameters.year = ui.value;
             $('#mapcontainer').updateColors({}, 'mapcontainer');
-           //updateMap();
+            //updateMap();
         }
         //        
     });
@@ -208,8 +214,8 @@ function general_things() {
 
 function fetchCheckboxOptions(filiere) {
 
-    
-    sourcefile = mapParameters.url ;
+
+    sourcefile = mapParameters.url;
     $.ajax({
         type: "GET",
         url: sourcefile,
@@ -263,22 +269,24 @@ function loadcheckboxOptions(data, filiere) {
     delete aux;
 
     //$('#changingCheckboxes').html("");
-    if($('#changingCheckboxes').html()==""){
-    $('#changingCheckboxes').dropdownCheckbox({
-        data: tab,
-        autosearch: true,
-        title: "My Dropdown Checkbox",
-        hideHeader: true,
-        templateButton: '<a class="dropdown-checkbox-toggle" data-toggle="dropdown" href="#">Type de matériel<b class="caret"></b></button>'
-    });
-}else{
-    var IDs = [];
+    if ($('#changingCheckboxes').html() == "") {
+        $('#changingCheckboxes').dropdownCheckbox({
+            data: tab,
+            autosearch: true,
+            title: "My Dropdown Checkbox",
+            hideHeader: true,
+            templateButton: '<a class="dropdown-checkbox-toggle" data-toggle="dropdown" href="#">Type de matériel<i class="caret"></i></a>'
+        });
+    } else {
+        var IDs = [];
 
-    $("#changingCheckboxes").find("input").each(function(i){ IDs.push(++i); });
-    $("#changingCheckboxes").dropdownCheckbox("remove",IDs );
-    $("#changingCheckboxes").dropdownCheckbox("append", tab);   
-        
-}
+        $("#changingCheckboxes").find("input").each(function(i) {
+            IDs.push(++i);
+        });
+        $("#changingCheckboxes").dropdownCheckbox("remove", IDs);
+        $("#changingCheckboxes").dropdownCheckbox("append", tab);
+
+    }
     return tab;
 }
 
@@ -289,7 +297,7 @@ function fillSectorSelections() {
     var select = document.getElementById("sectorSelector");
     select.options.length = 0;
 
-    for(index in parameters.filieres) {
+    for (index in parameters.filieres) {
         select.options[select.options.length] = new Option(parameters.filieres[index].sector, index);
     }
 }
@@ -335,8 +343,8 @@ function add_browser_detection(c) {
     }
 };
 
-function getSourceFile(sector){
-    for (var i=0 ; i < parameters.filieres.length ; i++){
+function getSourceFile(sector) {
+    for (var i = 0; i < parameters.filieres.length; i++) {
         if (parameters.filieres[i].sector === sector) {
             return parameters.filieres[i].sourcefile;
         }
@@ -353,7 +361,7 @@ parameters.filieres = [{
         sector: "Filières",
         label: "Choix des filières",
         sourcefile: "deee.csv"
-    },{
+    }, {
         sector: "PA",
         label: "Piles et Accumulateurs",
         sourcefile: "dec_pa_collecte.csv"
@@ -369,5 +377,5 @@ var mapParameters = {
     typeOfdata: "collecte", //default
     filiere: undefined, //default
     types: [], // types d'équipements ou types d' piles/Accumulateurs
-    url:"dec_pa_collecte.csv"
+    url: "dec_pa_collecte.csv"
 }

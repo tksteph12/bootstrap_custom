@@ -207,7 +207,8 @@
       }, {
         'rgn': '11',
         'dpts': [
-          /*75*/ {
+          /*75*/
+          {
             'dept': "",
             'code': '',
             'path': 'M 280.28125,129.0625 L 277.75,129.09375 L 276.625,129.59375 L 276.15625,130.21875 L 275.125,130.28125 L 274.1875,131.34375 L 274.21875,131.9375 L 274.4375,132.625 L 276,133.0625 L 277.90625,134.03125 L 279.125,134.09375 L 279.9375,133.875 L 280.78125,133.28125 L 281.0625,133.53125 L 282.875,133.78125 L 283.1875,133.125 L 283.1875,132.46875 L 282.875,132.34375 L 281.625,132.40625 L 281.71875,132.71875 L 281.5,132.90625 L 281.09375,132.90625 L 281.25,132.5 L 281.3125,132.0625 L 281.25,132.0625 L 281.09375,130.3125 L 280.28125,129.0625 z '
@@ -224,17 +225,20 @@
             'code': '91',
             'path': 'M 274.21875,136.40625 L 272.46875,137.1875 L 270.5625,137.9375 L 270.1875,140.0625 L 267.3125,141.40625 L 266.9375,143.5 L 268.28125,145.8125 L 266.34375,148.46875 L 263.5,148.46875 L 264.625,150.1875 L 263.28125,151.71875 L 262.8125,154.8125 L 263.75,155 L 264.125,157.53125 L 264.53125,158.125 L 264.9375,163.375 L 271.1875,162.8125 L 273.71875,160.46875 L 275.875,162.21875 L 281.125,162.59375 L 281.875,163.71875 L 281.875,159.78125 L 286.25,156.90625 L 284.9375,155.1875 L 285.5,150 L 286.25,148.875 L 285.3125,143.6875 L 287.03125,142.34375 L 286.6875,139.90625 L 284.53125,138.90625 L 280.90625,138.90625 L 278.8125,137.75 L 277.28125,138.53125 L 274.21875,136.40625 z '
           },
-          /*92*/ {
+          /*92*/
+          {
             'dept': "",
             'code': '',
             'path': 'M 277.3125,125.78125 L 273.8125,127.65625 L 273.4375,127.71875 L 271.71875,131.46875 L 272.8125,134.4375 L 274.5625,136.40625 L 274.5625,136.625 L 277.28125,138.53125 L 277.9375,138.1875 L 277.4375,137.25 L 277.9375,135.78125 L 277.625,135.25 L 277.96875,134.03125 L 277.90625,134.03125 L 276,133.0625 L 274.4375,132.625 L 274.21875,131.9375 L 274.1875,131.34375 L 275.125,130.28125 L 276.15625,130.21875 L 276.625,129.59375 L 277.75,129.09375 L 277.375,128.1875 L 277.90625,128.09375 L 278.3125,127.21875 L 277.90625,126.59375 L 277.46875,126.5 L 277.3125,125.78125 z '
           },
-          /*93*/ {
+          /*93*/
+          {
             'dept': "",
             'code': '',
             'path': 'M 287.28125,122.8125 L 285.4375,124.125 L 282.5625,125.4375 L 277.3125,125.78125 L 277.46875,126.5 L 277.90625,126.59375 L 278.3125,127.21875 L 277.90625,128.09375 L 277.375,128.1875 L 277.75,129.09375 L 280.28125,129.0625 L 281.09375,130.3125 L 281.25,132.0625 L 282.125,131.9375 L 282.9375,131.28125 L 284.15625,131.34375 L 285.6875,132.21875 L 286.5625,133.1875 L 286.96875,133.375 L 287.21875,133.84375 L 288.1875,134.09375 L 288.1875,131.25 L 287.03125,124.375 L 287.28125,122.8125 z '
           },
-          /*94*/ {
+          /*94*/
+          {
             'dept': "",
             'code': '',
             'path': 'M 282.9375,131.28125 L 282.125,131.9375 L 281.3125,132.0625 L 281.25,132.5 L 281.09375,132.90625 L 281.5,132.90625 L 281.71875,132.71875 L 281.625,132.40625 L 282.875,132.34375 L 283.1875,132.46875 L 283.1875,133.125 L 282.875,133.78125 L 281.0625,133.53125 L 280.78125,133.28125 L 279.9375,133.875 L 279.125,134.09375 L 277.96875,134.03125 L 277.625,135.25 L 277.9375,135.78125 L 277.4375,137.25 L 277.9375,138.1875 L 278.8125,137.75 L 280.90625,138.90625 L 284.53125,138.90625 L 286.6875,139.90625 L 286.65625,139.6875 L 288.1875,135.84375 L 288.1875,134.09375 L 287.21875,133.84375 L 286.96875,133.375 L 286.5625,133.1875 L 285.6875,132.21875 L 284.15625,131.34375 L 282.9375,131.28125 z '
@@ -560,7 +564,6 @@
         width = $(this).width();
         width = $('#' + idElement).width();
         var height = 4 * width / 5;
-        console.log(width);
         var dpts = {}; //contiendra les départements et les tonnages collectés
         //----------------------------
 
@@ -689,7 +692,6 @@
         }
 
 
-        console.log(width);
         var svg = d3.select('#' + idElement).append("svg:svg")
           .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
         .attr("preserveAspectRatio", "xMidYMid meet");
@@ -712,7 +714,7 @@
               .attr("class", "departement")
               .attr("id", dpt['code'])
               .attr("code", dpt['code']) //On ajoute un attribut code pour pouvoir récupérer le code du département plustard
-              .attr("dept",dpt['dept'])//on ajoute aussi le nom du département : pas certain que ce soit optimal
+            .attr("dept", dpt['dept']) //on ajoute aussi le nom du département : pas certain que ce soit optimal
             .style("fill", colors(dpt['code']))
               .style("opacity", 1)
               .select("title").text(dpt['code']);
@@ -738,7 +740,6 @@
           $('#infobox').html(Handlebars.templates.infobox(data));
           var coll = getTonneCollectedValue(codeDept);
           var val = getTonneProducedValue(codeDept) - coll;
-          var departmt = getDepartement(codeDept);
           var donnee = {
             unit: "tonnes",
             data: [{
@@ -753,15 +754,20 @@
             ]
           };
           drawPieChart(donnee, "idPiechart");
+          var donnee_hist;
+          donnee_hist.types = mapParameters.types;
+          donnee_hist.filiere = mapParameters.filiere;
+          plotHistory(donnee,"idHisoty");
         })
           .on("mousemove", function(d) {
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
           var departement = d3.select(this)[0][0].attributes['dept'].value;
           toolTip.text(function() {
-            if (getTonneCollectedValue(codeDept) === 'NaN') {
-              return departement +" ( "+codeDept+" ): Pas de collecte en " + mapParameters.year;
+            var numb = Number(getTonneCollectedValue(codeDept)).toFixed(2);
+            if (numb === 'NaN') {
+              return departement + " ( " + codeDept + " ): Pas de collecte en " + mapParameters.year;
             } else {
-              return departement +" ( "+codeDept+" ): "+   +getTonneCollectedValue(codeDept) + " Tonnes de déchets collectés en " + mapParameters.year;
+              return departement + " ( " + codeDept + " ): " + +numb + " Tonnes de déchets collectés en " + mapParameters.year;
             }
           })
             .style("left", (d3.event.pageX - 34) + "px")
@@ -908,7 +914,7 @@
         width = $('#' + idElement).width();
         var height = 4 * width / 5;
 
-        console.log("height" + height);
+
         var dpts = {}; //contiendra les départements et les tonnages collectés
         //----------------------------
 
@@ -956,7 +962,12 @@
             dpts[id] = (list.length === 0) ? undefined : tonnage;
           }
         }
+
         departs = dpts;
+        if (jQuery.isEmptyObject(departs)) {
+          departs = undefined;
+          dpts = undefined;
+        }
         //  construction de la légende
         var sum = 0;
         var count = 0;
@@ -995,6 +1006,9 @@
         var avg = sum / count;
 
         var fillColor = function(id, color) {
+          if (id === undefined) {
+            throw "space to recolor not specified";
+          }
           var entity = document.getElementById(id);
           if (entity) {
 
@@ -1003,7 +1017,49 @@
 
           }
         };
-        var updateColor = function(idpt) {
+        var updateColor = function(idpt, dpts) {
+          /** saving 
+
+            if (getTonneCollectedValue(idpt) === undefined) {
+
+            return "#ccc";
+          }
+
+          var dpt = idpt;
+          if (dpt === "2a") dpt = "2A";
+          if (dpt === "2b") dpt = "2B";
+          if (dpt === "01") dpt = "1";
+          if (dpt === "02") dpt = "2";
+          if (dpt === "03") dpt = "3";
+          if (dpt === "04") dpt = "4";
+          if (dpt === "05") dpt = "5";
+          if (dpt === "06") dpt = "6";
+          if (dpt === "07") dpt = "7";
+          if (dpt === "08") dpt = "8";
+          if (dpt === "09") dpt = "9";
+
+          if (dpts[dpt] > 3 * space)
+            if (dpts[dpt] > 3 * space) {
+              legendArray[3].color = "#A91101";
+              return "#A91101";
+            } //rouge foncé
+          if (dpts[dpt] > 2 * space) {
+            legendArray[2].color = "#DB1702";
+            return "#DB1702";
+          } //rouge
+          if (dpts[dpt] > space) {
+            legendArray[1].color = "#f80";
+            return "#f80";
+          } //oranger foncéé
+          if (dpts[dpt] < space) {
+            legendArray[0].color = "#F9C181";
+            return "#F9C181";
+          } //oranger
+          legendArray[4].color = "#ccc";
+          return "#ccc"; //gris pas de données
+
+
+          *****end saving **/
 
           if (getTonneCollectedValue(idpt) === undefined) {
 
@@ -1053,24 +1109,45 @@
         .attr("preserveAspectRatio", "xMidYMid meet");
 
         if (jQuery.isEmptyObject(dpts)) {
-          //Do something here
+
 
         } else {
+          var dptsarr = [];
           for (var r in dpts) {
-            if (r === "2A") r = "2a";
-            if (r === "2B") r = "2b";
-            if (r === "1") r = "01";
-            if (r === "2") r = "02";
-            if (r === "3") r = "03";
-            if (r === "4") r = "04";
-            if (r === "5") r = "05";
-            if (r === "6") r = "06";
-            if (r === "7") r = "07";
-            if (r === "8") r = "08";
-            if (r === "9") r = "09";
+            if (dpts.hasOwnProperty(r)) {
+              if (r === "2A") r = "2a";
+              if (r === "2B") r = "2b";
+              if (r === "1") r = "01";
+              if (r === "2") r = "02";
+              if (r === "3") r = "03";
+              if (r === "4") r = "04";
+              if (r === "5") r = "05";
+              if (r === "6") r = "06";
+              if (r === "7") r = "07";
+              if (r === "8") r = "08";
+              if (r === "9") r = "09";
 
-            fillColor(r, updateColor(r));
+              dptsarr.push(r);
+            }
+          };
+          var alldpts = getAllDepartments();
+
+          for (var i = 0; i < alldpts.length; i++) {
+            var r = alldpts[i];
+            if (dptsarr.indexOf(r) == -1) {
+              fillColor(alldpts[i], "#ccc");
+            } else {
+
+              fillColor(r, updateColor(r, dpts));
+
+            }
+
           }
+
+
+
+          //chercher , si r 
+
         }
 
         //idPiechart
@@ -1125,21 +1202,27 @@
     //cette fonction retourne le tonnage collecté pour le département passé en paramètres
 
     function getTonneCollectedValue(dpt) {
-      if (dpt === "2a") dpt = "2A";
-      if (dpt === "2b") dpt = "2B";
-      if (dpt === "01") dpt = "1";
-      if (dpt === "02") dpt = "2";
-      if (dpt === "03") dpt = "3";
-      if (dpt === "04") dpt = "4";
-      if (dpt === "05") dpt = "5";
-      if (dpt === "06") dpt = "6";
-      if (dpt === "07") dpt = "7";
-      if (dpt === "08") dpt = "8";
-      if (dpt === "09") dpt = "9";
+      try {
 
-      //return dpts[dpt];
-      return Number(departs[dpt]).toFixed(2);
+        if (dpt === "2a") dpt = "2A";
+        if (dpt === "2b") dpt = "2B";
+        if (dpt === "01") dpt = "1";
+        if (dpt === "02") dpt = "2";
+        if (dpt === "03") dpt = "3";
+        if (dpt === "04") dpt = "4";
+        if (dpt === "05") dpt = "5";
+        if (dpt === "06") dpt = "6";
+        if (dpt === "07") dpt = "7";
+        if (dpt === "08") dpt = "8";
+        if (dpt === "09") dpt = "9";
 
+        //return dpts[dpt];
+        //return Number(departs[dpt]).toFixed(2);
+        return departs[dpt];
+
+      } catch (e) {
+        return undefined
+      }
     }
 
     //cette fonction retourne le tonnage produits pour le département passé en paramètres
@@ -1157,7 +1240,7 @@
       if (dpt === "07") dpt = "7";
       if (dpt === "08") dpt = "8";
       if (dpt === "09") dpt = "9";
-
+      //return Number(d3.max(d3.values(departs))).toFixed(2);
       return d3.max(d3.values(departs));
     }
 
@@ -1180,6 +1263,27 @@
       return "Departement " + dpt;
     }
 
+    function upperTransform(dept){
 
+    }
 
+     function lowerTransform(dept){
+      
+    }
+
+    function getAllDepartments() {
+      var departements = [];
+      for (var i = 0; i < geodatas.length; i++) {
+        if (geodatas[i].hasOwnProperty('dpts')) {
+          var region = geodatas[i].dpts;
+          for (var j = 0; j < region.length; j++) {
+            if (region[j].hasOwnProperty('code')) {
+              departements.push(region[j].code);
+            }
+          }
+        }
+      }
+      return departements;
+
+    }
   }(jQuery));

@@ -9,7 +9,7 @@ var drawPieChart = function(datas,id) {
 	if (container){
 		width = container.width();
 	}
-	var height = 350;
+	var height = 330;
 	var radius = 120;
 	var innerradius = 45;
 	var textOffset = 24;
