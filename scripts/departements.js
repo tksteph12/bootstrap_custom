@@ -784,6 +784,7 @@
           }
           $('#infobox').html(Handlebars.templates.infobox(data));
           $("#idPiechart").html("");
+          $("#infobox").html("");
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
           // d3.select(this).style("fill", colors(codeDept))auxcolor
           d3.select(this).style("fill", auxcolor)

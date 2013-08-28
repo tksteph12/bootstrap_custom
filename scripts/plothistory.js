@@ -19,7 +19,12 @@ var plotHistory = function(datas, id) {
 	function processForHistory(allText, id) {
 
 		var jsonYears = {}
+		var histogramArray = [];
 
+
+		var allTextLines = allText.split(/\r\n|\n/);
+        var headers = allTextLines[0].split(';');
+        var lines = [];
 		for (var i = 1; i < allTextLines.length; i++) {
 			var data = allTextLines[i].split(';');
 			if (data.length == headers.length) {
@@ -42,11 +47,15 @@ var plotHistory = function(datas, id) {
 			}
 		}
 
-		for (anne in years) {
+		for (v in years) {
+			var obj = {};
+			annee = years[v];
+			obj['annee'] = annee;
 			var valeurCollectee = 0;
 			jsonYears[annee] = {};
 			for (var r in types) {
-				jsonYears[annee][r] = 0;
+				jsonYears[annee][types[r]] = 0;
+				obj[types[r]] = 0;
 			}
 
 			for (i in lines) {
@@ -63,17 +72,29 @@ var plotHistory = function(datas, id) {
 					valeurCollectee += tonnage;
 					//ajouter aussi au type correspondant
 					for (var r in types) {
-						if (flux === r) {
-							jsonYears[annee][r] += tonnage;
+						var fl = types[r];
+						if (flux === fl) {
+							jsonYears[annee][fl] += tonnage;
+							obj[fl]+=tonnage;
 						}
 					}
 
 				} else {}
+
 			}
+			histogramArray.push(obj);
 		}
 
+		//console.log(histogramArray)
 		//representer le graphe
-		drawAggregatedBarChart(jsonYears,id);
+		drawAggregatedBarChart(histogramArray,"idHistogram");
 	}
+
+
+
+	/*function drawAggregatedBarChart(data,id){
+		
+		
+	}*/
 
 }
