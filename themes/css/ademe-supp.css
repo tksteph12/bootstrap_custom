@@ -98,7 +98,7 @@
       	}
       	.print-setting{
       		margin-top: inherit;
-			float:right;
+			   float:right;
       		width:25%;
       	}
 
@@ -121,3 +121,9 @@
         .x.axis path {
           display: none;
         }        
+
+     .ademe-search{
+        stroke: white;
+        stroke-width: 3px;
+
+      }

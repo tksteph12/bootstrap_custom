@@ -61,7 +61,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.text) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.text; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\r\n											</div>\r\n										</div><!--/widget-main-->\r\n									</div><!--/widget-body-->\r\n								</div><!--/widget-box-->\r\n								<div id='idHistogram'></div>\r\n\r\n								<script type=\"text/javascript\">\r\n\r\n								</script>";
+    + "\r\n											</div>\r\n										</div><!--/widget-main-->\r\n									</div><!--/widget-body-->\r\n								</div><!--/widget-box-->\r\n								<div id='histogram'></div>\r\n\r\n								<script type=\"text/javascript\">\r\n\r\n								</script>";
   return buffer;
   });
 templates['departement'] = template(function (Handlebars,depth0,helpers,partials,data) {
@@ -91,6 +91,23 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   else { stack1 = depth0['d']; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
     + "\"></path>\r\n</g>\r\n</svg>\r\n</div>\r\n<script type=\"text/javascript\">\r\n\r\nvar features = d3.select('#zomtest');\r\n\r\nvar zoom = d3.behavior.zoom()\r\n      .translate([0, 0])\r\n      .scale(1)\r\n      .scaleExtent([1, 8])\r\n      .on(\"zoom\", zoomed);\r\n\r\nfunction zoomed() {\r\n    features.attr(\"transform\", \"translate(\" + d3.event.translate + \")scale(\" + d3.event.scale + \")\");\r\n    features.select(\".state-border\").style(\"stroke-width\", 1.5 / d3.event.scale + \"px\");\r\n    features.select(\".county-border\").style(\"stroke-width\", .5 / d3.event.scale + \"px\");\r\n  }\r\n    features.call(zoom);\r\n\r\n\r\n</script>";
+  return buffer;
+  });
+templates['histogramme'] = template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div class=\"widget-box\">\r\n	<div class=\"widget-header widget-header-flat widget-header-small\">\r\n		<h5>\r\n			<i class=\"icon-signal\"></i>\r\n				";
+  if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\r\n		</h5>\r\n										\r\n	</div>\r\n\r\n	<div class=\"widget-body\">\r\n		<div class=\"widget-main\">\r\n			<div id=\"idHistogram\"></div>\r\n			<div class=\"hr hr8 hr-double\"></div>\r\n\r\n			<div class=\"clearfix\">\r\n				";
+  if (stack1 = helpers.text) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.text; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\r\n			</div>\r\n		</div><!--/widget-main-->\r\n	</div><!--/widget-body-->\r\n</div><!--/widget-box-->								";
   return buffer;
   });
 })();

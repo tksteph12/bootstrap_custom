@@ -6,6 +6,7 @@ jQuery(function() {
     add_browser_detection(jQuery);
     general_things();
     updateMap("");
+    enable_search_ahead();
 
     $(document).off("click.dropdown-menu")
 });
@@ -83,15 +84,62 @@ function printImg() {
 }
 
 function enable_search_ahead() {
+    var source = getDepartments();
+
     $("#nav-search-input").typeahead({
-        source: ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Dakota", "North Carolina", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"],
+        source: source,
         updater: function(a) {
             $("#nav-search-input").focus();
+            set_map_focus_on(a);
             return a
         }
+
     })
 }
 
+//set focus on dept on the map
+function set_map_focus_on(dept){
+    var map = $('#mapcontainer');
+    if(map.html===""){
+        throw "Empty map"
+    }
+
+    $('div[id*="mapcontainer"]').each(function(i) {
+        $('svg').each(function(i) {
+                $(this).find('path[dept="' + dept + '"]').each(function(index){
+                  //this.setAttribute('class','ademe-search');
+                  var path = d3.select(this);
+                  var style = path.style('fill');
+                  //path.style("fill", 'black');
+
+                  var codeDept = this.getAttribute('code') ;
+                  var title = dept + ' ( ' + codeDept + ' )  Evolution des collectes';
+                  var text = "Types d'équipement collectés:" + mapParameters.types.toString();
+                  var data = {
+                    title: title,
+                    text: text
+                  }
+                  $('#infobox').html(Handlebars.templates.infobox(data));
+                  
+                  var donnee_hist = {};
+                  donnee_hist.types = mapParameters.types;
+                  donnee_hist.filiere = mapParameters.filiere;
+                  donnee_hist.codeDept = codeDept;
+                  donnee_hist.departement = dept;
+                  donnee_hist.sourcefile = mapParameters.url;
+                  title += " Evolution des collectes";
+                  data = {
+                    title: title,
+                    text: text
+                  }
+                  plotHistory(donnee_hist,"idPiechart");
+                  // path.style("fill", style);
+                });
+               
+        });
+    });
+
+}
 
 
 function general_things() {
@@ -172,6 +220,7 @@ function general_things() {
     });
 
     //Retirer le boutton test
+
 
     $('#test').click(function() {
         var checkedList = [];
@@ -352,6 +401,23 @@ function getSourceFile(sector) {
     throw new Error("Unknown Filiere");
 }
 
+function getDepartments() {
+      var departements = [];
+      if(typeof geodatas === 'undefined'){
+        return departements;
+      }
+      for (var i = 0; i < geodatas.length; i++) {
+        if (geodatas[i].hasOwnProperty('dpts')) {
+          var region = geodatas[i].dpts;
+          for (var j = 0; j < region.length; j++) {
+            if (region[j].hasOwnProperty('dept')) {
+              departements.push(region[j].dept);
+            }
+          }
+        }
+      }
+      return departements;
+}
 
 //************************Variables globales************************************************
 

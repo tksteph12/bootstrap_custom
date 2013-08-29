@@ -1,6 +1,769 @@
   (function($) {
+    var departs = {}
 
-    var geodatas = [{
+    $.fn.drawMap = function(sourcefile, idElement) {
+
+      var legendArray = [];
+      var container = $(this);
+
+      //----------------------------------------------------
+      var url = mapParameters.url; // find the way to build a proper url once the app is running on a server
+      $.ajax({
+        type: "GET",
+        url: url,
+        dataType: "text",
+        success: function(data) {
+          processData(data, idElement);
+        }
+      });
+
+
+
+      function processData(allText, idElement) {
+
+        //var height = 600;
+        width = $(this).width();
+        width = $('#' + idElement).width();
+        var height = 4 * width / 5;
+        var dpts = {}; //contiendra les départements et les tonnages collectés
+        //----------------------------
+
+        var allTextLines = allText.split(/\r\n|\n/);
+        var headers = allTextLines[0].split(';');
+        var lines = [];
+
+        for (var i = 1; i < allTextLines.length; i++) {
+          var data = allTextLines[i].split(';');
+          if (data.length == headers.length) {
+
+            var line = {};
+            for (var j = 0; j < headers.length; j++) {
+              line[headers[j]] = data[j];
+            }
+            lines.push(line);
+          }
+        }
+
+        for (i in lines) {
+          var line = lines[i];
+          var annee = line["Campagne"];
+          if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
+            // ou alors la phrase réupérer contient cette année là
+
+            var dpt = line["Departement"];
+            var flux = line["Flux"];
+            if (flux === undefined) {
+              flux = line["Type_pile"]
+            }
+            var tonnage = Number(line["Tonnage"]);
+
+            var id = dpt; //+ "-" + flux;
+
+            var list = mapParameters.types;
+
+            if (dpts[id]) {
+              if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
+                // ou alors la phrase réupérer contient cette année là
+                if (list.indexOf(flux) != -1) {
+                  tonnage += Number(dpts[id]);
+                }
+              }
+            }
+            dpts[id] = (list.length === 0) ? undefined : tonnage;
+          }
+        }
+        departs = dpts;
+
+        //  construction de la légende
+        var sum = 0;
+        var count = 0;
+        var max = 0;
+        for (i in dpts) {
+          sum = sum + dpts[i];
+          count++;
+          if (max < dpts[i]) {
+            max = dpts[i];
+          }
+        }
+        var space = max / 4;
+        space = Math.round(space);
+
+        var val = "<" + space
+        legendArray.push({
+          value: val,
+          color: ""
+        });
+        //legendArray[0].value =space;
+        legendArray.push({
+          value: space + "-" + 2 * space,
+          color: ""
+        });
+        legendArray.push({
+          value: 2 * space + "-" + 3 * space,
+          color: ""
+        });
+        legendArray.push({
+          value: ">" + 3 * space
+        });
+        legendArray.push({
+          value: "No data"
+        });
+
+        var avg = sum / count;
+
+
+        var colors = function(idpt) {
+          var dpt = idpt;
+          if (dpt === "2a") dpt = "2A";
+          if (dpt === "2b") dpt = "2B";
+          if (dpt === "01") dpt = "1";
+          if (dpt === "02") dpt = "2";
+          if (dpt === "03") dpt = "3";
+          if (dpt === "04") dpt = "4";
+          if (dpt === "05") dpt = "5";
+          if (dpt === "06") dpt = "6";
+          if (dpt === "07") dpt = "7";
+          if (dpt === "08") dpt = "8";
+          if (dpt === "09") dpt = "9";
+
+          if (dpts[dpt] > 3 * space)
+            if (dpts[dpt] > 3 * space) {
+              legendArray[3].color = "#A91101";
+              return "#A91101";
+            } //rouge foncé
+          if (dpts[dpt] > 2 * space) {
+            legendArray[2].color = "#DB1702";
+            return "#DB1702";
+          } //rouge
+          if (dpts[dpt] > space) {
+            legendArray[1].color = "#f80";
+            return "#f80";
+          } //oranger foncéé
+          if (dpts[dpt] < space) {
+            legendArray[0].color = "#F9C181";
+            return "#F9C181";
+          } //oranger
+          legendArray[4].color = "#ccc";
+          return "#ccc"; //gris pas de données
+        }
+
+
+        if (!($('#' + idElement).length)) {
+          var idElement = $(this).attr('id');
+        }
+
+
+        var svg = d3.select('#' + idElement).append("svg:svg")
+          .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
+        .attr("preserveAspectRatio", "xMidYMid meet");
+        //.append("g") // incompatible firefox
+        /*.attr("width", width)
+          .attr("height", height)
+          .attr("viewBox", "0 0 100 100")
+          ;*/
+
+        for (var i in geodatas) {
+          var rgn = geodatas[i];
+          //On construit une unité (set) de regroupement de tous les départements de la région
+          for (j in rgn['dpts']) {
+            var dpt = rgn['dpts'][j];
+            svg.append("svg:path")
+              .style("fill", 'white')
+              .transition()
+              .attr("d", dpt['path'])
+              .duration(2000).delay(j * 200)
+              .attr("class", "departement")
+              .attr("id", dpt['code'])
+              .attr("code", dpt['code']) //On ajoute un attribut code pour pouvoir récupérer le code du département plustard
+            .attr("dept", dpt['dept']) //on ajoute aussi le nom du département : pas certain que ce soit optimal
+            .style("fill", colors(dpt['code']))
+              .style("opacity", 1)
+              .select("title").text(dpt['code']);
+
+          } //for j
+        }
+
+        var auxcolor = "";
+        svg.selectAll("path")
+          .on("mouseover", function(d, i) {
+              toolTip.transition().duration(200).style("opacity", 1);
+              auxcolor = d3.select(this)[0][0].style.fill;
+              d3.select(this).style("fill", "grey");
+              var codeDept = d3.select(this)[0][0].attributes['code'].value;
+              var departement = d3.select(this)[0][0].attributes['dept'].value;
+              var title = departement + ' ( ' + codeDept + ')';
+              var title = departement + ' ( ' + codeDept + ')';
+              var text = "Types d'équipement collectés:" + mapParameters.types.toString();
+              var data = {
+                title: title,
+                text: text
+              }
+              $('#infobox').html(Handlebars.templates.infobox(data));
+              var coll = getTonneCollectedValue(codeDept,departs);
+              var val = getTonneProducedValue(codeDept,departs) - coll;
+              var donnee = {
+                unit: "tonnes",
+                data: [{
+                    "itemLabel": "Collecté",
+                    "itemValue": coll,
+                    "color": "#9FDAEE"
+                  }, {
+                    "itemLabel": "Reste",
+                    "itemValue": val,
+                    "color": "#e6550d"
+                  }
+                ]
+              };
+              drawPieChart(donnee, "idPiechart");
+
+              var donnee_hist = {};
+              donnee_hist.types = mapParameters.types;
+              donnee_hist.filiere = mapParameters.filiere;
+              donnee_hist.codeDept = codeDept;
+              donnee_hist.departement = departement;
+              donnee_hist.sourcefile = mapParameters.url;
+              title += " Evolution des collectes";
+              data = {
+                title: title,
+                text: text
+              }
+
+              $('#histogram').html(Handlebars.templates.histogramme(data));
+              plotHistory(donnee_hist,"idHistogram");
+
+
+        })
+          .on("mousemove", function(d) {
+          var codeDept = d3.select(this)[0][0].attributes['code'].value;
+          var departement = d3.select(this)[0][0].attributes['dept'].value;
+          toolTip.text(function() {
+            var numb = Number(getTonneCollectedValue(codeDept,departs)).toFixed(2);
+            if (numb === 'NaN') {
+              return departement + " ( " + codeDept + " ): Pas de collecte en " + mapParameters.year;
+            } else {
+              return departement + " ( " + codeDept + " ): " + +numb + " Tonnes de déchets collectés en " + mapParameters.year;
+            }
+          })
+            .style("left", (d3.event.pageX - 34) + "px")
+            .style("top", (d3.event.pageY - 50) + "px");
+        })
+          .on("mouseout", function(d, i) {
+          toolTip.transition().duration(200).style("opacity", 1e-6);
+          var data = {
+            title: "Departements France Métropolitaine + DOM TOM"
+          }
+          $('#infobox').html(Handlebars.templates.infobox(data));
+          $("#idPiechart").html("");
+          $("#infobox").html("");
+          var codeDept = d3.select(this)[0][0].attributes['code'].value;
+          // d3.select(this).style("fill", colors(codeDept))auxcolor
+          d3.select(this).style("fill", auxcolor)
+        })
+          .on("click", function(d, i) {
+          var path = {};
+          var data = d3.select(this)[0][0];
+          //path.style = data.attributes['style'].value;
+          path.style = 'red';
+          path.code = data.attributes['code'].value;
+          path.class = data.attributes['class'].value;
+          path.id = data.attributes['id'].value;
+          path.d = data.attributes['d'].value;
+
+          var win = window.open("depart.html", '_blank');
+          //win.document.body("<script>jQuery('#idDpt').html(Handlebars.templates.departement("+path+")); </script>");
+          var graph = Handlebars.templates.departement(path);
+          win.document.write(graph);
+          win.focus();
+
+          $('#body').html(Handlebars.templates.departement(path));
+        });
+        //.call(d3.helper.tooltip(function(d, i){return tooltipText(d);}));
+
+
+
+        //Représentation du trait pour la Corse
+        svg.append("svg:path")
+          .style("stroke", 'white')
+          .transition()
+          .duration(2000)
+          .attr("d", 'M 432,545.25 L 432,475 L 496.25,433')
+          .style("fill", 'none')
+          .style("stroke", '#86aae0')
+          .style("stroke-width", '1.5')
+          .style("stroke-opacity", '1');
+
+        //Représentation du carré un zoom sur paris et les 3 departements. 
+        /*   svg.append("svg:path")
+        .attr("d",'M 432,545.25 L 432,475 L 496.25,433')
+        .style("fill",'none')
+        .style("stroke",'#86aae0')
+        .style("stroke-width",'1.5')
+        .style("stroke-opacity",'1');
+
+        layer.push(RR.rect(7.2526245, 280.14719, 82.539658, 82.53965)
+            .attr({x: '7.2526245',y: '280.14719',fill: 'none',stroke: '#86aae0',"stroke-width": '1.46',"stroke-miterlimit": '4',"stroke-opacity": '1',"stroke-dasharray": 'none'}));*/
+
+        //Représentation de la séparation des doms
+        svg.append("svg:path")
+          .style("stroke", 'white')
+          .transition()
+          .duration(2000)
+          .attr("d", 'M 4.9513254,493.17701 L 245.37144,493.17701 L 275.37144,520 L 275.37144,546.92063')
+          .style("fill", 'none')
+          .style("stroke", '#86aae0')
+          .style("stroke-width", '1.5')
+          .style("stroke-opacity", '1');
+
+        //idPiechart
+        //===================================Legend==============================
+        var legend = svg.append("g")
+          .attr("class", "legend")
+        //.attr("x", w - 65)
+        //.attr("y", 50)
+        .attr("viewBox", "0 0 100 100") //adapter le composant à la fenêtre
+        .attr("preserveAspectRatio", "xMidYMid meet")
+          .attr('transform', 'translate(-20,50)')
+          .attr("id", "dptLegend")
+
+        legend.selectAll('rect')
+          .data(legendArray)
+          .enter()
+          .append("rect")
+          .attr("x", width - 200)
+          .attr("y", function(d, i) {
+          return i * 20;
+        })
+          .attr("width", 10)
+          .attr("height", 10)
+          .attr("id", function(d, i) {
+          return "dptLegend" + i;
+        })
+          .style("fill", function(d) {
+          var color = d.color;
+          return color;
+        })
+
+        legend.selectAll('text')
+          .data(legendArray)
+          .enter()
+          .append("text")
+          .attr("x", width - 187)
+          .attr("y", function(d, i) {
+          return i * 20 + 9;
+        })
+
+        .text(function(d) {
+          var text = d.value;
+          return text;
+        });
+
+        var toolTip = d3.select("#" + idElement).append("div")
+          .attr("class", "tooltip")
+          .style("opacity", 1e-6);
+
+
+      }
+    };
+//cette fonction retourne le tonnage collecté pour le département passé en paramètres
+
+    function getTonneCollectedValue(dpt,departs) {
+      try {
+
+        if (dpt === "2a") dpt = "2A";
+        if (dpt === "2b") dpt = "2B";
+        if (dpt === "01") dpt = "1";
+        if (dpt === "02") dpt = "2";
+        if (dpt === "03") dpt = "3";
+        if (dpt === "04") dpt = "4";
+        if (dpt === "05") dpt = "5";
+        if (dpt === "06") dpt = "6";
+        if (dpt === "07") dpt = "7";
+        if (dpt === "08") dpt = "8";
+        if (dpt === "09") dpt = "9";
+
+        //return dpts[dpt];
+        //return Number(departs[dpt]).toFixed(2);
+        return departs[dpt];
+
+      } catch (e) {
+        return undefined
+      }
+    }
+
+    //cette fonction retourne le tonnage produits pour le département passé en paramètres
+    //ne disposant pas de cette valeur pour le nous nous contenterons de retourner la valeur max de toutes les données récoltées
+
+    function getTonneProducedValue(dpt,departs) {
+      if (dpt === "2a") dpt = "2A";
+      if (dpt === "2b") dpt = "2B";
+      if (dpt === "01") dpt = "1";
+      if (dpt === "02") dpt = "2";
+      if (dpt === "03") dpt = "3";
+      if (dpt === "04") dpt = "4";
+      if (dpt === "05") dpt = "5";
+      if (dpt === "06") dpt = "6";
+      if (dpt === "07") dpt = "7";
+      if (dpt === "08") dpt = "8";
+      if (dpt === "09") dpt = "9";
+      //return Number(d3.max(d3.values(departs))).toFixed(2);
+      return d3.max(d3.values(departs));
+    }
+
+    //retourne le nom du département passé en paramètres
+
+    function getDepartement(dpt) {
+
+      if (dpt === "2a") dpt = "2A";
+      if (dpt === "2b") dpt = "2B";
+      if (dpt === "01") dpt = "1";
+      if (dpt === "02") dpt = "2";
+      if (dpt === "03") dpt = "3";
+      if (dpt === "04") dpt = "4";
+      if (dpt === "05") dpt = "5";
+      if (dpt === "06") dpt = "6";
+      if (dpt === "07") dpt = "7";
+      if (dpt === "08") dpt = "8";
+      if (dpt === "09") dpt = "9";
+
+      return "Departement " + dpt;
+    }
+
+    function upperTransform(dept){
+
+    }
+
+     function lowerTransform(dept){
+      
+    }
+
+    function getAllDepartments() {
+      var departements = [];
+      for (var i = 0; i < geodatas.length; i++) {
+        if (geodatas[i].hasOwnProperty('dpts')) {
+          var region = geodatas[i].dpts;
+          for (var j = 0; j < region.length; j++) {
+            if (region[j].hasOwnProperty('code')) {
+              departements.push(region[j].code);
+            }
+          }
+        }
+      }
+      return departements;
+
+    }
+
+    $.fn.updateColors = function(datas, idElement) {
+
+      var legendArray = [];
+      var container = $(this);
+      var url = mapParameters.url;
+      //----------------------------------------------------
+
+      $.ajax({
+        type: "GET",
+        url: url,
+        dataType: "text",
+        success: function(data) {
+          processupdatedData(data, idElement);
+        }
+      });
+
+
+
+      function processupdatedData(allText, idElement) {
+
+        width = $(this).width();
+        width = $('#' + idElement).width();
+        var height = 4 * width / 5;
+
+
+        var dpts = {}; //contiendra les départements et les tonnages collectés
+        //----------------------------
+
+        var allTextLines = allText.split(/\r\n|\n/);
+        var headers = allTextLines[0].split(';');
+        var lines = [];
+
+        for (var i = 1; i < allTextLines.length; i++) {
+          var data = allTextLines[i].split(';');
+          if (data.length == headers.length) {
+
+            var line = {};
+            for (var j = 0; j < headers.length; j++) {
+              line[headers[j]] = data[j];
+            }
+            lines.push(line);
+          }
+        }
+        for (i in lines) {
+          var line = lines[i];
+          var annee = line["Campagne"];
+          if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
+            // ou alors la phrase réupérer contient cette année là
+            var dpt = line["Departement"];
+            var flux = line["Flux"];
+            if (flux === undefined) {
+              flux = line["Type_pile"];
+            }
+            var tonnage = Number(line["Tonnage"]);
+            //var annee = Number(line["annee"]);
+            //var annee = Number(line["Campagne"]);
+
+            var id = dpt; //+ "-" + flux;
+
+            var list = mapParameters.types;
+
+            if (dpts[id]) {
+              if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
+                // ou alors la phrase réupérer contient cette année là
+                if (list.indexOf(flux) != -1) {
+                  tonnage += Number(dpts[id]);
+                }
+              }
+            }
+            dpts[id] = (list.length === 0) ? undefined : tonnage;
+          }
+        }
+
+        departs = dpts;
+        if (jQuery.isEmptyObject(departs)) {
+          departs = undefined;
+          dpts = undefined;
+        }
+        //  construction de la légende
+        var sum = 0;
+        var count = 0;
+        var max = 0;
+        for (i in dpts) {
+          sum = sum + dpts[i];
+          count++;
+          if (max < dpts[i]) {
+            max = dpts[i];
+          }
+        }
+        var space = max / 4;
+        space = Math.round(space);
+
+        var val = "<" + space
+        legendArray.push({
+          value: val,
+          color: ""
+        });
+        //legendArray[0].value =space;
+        legendArray.push({
+          value: space + "-" + 2 * space,
+          color: ""
+        });
+        legendArray.push({
+          value: 2 * space + "-" + 3 * space,
+          color: ""
+        });
+        legendArray.push({
+          value: ">" + 3 * space
+        });
+        legendArray.push({
+          value: "No data"
+        });
+
+        var avg = sum / count;
+
+        var fillColor = function(id, color) {
+          if (id === undefined) {
+            throw "space to recolor not specified";
+          }
+          var entity = document.getElementById(id);
+          if (entity) {
+
+            entity.style.fill = color;
+            entity.setAttribute("class", "animate")
+
+          }
+        };
+        var updateColor = function(idpt, dpts) {
+          /** saving 
+
+            if (getTonneCollectedValue(idpt) === undefined) {
+
+            return "#ccc";
+          }
+
+          var dpt = idpt;
+          if (dpt === "2a") dpt = "2A";
+          if (dpt === "2b") dpt = "2B";
+          if (dpt === "01") dpt = "1";
+          if (dpt === "02") dpt = "2";
+          if (dpt === "03") dpt = "3";
+          if (dpt === "04") dpt = "4";
+          if (dpt === "05") dpt = "5";
+          if (dpt === "06") dpt = "6";
+          if (dpt === "07") dpt = "7";
+          if (dpt === "08") dpt = "8";
+          if (dpt === "09") dpt = "9";
+
+          if (dpts[dpt] > 3 * space)
+            if (dpts[dpt] > 3 * space) {
+              legendArray[3].color = "#A91101";
+              return "#A91101";
+            } //rouge foncé
+          if (dpts[dpt] > 2 * space) {
+            legendArray[2].color = "#DB1702";
+            return "#DB1702";
+          } //rouge
+          if (dpts[dpt] > space) {
+            legendArray[1].color = "#f80";
+            return "#f80";
+          } //oranger foncéé
+          if (dpts[dpt] < space) {
+            legendArray[0].color = "#F9C181";
+            return "#F9C181";
+          } //oranger
+          legendArray[4].color = "#ccc";
+          return "#ccc"; //gris pas de données
+
+
+          *****end saving **/
+
+          if (getTonneCollectedValue(idpt,departs) === undefined) {
+
+            return "#ccc";
+          }
+
+          var dpt = idpt;
+          if (dpt === "2a") dpt = "2A";
+          if (dpt === "2b") dpt = "2B";
+          if (dpt === "01") dpt = "1";
+          if (dpt === "02") dpt = "2";
+          if (dpt === "03") dpt = "3";
+          if (dpt === "04") dpt = "4";
+          if (dpt === "05") dpt = "5";
+          if (dpt === "06") dpt = "6";
+          if (dpt === "07") dpt = "7";
+          if (dpt === "08") dpt = "8";
+          if (dpt === "09") dpt = "9";
+
+          if (dpts[dpt] > 3 * space)
+            if (dpts[dpt] > 3 * space) {
+              legendArray[3].color = "#A91101";
+              return "#A91101";
+            } //rouge foncé
+          if (dpts[dpt] > 2 * space) {
+            legendArray[2].color = "#DB1702";
+            return "#DB1702";
+          } //rouge
+          if (dpts[dpt] > space) {
+            legendArray[1].color = "#f80";
+            return "#f80";
+          } //oranger foncéé
+          if (dpts[dpt] < space) {
+            legendArray[0].color = "#F9C181";
+            return "#F9C181";
+          } //oranger
+          legendArray[4].color = "#ccc";
+          return "#ccc"; //gris pas de données
+        }
+
+        if (!($('#' + idElement).length)) {
+          var idElement = $(this).attr('id');
+        }
+
+        var svg = d3.select('#' + idElement).select("svg")
+          .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
+        .attr("preserveAspectRatio", "xMidYMid meet");
+
+        if (jQuery.isEmptyObject(dpts)) {
+
+
+        } else {
+          var dptsarr = [];
+          for (var r in dpts) {
+            if (dpts.hasOwnProperty(r)) {
+              if (r === "2A") r = "2a";
+              if (r === "2B") r = "2b";
+              if (r === "1") r = "01";
+              if (r === "2") r = "02";
+              if (r === "3") r = "03";
+              if (r === "4") r = "04";
+              if (r === "5") r = "05";
+              if (r === "6") r = "06";
+              if (r === "7") r = "07";
+              if (r === "8") r = "08";
+              if (r === "9") r = "09";
+
+              dptsarr.push(r);
+            }
+          };
+          var alldpts = getAllDepartments();
+
+          for (var i = 0; i < alldpts.length; i++) {
+            var r = alldpts[i];
+            if (dptsarr.indexOf(r) == -1) {
+              fillColor(alldpts[i], "#ccc");
+            } else {
+
+              fillColor(r, updateColor(r, dpts));
+
+            }
+
+          }
+
+
+
+          //chercher , si r 
+
+        }
+
+        //idPiechart
+        //===================================updating the Legend==============================
+        $("#dptLegend").remove();
+
+        var legend = d3.select("svg").append("g")
+          .attr("class", "legend")
+        //.attr("x", w - 65)
+        //.attr("y", 50)
+        //.attr("viewBox", "0 0 100 100") //adapter le composant à la fenêtre
+        //.attr("preserveAspectRatio", "xMidYMid meet")
+        .attr('transform', 'translate(-20,50)')
+          .attr("id", "dptLegend")
+
+        legend.selectAll('rect')
+          .data(legendArray)
+          .enter()
+          .append("rect")
+          .attr("x", width - 200)
+          .attr("y", function(d, i) {
+          return i * 20;
+        })
+          .attr("width", 10)
+          .attr("height", 10)
+          .attr("id", function(d, i) {
+          return "dptLegend" + i;
+        })
+          .style("fill", function(d) {
+          var color = d.color;
+          return color;
+        })
+
+        legend.selectAll('text')
+          .data(legendArray)
+          .enter()
+          .append("text")
+          .attr("x", width - 187)
+          .attr("y", function(d, i) {
+          return i * 20 + 9;
+        })
+
+        .text(function(d) {
+          var text = d.value;
+          return text;
+        });
+
+      }
+
+    }
+
+      }(jQuery));
+
+   var geodatas = [{
         'rgn': '42',
         'dpts': [{
             'dept': "Bas-Rhin",
@@ -538,757 +1301,3 @@
         ]
       }
     ];
-    var departs = {}
-
-    $.fn.drawMap = function(sourcefile, idElement) {
-
-      var legendArray = [];
-      var container = $(this);
-
-      //----------------------------------------------------
-      var url = mapParameters.url; // find the way to build a proper url once the app is running on a server
-      $.ajax({
-        type: "GET",
-        url: url,
-        dataType: "text",
-        success: function(data) {
-          processData(data, idElement);
-        }
-      });
-
-
-
-      function processData(allText, idElement) {
-
-        //var height = 600;
-        width = $(this).width();
-        width = $('#' + idElement).width();
-        var height = 4 * width / 5;
-        var dpts = {}; //contiendra les départements et les tonnages collectés
-        //----------------------------
-
-        var allTextLines = allText.split(/\r\n|\n/);
-        var headers = allTextLines[0].split(';');
-        var lines = [];
-
-        for (var i = 1; i < allTextLines.length; i++) {
-          var data = allTextLines[i].split(';');
-          if (data.length == headers.length) {
-
-            var line = {};
-            for (var j = 0; j < headers.length; j++) {
-              line[headers[j]] = data[j];
-            }
-            lines.push(line);
-          }
-        }
-
-        for (i in lines) {
-          var line = lines[i];
-          var annee = line["Campagne"];
-          if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
-            // ou alors la phrase réupérer contient cette année là
-
-            var dpt = line["Departement"];
-            var flux = line["Flux"];
-            if (flux === undefined) {
-              flux = line["Type_pile"]
-            }
-            var tonnage = Number(line["Tonnage"]);
-
-            var id = dpt; //+ "-" + flux;
-
-            var list = mapParameters.types;
-
-            if (dpts[id]) {
-              if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
-                // ou alors la phrase réupérer contient cette année là
-                if (list.indexOf(flux) != -1) {
-                  tonnage += Number(dpts[id]);
-                }
-              }
-            }
-            dpts[id] = (list.length === 0) ? undefined : tonnage;
-          }
-        }
-        departs = dpts;
-
-        //  construction de la légende
-        var sum = 0;
-        var count = 0;
-        var max = 0;
-        for (i in dpts) {
-          sum = sum + dpts[i];
-          count++;
-          if (max < dpts[i]) {
-            max = dpts[i];
-          }
-        }
-        var space = max / 4;
-        space = Math.round(space);
-
-        var val = "<" + space
-        legendArray.push({
-          value: val,
-          color: ""
-        });
-        //legendArray[0].value =space;
-        legendArray.push({
-          value: space + "-" + 2 * space,
-          color: ""
-        });
-        legendArray.push({
-          value: 2 * space + "-" + 3 * space,
-          color: ""
-        });
-        legendArray.push({
-          value: ">" + 3 * space
-        });
-        legendArray.push({
-          value: "No data"
-        });
-
-        var avg = sum / count;
-
-
-        var colors = function(idpt) {
-          var dpt = idpt;
-          if (dpt === "2a") dpt = "2A";
-          if (dpt === "2b") dpt = "2B";
-          if (dpt === "01") dpt = "1";
-          if (dpt === "02") dpt = "2";
-          if (dpt === "03") dpt = "3";
-          if (dpt === "04") dpt = "4";
-          if (dpt === "05") dpt = "5";
-          if (dpt === "06") dpt = "6";
-          if (dpt === "07") dpt = "7";
-          if (dpt === "08") dpt = "8";
-          if (dpt === "09") dpt = "9";
-
-          if (dpts[dpt] > 3 * space)
-            if (dpts[dpt] > 3 * space) {
-              legendArray[3].color = "#A91101";
-              return "#A91101";
-            } //rouge foncé
-          if (dpts[dpt] > 2 * space) {
-            legendArray[2].color = "#DB1702";
-            return "#DB1702";
-          } //rouge
-          if (dpts[dpt] > space) {
-            legendArray[1].color = "#f80";
-            return "#f80";
-          } //oranger foncéé
-          if (dpts[dpt] < space) {
-            legendArray[0].color = "#F9C181";
-            return "#F9C181";
-          } //oranger
-          legendArray[4].color = "#ccc";
-          return "#ccc"; //gris pas de données
-        }
-
-
-        if (!($('#' + idElement).length)) {
-          var idElement = $(this).attr('id');
-        }
-
-
-        var svg = d3.select('#' + idElement).append("svg:svg")
-          .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
-        .attr("preserveAspectRatio", "xMidYMid meet");
-        //.append("g") // incompatible firefox
-        /*.attr("width", width)
-          .attr("height", height)
-          .attr("viewBox", "0 0 100 100")
-          ;*/
-
-        for (var i in geodatas) {
-          var rgn = geodatas[i];
-          //On construit une unité (set) de regroupement de tous les départements de la région
-          for (j in rgn['dpts']) {
-            var dpt = rgn['dpts'][j];
-            svg.append("svg:path")
-              .style("fill", 'white')
-              .transition()
-              .attr("d", dpt['path'])
-              .duration(2000).delay(j * 200)
-              .attr("class", "departement")
-              .attr("id", dpt['code'])
-              .attr("code", dpt['code']) //On ajoute un attribut code pour pouvoir récupérer le code du département plustard
-            .attr("dept", dpt['dept']) //on ajoute aussi le nom du département : pas certain que ce soit optimal
-            .style("fill", colors(dpt['code']))
-              .style("opacity", 1)
-              .select("title").text(dpt['code']);
-
-          } //for j
-        }
-
-        var auxcolor = "";
-        svg.selectAll("path")
-          .on("mouseover", function(d, i) {
-              toolTip.transition().duration(200).style("opacity", 1);
-              auxcolor = d3.select(this)[0][0].style.fill;
-              d3.select(this).style("fill", "grey");
-              var codeDept = d3.select(this)[0][0].attributes['code'].value;
-              var departement = d3.select(this)[0][0].attributes['dept'].value;
-              var title = departement + ' ( ' + codeDept + ')';
-              var title = departement + ' ( ' + codeDept + ')';
-              var text = "Types d'équipement collectés:" + mapParameters.types.toString();
-              var data = {
-                title: title,
-                text: text
-              }
-              $('#infobox').html(Handlebars.templates.infobox(data));
-              var coll = getTonneCollectedValue(codeDept);
-              var val = getTonneProducedValue(codeDept) - coll;
-              var donnee = {
-                unit: "tonnes",
-                data: [{
-                    "itemLabel": "Collecté",
-                    "itemValue": coll,
-                    "color": "#9FDAEE"
-                  }, {
-                    "itemLabel": "Reste",
-                    "itemValue": val,
-                    "color": "#e6550d"
-                  }
-                ]
-              };
-              drawPieChart(donnee, "idPiechart");
-              var donnee_hist = {};
-              donnee_hist.types = mapParameters.types;
-              donnee_hist.filiere = mapParameters.filiere;
-              donnee_hist.codeDept = codeDept;
-              donnee_hist.departement = departement;
-              donnee_hist.sourcefile = mapParameters.url;
-              plotHistory(donnee_hist,"idHisoty");
-
-        })
-          .on("mousemove", function(d) {
-          var codeDept = d3.select(this)[0][0].attributes['code'].value;
-          var departement = d3.select(this)[0][0].attributes['dept'].value;
-          toolTip.text(function() {
-            var numb = Number(getTonneCollectedValue(codeDept)).toFixed(2);
-            if (numb === 'NaN') {
-              return departement + " ( " + codeDept + " ): Pas de collecte en " + mapParameters.year;
-            } else {
-              return departement + " ( " + codeDept + " ): " + +numb + " Tonnes de déchets collectés en " + mapParameters.year;
-            }
-          })
-            .style("left", (d3.event.pageX - 34) + "px")
-            .style("top", (d3.event.pageY - 50) + "px");
-        })
-          .on("mouseout", function(d, i) {
-          toolTip.transition().duration(200).style("opacity", 1e-6);
-          var data = {
-            title: "Departements France Métropolitaine + DOM TOM"
-          }
-          $('#infobox').html(Handlebars.templates.infobox(data));
-          $("#idPiechart").html("");
-          $("#infobox").html("");
-          var codeDept = d3.select(this)[0][0].attributes['code'].value;
-          // d3.select(this).style("fill", colors(codeDept))auxcolor
-          d3.select(this).style("fill", auxcolor)
-        })
-          .on("click", function(d, i) {
-          var path = {};
-          var data = d3.select(this)[0][0];
-          //path.style = data.attributes['style'].value;
-          path.style = 'red';
-          path.code = data.attributes['code'].value;
-          path.class = data.attributes['class'].value;
-          path.id = data.attributes['id'].value;
-          path.d = data.attributes['d'].value;
-
-          var win = window.open("depart.html", '_blank');
-          //win.document.body("<script>jQuery('#idDpt').html(Handlebars.templates.departement("+path+")); </script>");
-          var graph = Handlebars.templates.departement(path);
-          win.document.write(graph);
-          win.focus();
-
-          $('#body').html(Handlebars.templates.departement(path));
-        });
-        //.call(d3.helper.tooltip(function(d, i){return tooltipText(d);}));
-
-
-
-        //Représentation du trait pour la Corse
-        svg.append("svg:path")
-          .style("stroke", 'white')
-          .transition()
-          .duration(2000)
-          .attr("d", 'M 432,545.25 L 432,475 L 496.25,433')
-          .style("fill", 'none')
-          .style("stroke", '#86aae0')
-          .style("stroke-width", '1.5')
-          .style("stroke-opacity", '1');
-
-        //Représentation du carré un zoom sur paris et les 3 departements. 
-        /*   svg.append("svg:path")
-        .attr("d",'M 432,545.25 L 432,475 L 496.25,433')
-        .style("fill",'none')
-        .style("stroke",'#86aae0')
-        .style("stroke-width",'1.5')
-        .style("stroke-opacity",'1');
-
-        layer.push(RR.rect(7.2526245, 280.14719, 82.539658, 82.53965)
-            .attr({x: '7.2526245',y: '280.14719',fill: 'none',stroke: '#86aae0',"stroke-width": '1.46',"stroke-miterlimit": '4',"stroke-opacity": '1',"stroke-dasharray": 'none'}));*/
-
-        //Représentation de la séparation des doms
-        svg.append("svg:path")
-          .style("stroke", 'white')
-          .transition()
-          .duration(2000)
-          .attr("d", 'M 4.9513254,493.17701 L 245.37144,493.17701 L 275.37144,520 L 275.37144,546.92063')
-          .style("fill", 'none')
-          .style("stroke", '#86aae0')
-          .style("stroke-width", '1.5')
-          .style("stroke-opacity", '1');
-
-        //idPiechart
-        //===================================Legend==============================
-        var legend = svg.append("g")
-          .attr("class", "legend")
-        //.attr("x", w - 65)
-        //.attr("y", 50)
-        .attr("viewBox", "0 0 100 100") //adapter le composant à la fenêtre
-        .attr("preserveAspectRatio", "xMidYMid meet")
-          .attr('transform', 'translate(-20,50)')
-          .attr("id", "dptLegend")
-
-        legend.selectAll('rect')
-          .data(legendArray)
-          .enter()
-          .append("rect")
-          .attr("x", width - 200)
-          .attr("y", function(d, i) {
-          return i * 20;
-        })
-          .attr("width", 10)
-          .attr("height", 10)
-          .attr("id", function(d, i) {
-          return "dptLegend" + i;
-        })
-          .style("fill", function(d) {
-          var color = d.color;
-          return color;
-        })
-
-        legend.selectAll('text')
-          .data(legendArray)
-          .enter()
-          .append("text")
-          .attr("x", width - 187)
-          .attr("y", function(d, i) {
-          return i * 20 + 9;
-        })
-
-        .text(function(d) {
-          var text = d.value;
-          return text;
-        });
-
-        var toolTip = d3.select("#" + idElement).append("div")
-          .attr("class", "tooltip")
-          .style("opacity", 1e-6);
-
-
-      }
-    };
-
-    $.fn.updateColors = function(datas, idElement) {
-
-      var legendArray = [];
-      var container = $(this);
-      var url = mapParameters.url;
-      //----------------------------------------------------
-
-      $.ajax({
-        type: "GET",
-        url: url,
-        dataType: "text",
-        success: function(data) {
-          processupdatedData(data, idElement);
-        }
-      });
-
-
-
-      function processupdatedData(allText, idElement) {
-
-        width = $(this).width();
-        width = $('#' + idElement).width();
-        var height = 4 * width / 5;
-
-
-        var dpts = {}; //contiendra les départements et les tonnages collectés
-        //----------------------------
-
-        var allTextLines = allText.split(/\r\n|\n/);
-        var headers = allTextLines[0].split(';');
-        var lines = [];
-
-        for (var i = 1; i < allTextLines.length; i++) {
-          var data = allTextLines[i].split(';');
-          if (data.length == headers.length) {
-
-            var line = {};
-            for (var j = 0; j < headers.length; j++) {
-              line[headers[j]] = data[j];
-            }
-            lines.push(line);
-          }
-        }
-        for (i in lines) {
-          var line = lines[i];
-          var annee = line["Campagne"];
-          if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
-            // ou alors la phrase réupérer contient cette année là
-            var dpt = line["Departement"];
-            var flux = line["Flux"];
-            if (flux === undefined) {
-              flux = line["Type_pile"];
-            }
-            var tonnage = Number(line["Tonnage"]);
-            //var annee = Number(line["annee"]);
-            //var annee = Number(line["Campagne"]);
-
-            var id = dpt; //+ "-" + flux;
-
-            var list = mapParameters.types;
-
-            if (dpts[id]) {
-              if (annee.indexOf(mapParameters.year) != -1) { // si l'année est bien celle choisie 
-                // ou alors la phrase réupérer contient cette année là
-                if (list.indexOf(flux) != -1) {
-                  tonnage += Number(dpts[id]);
-                }
-              }
-            }
-            dpts[id] = (list.length === 0) ? undefined : tonnage;
-          }
-        }
-
-        departs = dpts;
-        if (jQuery.isEmptyObject(departs)) {
-          departs = undefined;
-          dpts = undefined;
-        }
-        //  construction de la légende
-        var sum = 0;
-        var count = 0;
-        var max = 0;
-        for (i in dpts) {
-          sum = sum + dpts[i];
-          count++;
-          if (max < dpts[i]) {
-            max = dpts[i];
-          }
-        }
-        var space = max / 4;
-        space = Math.round(space);
-
-        var val = "<" + space
-        legendArray.push({
-          value: val,
-          color: ""
-        });
-        //legendArray[0].value =space;
-        legendArray.push({
-          value: space + "-" + 2 * space,
-          color: ""
-        });
-        legendArray.push({
-          value: 2 * space + "-" + 3 * space,
-          color: ""
-        });
-        legendArray.push({
-          value: ">" + 3 * space
-        });
-        legendArray.push({
-          value: "No data"
-        });
-
-        var avg = sum / count;
-
-        var fillColor = function(id, color) {
-          if (id === undefined) {
-            throw "space to recolor not specified";
-          }
-          var entity = document.getElementById(id);
-          if (entity) {
-
-            entity.style.fill = color;
-            entity.setAttribute("class", "animate")
-
-          }
-        };
-        var updateColor = function(idpt, dpts) {
-          /** saving 
-
-            if (getTonneCollectedValue(idpt) === undefined) {
-
-            return "#ccc";
-          }
-
-          var dpt = idpt;
-          if (dpt === "2a") dpt = "2A";
-          if (dpt === "2b") dpt = "2B";
-          if (dpt === "01") dpt = "1";
-          if (dpt === "02") dpt = "2";
-          if (dpt === "03") dpt = "3";
-          if (dpt === "04") dpt = "4";
-          if (dpt === "05") dpt = "5";
-          if (dpt === "06") dpt = "6";
-          if (dpt === "07") dpt = "7";
-          if (dpt === "08") dpt = "8";
-          if (dpt === "09") dpt = "9";
-
-          if (dpts[dpt] > 3 * space)
-            if (dpts[dpt] > 3 * space) {
-              legendArray[3].color = "#A91101";
-              return "#A91101";
-            } //rouge foncé
-          if (dpts[dpt] > 2 * space) {
-            legendArray[2].color = "#DB1702";
-            return "#DB1702";
-          } //rouge
-          if (dpts[dpt] > space) {
-            legendArray[1].color = "#f80";
-            return "#f80";
-          } //oranger foncéé
-          if (dpts[dpt] < space) {
-            legendArray[0].color = "#F9C181";
-            return "#F9C181";
-          } //oranger
-          legendArray[4].color = "#ccc";
-          return "#ccc"; //gris pas de données
-
-
-          *****end saving **/
-
-          if (getTonneCollectedValue(idpt) === undefined) {
-
-            return "#ccc";
-          }
-
-          var dpt = idpt;
-          if (dpt === "2a") dpt = "2A";
-          if (dpt === "2b") dpt = "2B";
-          if (dpt === "01") dpt = "1";
-          if (dpt === "02") dpt = "2";
-          if (dpt === "03") dpt = "3";
-          if (dpt === "04") dpt = "4";
-          if (dpt === "05") dpt = "5";
-          if (dpt === "06") dpt = "6";
-          if (dpt === "07") dpt = "7";
-          if (dpt === "08") dpt = "8";
-          if (dpt === "09") dpt = "9";
-
-          if (dpts[dpt] > 3 * space)
-            if (dpts[dpt] > 3 * space) {
-              legendArray[3].color = "#A91101";
-              return "#A91101";
-            } //rouge foncé
-          if (dpts[dpt] > 2 * space) {
-            legendArray[2].color = "#DB1702";
-            return "#DB1702";
-          } //rouge
-          if (dpts[dpt] > space) {
-            legendArray[1].color = "#f80";
-            return "#f80";
-          } //oranger foncéé
-          if (dpts[dpt] < space) {
-            legendArray[0].color = "#F9C181";
-            return "#F9C181";
-          } //oranger
-          legendArray[4].color = "#ccc";
-          return "#ccc"; //gris pas de données
-        }
-
-        if (!($('#' + idElement).length)) {
-          var idElement = $(this).attr('id');
-        }
-
-        var svg = d3.select('#' + idElement).select("svg")
-          .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
-        .attr("preserveAspectRatio", "xMidYMid meet");
-
-        if (jQuery.isEmptyObject(dpts)) {
-
-
-        } else {
-          var dptsarr = [];
-          for (var r in dpts) {
-            if (dpts.hasOwnProperty(r)) {
-              if (r === "2A") r = "2a";
-              if (r === "2B") r = "2b";
-              if (r === "1") r = "01";
-              if (r === "2") r = "02";
-              if (r === "3") r = "03";
-              if (r === "4") r = "04";
-              if (r === "5") r = "05";
-              if (r === "6") r = "06";
-              if (r === "7") r = "07";
-              if (r === "8") r = "08";
-              if (r === "9") r = "09";
-
-              dptsarr.push(r);
-            }
-          };
-          var alldpts = getAllDepartments();
-
-          for (var i = 0; i < alldpts.length; i++) {
-            var r = alldpts[i];
-            if (dptsarr.indexOf(r) == -1) {
-              fillColor(alldpts[i], "#ccc");
-            } else {
-
-              fillColor(r, updateColor(r, dpts));
-
-            }
-
-          }
-
-
-
-          //chercher , si r 
-
-        }
-
-        //idPiechart
-        //===================================updating the Legend==============================
-        $("#dptLegend").remove();
-
-        var legend = d3.select("svg").append("g")
-          .attr("class", "legend")
-        //.attr("x", w - 65)
-        //.attr("y", 50)
-        //.attr("viewBox", "0 0 100 100") //adapter le composant à la fenêtre
-        //.attr("preserveAspectRatio", "xMidYMid meet")
-        .attr('transform', 'translate(-20,50)')
-          .attr("id", "dptLegend")
-
-        legend.selectAll('rect')
-          .data(legendArray)
-          .enter()
-          .append("rect")
-          .attr("x", width - 200)
-          .attr("y", function(d, i) {
-          return i * 20;
-        })
-          .attr("width", 10)
-          .attr("height", 10)
-          .attr("id", function(d, i) {
-          return "dptLegend" + i;
-        })
-          .style("fill", function(d) {
-          var color = d.color;
-          return color;
-        })
-
-        legend.selectAll('text')
-          .data(legendArray)
-          .enter()
-          .append("text")
-          .attr("x", width - 187)
-          .attr("y", function(d, i) {
-          return i * 20 + 9;
-        })
-
-        .text(function(d) {
-          var text = d.value;
-          return text;
-        });
-
-      }
-
-    }
-
-    //cette fonction retourne le tonnage collecté pour le département passé en paramètres
-
-    function getTonneCollectedValue(dpt) {
-      try {
-
-        if (dpt === "2a") dpt = "2A";
-        if (dpt === "2b") dpt = "2B";
-        if (dpt === "01") dpt = "1";
-        if (dpt === "02") dpt = "2";
-        if (dpt === "03") dpt = "3";
-        if (dpt === "04") dpt = "4";
-        if (dpt === "05") dpt = "5";
-        if (dpt === "06") dpt = "6";
-        if (dpt === "07") dpt = "7";
-        if (dpt === "08") dpt = "8";
-        if (dpt === "09") dpt = "9";
-
-        //return dpts[dpt];
-        //return Number(departs[dpt]).toFixed(2);
-        return departs[dpt];
-
-      } catch (e) {
-        return undefined
-      }
-    }
-
-    //cette fonction retourne le tonnage produits pour le département passé en paramètres
-    //ne disposant pas de cette valeur pour le nous nous contenterons de retourner la valeur max de toutes les données récoltées
-
-    function getTonneProducedValue(dpt) {
-      if (dpt === "2a") dpt = "2A";
-      if (dpt === "2b") dpt = "2B";
-      if (dpt === "01") dpt = "1";
-      if (dpt === "02") dpt = "2";
-      if (dpt === "03") dpt = "3";
-      if (dpt === "04") dpt = "4";
-      if (dpt === "05") dpt = "5";
-      if (dpt === "06") dpt = "6";
-      if (dpt === "07") dpt = "7";
-      if (dpt === "08") dpt = "8";
-      if (dpt === "09") dpt = "9";
-      //return Number(d3.max(d3.values(departs))).toFixed(2);
-      return d3.max(d3.values(departs));
-    }
-
-    //retourne le nom du département passé en paramètres
-
-    function getDepartement(dpt) {
-
-      if (dpt === "2a") dpt = "2A";
-      if (dpt === "2b") dpt = "2B";
-      if (dpt === "01") dpt = "1";
-      if (dpt === "02") dpt = "2";
-      if (dpt === "03") dpt = "3";
-      if (dpt === "04") dpt = "4";
-      if (dpt === "05") dpt = "5";
-      if (dpt === "06") dpt = "6";
-      if (dpt === "07") dpt = "7";
-      if (dpt === "08") dpt = "8";
-      if (dpt === "09") dpt = "9";
-
-      return "Departement " + dpt;
-    }
-
-    function upperTransform(dept){
-
-    }
-
-     function lowerTransform(dept){
-      
-    }
-
-    function getAllDepartments() {
-      var departements = [];
-      for (var i = 0; i < geodatas.length; i++) {
-        if (geodatas[i].hasOwnProperty('dpts')) {
-          var region = geodatas[i].dpts;
-          for (var j = 0; j < region.length; j++) {
-            if (region[j].hasOwnProperty('code')) {
-              departements.push(region[j].code);
-            }
-          }
-        }
-      }
-      return departements;
-
-    }
-  }(jQuery));

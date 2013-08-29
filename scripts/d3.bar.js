@@ -69,7 +69,8 @@ var drawAggregatedBarChart = function(data, id) {
     .attr("y", 6)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
-    .text("Collecte");
+    //.text("Collecte")
+    ;
 
   var annee = svg.selectAll(".annee")
     .data(data)

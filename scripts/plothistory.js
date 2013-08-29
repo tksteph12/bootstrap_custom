@@ -1,26 +1,52 @@
+/*
+	fonction pour representer l'histogramme d'évolution des collectes/productions au fil des années
+	elle prend en entrée les types d'équipements collectés, la filière, le département ainsi que l'id du composant du DOM dans lequel dessiner
+
+*/
 var plotHistory = function(datas, id) {
+	try{
+		var types = datas.types; // list of portions of bars per year
+		var filiere = datas.filiere;
+		var codeDept = datas.codeDept;
+		var departement = datas.departement; //name of departement
+		var url = datas.sourcefile;
 
-	var types = datas.types; // list of portions of bars per year
-	var filiere = datas.filiere;
-	var codeDept = datas.codeDept;
-	var departement = datas.departement; //name of departement
-	var url = datas.sourcefile;
+		if (codeDept === "2a") codeDept = "2A";
+	    if (codeDept === "2b") codeDept = "2B";
+	    if (codeDept === "01") codeDept = "1";
+	    if (codeDept === "02") codeDept = "2";
+	    if (codeDept === "03") codeDept = "3";
+	    if (codeDept === "04") codeDept = "4";
+	    if (codeDept === "05") codeDept = "5";
+	    if (codeDept === "06") codeDept = "6";
+	    if (codeDept === "07") codeDept = "7";
+	    if (codeDept === "08") codeDept = "8";
+	    if (codeDept === "09") codeDept = "9";
+		  
+		$.ajax({
+			type: "GET",
+			url: url,
+			dataType: "text",
+			success: function(data) {
+				processForHistory(data, id);
+			}
+		});
+	}
+	catch(e){
 
-	$.ajax({
-		type: "GET",
-		url: url,
-		dataType: "text",
-		success: function(data) {
-			processForHistory(data, id);
-		}
-	});
+	}
+	
 
 
 	function processForHistory(allText, id) {
-
+		if(allText===undefined){
+			throw "Undefined Sourcefile"
+		}
+		if((document.getElementById(id)===undefined)){
+			throw "No existing DOM area to draw"
+		}
 		var jsonYears = {}
 		var histogramArray = [];
-
 
 		var allTextLines = allText.split(/\r\n|\n/);
         var headers = allTextLines[0].split(';');
@@ -78,7 +104,6 @@ var plotHistory = function(datas, id) {
 							obj[fl]+=tonnage;
 						}
 					}
-
 				} else {}
 
 			}
@@ -87,8 +112,31 @@ var plotHistory = function(datas, id) {
 
 		//console.log(histogramArray)
 		//representer le graphe
-		drawAggregatedBarChart(histogramArray,"idHistogram");
+		try{
+			histogramArray = histogramArray.sort(sort_by('annee', true, parseInt));
+			drawAggregatedBarChart(histogramArray,id);
+		}
+		catch(e){
+			throw e
+		}
 	}
+
+//sorting function : sorts a json array according to parameters :
+//field is the field to sort,
+//reverse is a boolean: true= reverse sorting, false=...
+//primer = type of values to be sorted it could be for example; parseFloat/parseInt/parseDouble...
+var sort_by = function(field, reverse, primer) {
+
+	var key = function(x) {
+		return primer ? primer(x[field]) : x[field]
+	};
+
+	return function(a, b) {
+		var A = key(a),
+			B = key(b);
+		return ((A < B) ? -1 : (A > B) ? +1 : 0) * [-1, 1][+ !! reverse];
+	}
+};
 
 
 
