@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>ADEME</title>
+		<meta name="description" content="This is page-header (.page-header &gt; h1)" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!--basic styles-->
+		
+
+		<!--fonts-->
+		<link rel="stylesheet" href="../themes/font-awesome/css/font-awesome.min.css" />
+
+			<!--Bootstrap styles-->
+		<link href="../vendors/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../vendors/bootstrap/css/bootstrap-dropdown-checkbox.css" />
+		<link href="../vendors/bootstrap/css/bootstrap-combined.min.css" rel="stylesheet">
+
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="themes/font-awesome/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+
+		
+
+		<!--basic styles-->
+		<link rel="stylesheet" href="../themes/css/ademe.css" />
+		<link rel="stylesheet" href="../themes/css/ademe-responsive.css" />
+		<link rel="stylesheet" href="../themes/css/ademe-supp.css" />
+		
+		<!-- JQuery styles-->
+		<link rel="stylesheet" href="../vendors/jquery/css/jquery-ui-1.10.2.custom.css" type="text/css" />
+		<link rel="stylesheet" href="../vendors/jquery/css/jquery-ui.css" type="text/css" />
+		<link rel="Stylesheet" href="../vendors/jquery/css/ui.slider.extras.css" type="text/css" />
+		
+		
+		<style type="text/css">
+			body {font-size: 62.5%; font-family:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif; }
+			/*.ui-slider {clear: both; top: 5em;}*/
+			.ui-slider .ui-slider-handle {
+
+				position: absolute;
+				z-index: 2;
+				width: 2.5em;
+				/*height: 1.7em;*/
+				cursor: default;				
+			}
+			.ui-slider .ui-slider-range {
+				position: absolute;
+				z-index: 1;
+				font-size: .7em;
+				display: block;
+				border: 0;
+				background-position: 0 0;
+			}
+
+		</style>
+
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="themes/css/ace-ie.min.css" />
+		<![endif]-->
+
+		
+		<!-- JQuery styles-->
+		<script src="../vendors/jquery/js/jquery-2.0.2.min.js"></script>
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='../vendors/jquery/js/jquery-1.9.1.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="../vendors/jquery/js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="../vendors/jquery/js/jquery.ui.touch-punch.min.js"></script>
+
+		<!--Boostrap -->
+		<script src="../vendors/bootstrap/js/bootstrap.min.js"></script>
+		<script src="../vendors/bootstrap/js/bootstrap-dropdown-checkbox.js"></script>
+
+		<!--Handlebars -->
+		<script src="../vendors/handlebars/Handlebars.js"> </script>
+		<script src="../scripts/templates.js"> </script>
+
+		<!-- D3 visualisation scripts-->
+		<script src="../vendors/d3/js/d3.v3.min.js"></script>
+
+		<!--basic scripts-->
+		<script src="../scripts/plothistory.js"></script>
+		<script src="../scripts/d3.bar.js"></script>
+		<script src="../scripts/HandlebarsHelpers.js"> </script>
+		<script src="../scripts/departements.js"> </script>
+		<script src="../scripts/d3.pie.js"></script>
+		<script src="../scripts/AdemeHelper.js"></script>
+
+		<!--inline scripts related to this page-->
+    
+	</head>
+
+	<body id="body">
+		<div class="navbar navbar-inverse">
+		</div>
+
+		<div class="container-fluid" id="main-container">
+			<a id="menu-toggler" href="#">
+				<span></span>
+			</a>
+
+			<div id="sidebar">
+				
+			</div>
+
+			<div id="main-content" class="clearfix">
+			</div><!--/#main-content-->
+		</div><!--/.fluid-container#main-container-->
+
+		<a href="#" id="btn-scroll-up" class="btn btn-small btn-inverse">
+			<i class="icon-double-angle-up icon-only bigger-110"></i>
+		</a>
+		
+		
+		<script type="text/javascript">
+			$('#sidebar').html(Handlebars.templates.sidebar());
+			$('#main-content').html(Handlebars.templates.maincontent());
+			$('#navbar').html(Handlebars.templates.navbar());
+			var data = {title:"Departements France Métropolitaine + DOM TOM"}
+			$('#infobox').html(Handlebars.templates.infobox(data));
+
+		</script>
+		
+	<input id = "test"type="button" value="Print Image"  />
+
+	</body>
+</html>

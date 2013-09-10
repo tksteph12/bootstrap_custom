@@ -1,0 +1,1 @@
+handlebars maincontent.handlebars navbar.handlebars sidebar.handlebars departements.handlebars yearPicker.handlebars infobox.handlebars departement.handlebars histogramme.handlebars -f templates.js
