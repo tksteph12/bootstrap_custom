@@ -4,94 +4,42 @@
 		<meta charset="utf-8" />
 		<title>ADEME</title>
 		<link rel="stylesheet" type="text/css" href="styles.css">
+		 <!-- <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">-->
+		
 
 		<!-- CDN JQuery-->
 		<script src="http:/ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+		<!-- Handlebars-->
+		<script src="vendors/handlebars/Handlebars.js"></script>
+		<script src="scripts/templates/templates.js"></script>
+
+		<!--Boostrap -->
+		<script src="vendors/bootstrap/js/bootstrap.min.js"></script>
+		<!-- <script src="../vendors/bootstrap/js/bootstrap-dropdown-checkbox.js"></script> -->
+
+		<!-- D3 visualisation scripts-->
+		<script src="vendors/d3/js/d3.v3.min.js"></script>
+
+		<!--basic scripts-->
+
+		<script src="scripts/helper.js"></script>
+		<script src="scripts/plothistory.js"></script>
+		<script src="scripts/d3.bar.js"></script>
+		<script src="scripts/departements.js"> </script>
+		<script src="scripts/d3.pie.js"></script>
+
+		<script src="scripts/appLauncher.js"></script>
 	</head>
 
 	<body>
 
 		<div class="top unselectable">
-			<header>
-				<div class="content-center">
-					<!--<div class="clearfix"><div class="header-title"><div><span>ADEME</span><span> DECHETS</span></div><div>Carte interactive dans les départements français</div></div></div>-->
-					<div id='nav-search'>
-						<form class="form-search">
-							<span class="input-icon">
-								<input type="text" placeholder="Search ..." class="input-small search-query" id="nav-search-input" autocomplete="off" />
-								<i class="icon-search" id="nav-search-icon"></i>
-							</span>
-						</form></div>
-				</div>
-
-			</header>
-			<div class="filterPanel">
-				<div class = "container">
-					<div class='basicFilters'>
-						<div class="clearfix">
-							
-							<div class="collectFilter filterTabs">
-								<div class=" filterTabs-cirle one" ><!--
-									<div class="circle"><img alt="1" src="">
-										</img>
-									</div>-->
-								</div>
-								<div class="separator"></div>
-
-								<div id='button-production' class="filterTabs first production"></div>
-								<div class="separator"></div>
-								<div id='button-collecte' class="filterTabs first collecte"></div>
-							</div>
-							<div class="separator"></div>
-
-							<div class="filterTabs">
-								<div class=" filterTabs-cirle two" >
-									<!--<div class="circle"><img alt="2" src="">
-										</img>
-									</div>-->
-								</div>
-								<div class="separator"></div>
-								<div class="filterTabs second">First Select Box</div>
-							</div>
-							<div class="separator"></div>
-							<div class="filterTabs">
-								<div class=" filterTabs-cirle three" ><!--
-									<div class="circle"><img alt="3" src="">
-										</img>
-									</div>-->
-								</div>
-								<div class="separator"></div>
-								<div class="filterTabs second">Second select box</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class='extendedFilters closed'> <!--  add class "extendedFilters closed" to close the pane-->
-						<div>
-							<div class="filterTabs">
-								<div class=" filterTabs-cirle" >
-									<div class="circle"><img alt="4" src="">
-										</img>
-									</div>
-								</div>
-								<div class="separator"></div>
-								<div class="filterTabs second">Faites Défiler ou jouez</div>
-							</div>
-							
-							<div class="separator"></div>
-
-							<div class="filterTabs third">
-								<div>Here  SLIDER</div>
-							</div>
-						</div>
-				</div> 
-			</div>
+			<div id ='id-header'>
 			
-			
-			<div class="">
-				<div class="filterBtn closed"></div>
 			</div>
-
+			<div id='id-filterPanel' class="filterPanel">
+			</div>
 		</div>
 
 		<!--<div id='header-wrap'>
@@ -99,32 +47,14 @@
 			<div id='filter-options'></div>
 		</div>-->
 		<div id='container'>
-			<div id='map'></div>
+			
 		</div>
-
-		<footer class="clearfix">
-			<div class=""></div>
-		</footer>
+		<div id='id-footer'>
+		</div>
 		
 	</body>
 
 	<script type="text/javascript">
-
-	jQuery(window).load(function(){
-		$('#button-collecte').on("click", function() {
-	        $(this).toggleClass("choosed");
-    	});
-
-
-    	$('.filterPanel').mouseover(function(){
-    		$('.extendedFilters').toggleClass("closed");
-    	});
-
-    	$('.filterPanel').mouseout(function(){
-    		$('.extendedFilters').toggleClass("closed");
-    	});
-	});
-
-
+		
 	</script>
 </html>

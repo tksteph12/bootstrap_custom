@@ -1,0 +1,1 @@
+handlebars header.handlebars filterPanel.handlebars container.handlebars footer.handlebars  -f templates.js

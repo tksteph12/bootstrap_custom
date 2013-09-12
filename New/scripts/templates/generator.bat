@@ -1,0 +1,1 @@
+call templates.bat
