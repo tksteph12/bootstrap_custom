@@ -191,14 +191,16 @@
               d3.select(this).style("fill", "grey");
               var codeDept = d3.select(this)[0][0].attributes['code'].value;
               var departement = d3.select(this)[0][0].attributes['dept'].value;
-              var title = departement + ' ( ' + codeDept + ')';
-              var title = departement + ' ( ' + codeDept + ')';
+              var title = departement + ' -' + codeDept ;
               var text = "Types d'équipement collectés:" + mapParameters.types.toString();
               var data = {
                 title: title,
                 text: text
               }
-              $('#infobox').html(Handlebars.templates.infobox(data));
+              $('#pie-info').html("");
+              $("#id-pie").html("");
+              $('#pie-info').html(Handlebars.templates.pieInfo(data));
+
               var coll = getTonneCollectedValue(codeDept,departs);
               var val = getTonneProducedValue(codeDept,departs) - coll;
               var donnee = {
@@ -214,7 +216,7 @@
                   }
                 ]
               };
-              drawPieChart(donnee, "idPiechart");
+              drawPieChart(donnee, "id-piechart");
 
               var donnee_hist = {};
               donnee_hist.types = mapParameters.types;
@@ -222,15 +224,15 @@
               donnee_hist.codeDept = codeDept;
               donnee_hist.departement = departement;
               donnee_hist.sourcefile = mapParameters.url;
-              title += " Evolution des collectes";
+              title += "-Evolution des collectes";
               data = {
                 title: title,
                 text: text
               }
-
-              $('#histogram').html(Handlebars.templates.histogramme(data));
-              plotHistory(donnee_hist,"idHistogram");
-
+              $('#id-barchart').html("");
+              $('#bar-info').html(Handlebars.templates.barInfo(data));
+              $("#id-barchart").html("");
+              plotHistory(donnee_hist,"id-barchart");//??
 
         })
           .on("mousemove", function(d) {
@@ -252,9 +254,12 @@
           var data = {
             title: "Departements France Métropolitaine + DOM TOM"
           }
-          $('#infobox').html(Handlebars.templates.infobox(data));
-          $("#idPiechart").html("");
-          $("#infobox").html("");
+          //$('#pie-info').html(Handlebars.templates.pieInfo(data));
+          $("#id-piechart").html("");
+          $("#pie-info").html("");
+          //$('#bar-info').html(Handlebars.templates.barInfo(data));
+          $("#id-barchart").html("");
+          $('#bar-info').html("");
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
           // d3.select(this).style("fill", colors(codeDept))auxcolor
           d3.select(this).style("fill", auxcolor)

@@ -37,16 +37,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   box-sizing: border-box;
 }
 .dropdown-checkbox {
-  position: relative;
+  position: absolute;
 }
 .dropdown-checkbox.dropdown.open .caret {
   border-top-color: #000000 !important;
 }
+
 .dropdown-checkbox .caret {
   margin-top: 8px;
   margin-left: 2px;
 }
 .dropdown-checkbox .dropdown-checkbox-content {
+  width:235px;
   z-index: 1000;
   position: absolute;
   top: 100%;
@@ -78,7 +80,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   padding: 0;
   list-style: none;
   padding: 5px 10px 5px 10px;
-  max-height: 200px;
+  max-height: 140px;
   overflow-y: auto;
   overflow-x: visible;
 }
@@ -100,13 +102,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   padding: 0px 10px;
 }
 .dropdown-checkbox.open .dropdown-checkbox-content li .layout:hover {
-  background: #049cdb;
+  background: #21d1a0;
   color: white;
   cursor: pointer;
 }
 .dropdown-checkbox.open .dropdown-checkbox-content li .layout input[type=checkbox] {
   float: left;
-  height: 25px;
+  height: 40px;
   margin: 0;
   outline: none;
   padding: 0;
@@ -117,5 +119,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   line-height: 25px;
   padding-left: 30px;
   margin-bottom: 0px;
-  height: 25px;
+  height: 40px;
 }

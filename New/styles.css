@@ -48,7 +48,7 @@ footer {
 
 .filterPanel .container {
     padding-bottom: 23px;
-    overflow: hidden;
+    /*overflow: hidden;*/
     width: 970px;
     position: relative;
     margin: 0px auto -20px;
@@ -107,8 +107,8 @@ footer {
     display: block;
     float: left;
     position: absolute;
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
     margin: 2px 0px 0px 2px;
     border: 1px dashed rgb(157, 157, 154);
     border-radius: 48px 48px 48px 48px;
@@ -119,17 +119,16 @@ footer {
 
 
 .filterTabs{
-    
 	margin-bottom: 10px;
     width: 310px;
-	overflow: hidden;
-	height: 50px;
-	float: left;
-	margin-right: -1px;
-	border: 1px rgb(204, 204, 204);
+    overflow: hidden;
+    height: 50px;
+    float: left;
+    margin-right: -1px;
+    border: 1px rgb(204, 204, 204);
     /*border: 1px solid rgb(204, 204, 204); */
-	color: rgb(204, 204, 204);
-	border-radius: 2px 2px 2px 2px;
+    color: rgb(204, 204, 204);
+    border-radius: 2px 2px 2px 2px;
 }
 
 .collecte{
@@ -158,44 +157,44 @@ footer {
 	cursor: pointer;
     margin-top: 4px;
     width: 110px;
-	overflow: hidden;
-	height: 40px;
-	float: left;
-	margin-right: -1px;
-	border: 1px rgb(204, 204, 204);
+    overflow: hidden;
+    height: 40px;
+    float: left;
+    margin-right: -1px;
+    border: 1px rgb(204, 204, 204);
     /*border: 1px solid rgb(204, 204, 204);*/
 
-	color: rgb(204, 204, 204);
-	border-radius: 2px 2px 2px 2px;
+    color: rgb(204, 204, 204);
+    border-radius: 2px 2px 2px 2px;
 }
 
 .filterTabs.second{
 	cursor: pointer;
     margin-top: 4px;
     width: 235px;
-	overflow: hidden;
-	height: 40px;
-	float: left;
-	margin-right: -1px;
-	border: 1px  rgb(204, 204, 204);
+    overflow: hidden;
+    height: 40px;
+    float: left;
+    margin-right: -1px;
+    border: 1px  rgb(204, 204, 204);
     /*border: 1px solid rgb(204, 204, 204);*/
 
-	color: rgb(204, 204, 204);
-	border-radius: 2px 2px 2px 2px;
+    color: rgb(204, 204, 204);
+    border-radius: 2px 2px 2px 2px;
 }
 
 .filterTabs.third{
 	cursor: pointer;
     margin-top: 4px;
     width: 640px;
-	overflow: hidden;
-	height: 50px;
-	float: left;
-	margin-right: -1px;
-	/*border: 1px solid rgb(204, 204, 204);*/
+    overflow: hidden;
+    height: 50px;
+    float: left;
+    margin-right: -1px;
+    /*border: 1px solid rgb(204, 204, 204);*/
     border: 1px  rgb(204, 204, 204);
-	color: rgb(204, 204, 204);
-	border-radius: 2px 2px 2px 2px;
+    color: rgb(204, 204, 204);
+    border-radius: 2px 2px 2px 2px;
 }
 
 .choix-filieres select{
@@ -208,31 +207,33 @@ footer {
    border-radius: 0;
    height: 100%;
    -webkit-appearance: none;
-}
+}   
 
 .choix-filieres {
+   display: inline-block;
    width: 100%;
    height: 100%;
    overflow: hidden;
-   background: url("img/selector2.png") no-repeat right #ddd;
+   background: url("img/selector.png") no-repeat right #ddd;
    border: 1px solid #ccc;
    margin-top: -2px;
    -webkit-appearance: none;
-   }
+   z-index:1;
+}
 
 .filterTabs-cirle{
     margin-top: -1px;
     margin-bottom: -2px;
     width: 55px;
-	overflow: hidden;
-	height: 55px;
-	float: left;
-	margin-right: -1px;
+    overflow: hidden;
+    height: 55px;
+    float: left;
+    margin-right: -1px;
     margin-left: -2px;
-	/*border: 1px solid rgb(204, 204, 204);*/
+    /*border: 1px solid rgb(204, 204, 204);*/
     border: 1px  rgb(204, 204, 204);
-	color: rgb(204, 204, 204);
-	border-radius: 2px 2px 2px 2px;
+    color: rgb(204, 204, 204);
+    border-radius: 2px 2px 2px 2px;
 }
 
 
@@ -247,53 +248,51 @@ footer {
 }
 
 .collectFilter{
-	    text-align: center;
+ text-align: center;
 }
 
 /***SEARCH AREA**************/
 
 #nav-search {
-float:right;
+    float:right;
 }
 
 #nav-search .form-search {
-margin-top: 1px;
+    margin-top: 1px;
 }
 
 #nav-search-input {
-border-color: #6fb3e0;
-border-width: 1px;
-width: 120px;
-height: 18px!important;
-border-radius: 4px!important;
-font-size: 13px;
-color: #666!important;
-z-index: 11;
--webkit-transition: all ease .15s;
--moz-transition: all ease .15s;
--o-transition: all ease .15s;
-transition: all ease .15s;
+    border-color: #6fb3e0;
+    border-width: 1px;
+    width: 120px;
+    height: 18px!important;
+    border-radius: 4px!important;
+    font-size: 13px;
+    color: #666!important;
+    z-index: 11;
+    -webkit-transition: all ease .15s;
+    -moz-transition: all ease .15s;
+    -o-transition: all ease .15s;
+    transition: all ease .15s;
 }
 
 .input-icon>input {
-padding-left: 24px;
-padding-right: 6px;
+    padding-left: 24px;
+    padding-right: 6px;
 }
 
 span.input-icon {
-display: inline-block;
+    display: inline-block;
 }
 .input-icon {
-position: relative;
+    position: relative;
 }
 
 select option {
-    height:35px;
-    margin:160px;
-    background: rgba(0,0,0,0.3);
-    color:#ffffff;
-    text-shadow:0 5px 0 rgba(5,0,0,0.4);
+    
+
 }
+
 
 /***SEARCH AREA**************/
 
@@ -301,6 +300,7 @@ select option {
 #container{
     position:relative;
     margin: 10px auto -20px;
+
     
 }
 .right{
@@ -312,7 +312,7 @@ select option {
     /*min-height: 1px;  */
     margin-left: 70px;
     border:1px solid;
-    background: url("img/map.png");
+    /*background: url("img/map.png");*/
     height:655px;
     overflow:hidden;
 }
@@ -322,7 +322,8 @@ select option {
     /*min-height: 1px;  */
     margin-left: 10px;
     border:1px solid;
-    background: url("img/pie.png");
+    /*background: url("img/pie.png");*/
+    background: url("img/info-bg.png");    
     height:324px;
     display: inline-block;
     vertical-align: middle;
@@ -333,3 +334,80 @@ select option {
     vertical-align: middle;
 }
 
+.info-title{
+    background-image: url("img/info-title-bg.png");
+}
+
+.center{
+    text-align: center;
+    width:235px;
+    height:40px;
+}
+
+#choix-materiels{
+
+}
+
+.animate {
+  transition-duration: 1s;
+  transition-timing-function: linear;
+  stroke: white;
+
+}
+
+.selectorClass{
+    float:left;
+    width: 50%;
+}
+
+
+
+.departement {
+    cursor: pointer;
+    stroke:white;
+    stroke-width:.5px;
+}
+
+.departement:hover {
+    stroke: white;
+    stroke-width: 3px;
+    fill-opacity: .67;
+
+}
+
+.tooltip {
+    border-bottom: 1px dotted #000000; color: #000000; outline: none;
+    text-decoration: none;
+    border-radius: 5px 5px; 
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px; 
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
+    position: absolute; left: 1em; top: 2em; z-index: 99;
+    margin-left: 0; width: 250px;
+    font-family: Candara, Tahoma, Geneva, sans-serif; font-size: 1.2em; font-weight: bold;
+    display: block;
+    background: #9FDAEE; border: 1px solid #2BB0D7;
+    padding: 0.5em 0.8em 0.8em 2em;
+    height : 30px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: steelblue;
+}
+
+.x.axis path {
+  display: none;
+}        
+
+.ademe-search{
+    stroke: white;
+    stroke-width: 3px;
+
+}

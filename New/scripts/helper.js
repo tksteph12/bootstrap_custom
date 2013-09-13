@@ -13,7 +13,7 @@
 
 //Paramètres globaux
 
-function setGlobalParameters(){
+function setGlobalParameters() {
     var parameters = {};
     var defaultTypes = ["ND"];
 
@@ -45,11 +45,11 @@ function printImg() {
     pwin = window.open();
     pwin.document.write("<div class = &quot;page-header&quot; > <h1>Cartographie des collectes de déchets dans les départements de france</h1></div>");
     pwin.document.write($("#map").html());
-    pwin.document.write("<div class = &quot;page-header&quot; > <h1> Filière "+mapParameters.filiere+"</h1></div>");
-    pwin.document.write("<div class = &quot;page-header&quot; > <h1> Type d'équipements :" +mapParameters.types.toString() + " </h1></div>");
+    pwin.document.write("<div class = &quot;page-header&quot; > <h1> Filière " + mapParameters.filiere + "</h1></div>");
+    pwin.document.write("<div class = &quot;page-header&quot; > <h1> Type d'équipements :" + mapParameters.types.toString() + " </h1></div>");
     pwin.focus();
     pwin.document.close();
-    
+
     pwin.onload = function() {
         window.print();
     }
@@ -71,44 +71,45 @@ function enable_search_ahead() {
 }
 
 //set focus on dept on the map
-function set_map_focus_on(dept){
+
+function set_map_focus_on(dept) {
     var map = $('#map');
-    if(map.html===""){
+    if (map.html === "") {
         throw "Empty map"
     }
 
     $('div[id*="map"]').each(function(i) {
         $('svg').each(function(i) {
-                $(this).find('path[dept="' + dept + '"]').each(function(index){
-                  //this.setAttribute('class','ademe-search');
-                  var path = d3.select(this);
-                  var style = path.style('fill');
-                  //path.style("fill", 'black');
+            $(this).find('path[dept="' + dept + '"]').each(function(index) {
+                //this.setAttribute('class','ademe-search');
+                var path = d3.select(this);
+                var style = path.style('fill');
+                //path.style("fill", 'black');
 
-                  var codeDept = this.getAttribute('code') ;
-                  var title = dept + ' ( ' + codeDept + ' )  Evolution des collectes';
-                  var text = "Types d'équipement collectés:" + mapParameters.types.toString();
-                  var data = {
+                var codeDept = this.getAttribute('code');
+                var title = dept + ' ( ' + codeDept + ' )  Evolution des collectes';
+                var text = "Types d'équipement collectés:" + mapParameters.types.toString();
+                var data = {
                     title: title,
                     text: text
-                  }
-                  $('#infobox').html(Handlebars.templates.infobox(data));
-                  
-                  var donnee_hist = {};
-                  donnee_hist.types = mapParameters.types;
-                  donnee_hist.filiere = mapParameters.filiere;
-                  donnee_hist.codeDept = codeDept;
-                  donnee_hist.departement = dept;
-                  donnee_hist.sourcefile = mapParameters.url;
-                  title += " Evolution des collectes";
-                  data = {
+                }
+                $('#bar-info').html(Handlebars.templates.tabInfo(data));
+
+                var donnee_hist = {};
+                donnee_hist.types = mapParameters.types;
+                donnee_hist.filiere = mapParameters.filiere;
+                donnee_hist.codeDept = codeDept;
+                donnee_hist.departement = dept;
+                donnee_hist.sourcefile = mapParameters.url;
+                title += " Evolution des collectes";
+                data = {
                     title: title,
                     text: text
-                  }
-                  plotHistory(donnee_hist,"idPiechart");
-                  // path.style("fill", style);
-                });
-               
+                }
+                plotHistory(donnee_hist, "id-Piechart");
+                // path.style("fill", style);
+            });
+
         });
     });
 
@@ -163,10 +164,12 @@ function general_things() {
     $('#button-collecte').on("click", function() {
         $(this).toggleClass("choosed");
 
+
         var myClass = $(this).attr("class");
-        if(myClass.indexOf("choosed") != -1){
+        if (myClass.indexOf("choosed") != -1) {
             mapParameters.typeOfdata = "collecte";
-        }  
+            //$('#button-production').toggleClass("choosed");
+        }
         updateMap();
     });
 
@@ -174,7 +177,7 @@ function general_things() {
         $(this).toggleClass("choosed");
 
         var myClass = $(this).attr("class");
-        if(myClass.indexOf("choosed") != -1){
+        if (myClass.indexOf("choosed") != -1) {
             mapParameters.typeOfdata = "production";
         }
         updateMap();
@@ -185,7 +188,7 @@ function general_things() {
 
         var filiere = $('#select-filiere option:selected').text();
         if (filiere === "Filières") {
-            $("#changingCheckboxes").empty();
+            $("#choix-materiels").empty();
             //mapParameters.url = getSourceFile("DEE");
             $("#sliderbar").hide();
         } else {
@@ -204,8 +207,8 @@ function general_things() {
             if (mapParameters.year == 2013) {
                 mapParameters.year = 2006;
             }
-            $("#yearSlider").slider("value", mapParameters.year);
-            $("#yearSlider").find(".ui-slider-handle").text(mapParameters.year);
+            $("#id-slider").slider("value", mapParameters.year);
+            $("#id-slider").find(".ui-slider-handle").text(mapParameters.year);
             $('#map').updateColors({}, 'map');
         }, 4000);
     }
@@ -227,7 +230,7 @@ function general_things() {
 
     $('#test').click(function() {
         var checkedList = [];
-        $('#changingCheckboxes input:checked').each(function() {
+        $('#choix-materiels input:checked').each(function() {
             checkedList.push(this.nextSibling.innerHTML);
         });
         if (checkedList.length !== 0) {
@@ -239,20 +242,45 @@ function general_things() {
 
     });
 
+
+    //event on clik after editing the checkboxes elements update the map after this
+    $(document).mouseup(function(e) {
+        var container = $(".dropdown-checkbox");
+        var thisClass = container.attr("class");
+        if (thisClass.indexOf("open") != -1) {
+            if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                var checkedList = [];
+                $('#choix-materiels input:checked').each(function() {
+                    checkedList.push(this.nextSibling.innerHTML);
+                });
+                if (checkedList.length !== 0) {
+                    delete mapParameters.types;
+                }
+                mapParameters.types = checkedList;
+                //
+                $('#map').updateColors({}, 'map');
+
+                console.debug(mapParameters.types);
+            }
+        }
+    });
+
     // choix du type de données à afficher : collecte ou production
 
 
     //initializing the select boxes
-    $("#yearSlider").slider({
+    $("#id-slider").slider({
         //orientation: "vertical",
         value: 2010,
         min: 2006,
-        max: 2012,
+        max: 2013,
         step: 1,
 
         slide: function(event, ui) {
             $("#amount").val("$" + ui.value);
-            $("#yearSlider").find(".ui-slider-handle").text(ui.value);
+            $("#id-slider").find(".ui-slider-handle").text(ui.value);
             mapParameters.year = ui.value;
             $('#map').updateColors({}, 'map');
             //updateMap();
@@ -319,23 +347,23 @@ function loadcheckboxOptions(data, filiere) {
     mapParameters.types = aux;
     delete aux;
 
-    //$('#changingCheckboxes').html("");
-    if ($('#changingCheckboxes').html() == "") {
-        $('#changingCheckboxes').dropdownCheckbox({
+    //$('#choix-materiels').html("");
+    if ($('#choix-materiels').html() == "") {
+        $('#choix-materiels').dropdownCheckbox({
             data: tab,
-            autosearch: true,
+            autosearch: false,
             title: "My Dropdown Checkbox",
             hideHeader: true,
-            templateButton: '<a class="dropdown-checkbox-toggle" data-toggle="dropdown" href="#">Type de matériel<i class="caret"></i></a>'
+            templateButton: '<div class="dropdown-checkbox-toggle center" data-toggle="dropdown">Type de matériel</div>'
         });
     } else {
         var IDs = [];
 
-        $("#changingCheckboxes").find("input").each(function(i) {
+        $("#choix-materiels").find("input").each(function(i) {
             IDs.push(++i);
         });
-        $("#changingCheckboxes").dropdownCheckbox("remove", IDs);
-        $("#changingCheckboxes").dropdownCheckbox("append", tab);
+        $("#choix-materiels").dropdownCheckbox("remove", IDs);
+        $("#choix-materiels").dropdownCheckbox("append", tab);
 
     }
     return tab;
@@ -346,10 +374,10 @@ function loadcheckboxOptions(data, filiere) {
 
 function fillSectorSelections() {
     var select = jQuery('#select-filiere')[0];
-    if (typeof select=== undefined){
+    if (typeof select === undefined) {
         select = document.getElementById("select-filiere");
     }
-    
+
     select.options.length = 0;
 
     for (index in parameters.filieres) {
@@ -408,21 +436,21 @@ function getSourceFile(sector) {
 }
 
 function getDepartments() {
-      var departements = [];
-      if(typeof geodatas === 'undefined'){
+    var departements = [];
+    if (typeof geodatas === 'undefined') {
         return departements;
-      }
-      for (var i = 0; i < geodatas.length; i++) {
+    }
+    for (var i = 0; i < geodatas.length; i++) {
         if (geodatas[i].hasOwnProperty('dpts')) {
-          var region = geodatas[i].dpts;
-          for (var j = 0; j < region.length; j++) {
-            if (region[j].hasOwnProperty('dept')) {
-              departements.push(region[j].dept);
+            var region = geodatas[i].dpts;
+            for (var j = 0; j < region.length; j++) {
+                if (region[j].hasOwnProperty('dept')) {
+                    departements.push(region[j].dept);
+                }
             }
-          }
         }
-      }
-      return departements;
+    }
+    return departements;
 }
 
 //************************Variables globales************************************************

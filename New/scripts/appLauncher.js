@@ -21,7 +21,7 @@ function handleEvents() {
 	$("#select-filiere").change(function() {
 		$("option", $(this)).each(function(index) {
 			if ($(this).is(":selected")) {
-				$(this).css("backgroundColor", "yellow");
+				$(this).css("backgroundColor", "#21d1a0");
 			} else {
 				$(this).css("backgroundColor", "white");
 			}
