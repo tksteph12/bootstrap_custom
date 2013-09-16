@@ -521,10 +521,12 @@
           color: ""
         });
         legendArray.push({
-          value: ">" + 3 * space
+          value: ">" + 3 * space,
+          color:""
         });
         legendArray.push({
-          value: "No data"
+          value: "No data",
+          color:""
         });
 
         var avg = sum / count;
@@ -875,10 +877,12 @@
           color: ""
         });
         legendArray.push({
-          value: ">" + 3 * space
+          value: ">" + 3 * space,
+          color: ""
         });
         legendArray.push({
-          value: "No data"
+          value: "No data",
+          color: ""
         });
 
 

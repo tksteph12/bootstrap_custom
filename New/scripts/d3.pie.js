@@ -5,12 +5,14 @@ var drawPieChart = function(datas,id) {
 	var defaultColors = d3.scale.category20c();
 	var container = $("#"+id);
 	var width = 330;
-
+	var height = 250;
+	
 	if (container){
 		width = container.width();
+		//height = container.height();
 	}
-	var height = 330;
-	var radius = 120;
+
+	var radius = 90;
 	var innerradius = 45;
 	var textOffset = 24;
 	var tweenDuration = 1050;
@@ -18,6 +20,7 @@ var drawPieChart = function(datas,id) {
 	var lines, valueLabels, nameLabels;
 	var pieData = [];
 	var filteredPieData = [];
+	var labelNumberColor = [];
 
 	var total = 0;
 	//D3 helper function to populate pie slice parameters from array data
@@ -76,25 +79,32 @@ var drawPieChart = function(datas,id) {
 	var whiteCircle = center_group.append("svg:circle")
 		.attr("fill", "white")
 		.attr("r", innerradius);
-
+	
+	var line = center_group.append("line")
+                    .attr("x1", -40)
+                    .attr("y1", -10)
+                    .attr("x2",40)
+                    .attr("y2", -10)
+                    .attr("stroke-width", .80)
+                    .attr("stroke", "black");
 	// "TOTAL" LABEL
 	var totalLabel = center_group.append("svg:text")
-		.attr("class", "label")
+		.attr("class", "infoPie-label")
 		.attr("dy", -15)
 		.attr("text-anchor", "middle") // text-align: right
 	.text("TOTAL");
 
 	//TOTAL TRAFFIC VALUE
 	var totalValue = center_group.append("svg:text")
-		.attr("class", "total")
-		.attr("dy", 7)
+		.attr("class", "infoPie-total")
+		.attr("dy", 15)
 		.attr("text-anchor", "middle") // text-align: right
 	.text(".......");
 
 	//UNITS LABEL
 	var totalUnits = center_group.append("svg:text")
-		.attr("class", "units")
-		.attr("dy", 21)
+		.attr("class", "infoPie-units")
+		.attr("dy", 35)
 		.attr("text-anchor", "middle") // text-align: right
 	.text(unit);
 
@@ -120,13 +130,11 @@ var drawPieChart = function(datas,id) {
 			return (element.value > 0);
 		}
 
-
 		//REMOVE PLACEHOLDER CIRCLE
 
 		totalValue.text(function() {
-			return totalOctets; // à recalculer
+			return totalOctets.toFixed(2); // à recalculer
 		});
-
 
 		//DRAW ARC PATHS
 		paths = arc_group.selectAll("path").data(filteredPieData);
@@ -184,7 +192,7 @@ var drawPieChart = function(datas,id) {
 		});
 
 		valueLabels.enter().append("svg:text")
-			.attr("class", "value")
+			.attr("class", "infoPie-value")
 			.attr("transform", function(d) {
 			return "translate(" + Math.cos(((d.startAngle + d.endAngle - Math.PI) / 2)) * (radius + textOffset) + "," + Math.sin((d.startAngle + d.endAngle - Math.PI) / 2) * (radius + textOffset) + ")";
 		})
@@ -204,6 +212,9 @@ var drawPieChart = function(datas,id) {
 		}).text(function(d) {
 			var percentage = (d.value / totalOctets) * 100;
 			return percentage.toFixed(1) + "%";
+		}).style("fill",function(d,i){
+
+			//return "#" + d.data.color;
 		});
 
 		valueLabels.transition().duration(tweenDuration).attrTween("transform", textTween);

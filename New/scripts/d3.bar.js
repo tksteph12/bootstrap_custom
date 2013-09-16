@@ -1,12 +1,20 @@
 var drawAggregatedBarChart = function(data, id) {
   var margin = {
-    top: 10,
-    right: 20,
+    top: 30,
+    right: 30,
     bottom: 70,
-    left: 40
+    left: 50
   },
-    width = 350 - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom;
+    height = 280 - margin.top - margin.bottom,
+
+    container = $("#" + id);
+  console.debug(container);
+  width = 350;
+  if (container) {
+    width = container.width();
+  }
+  width = width - margin.left - margin.right;
+
 
   var x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1);
@@ -15,7 +23,7 @@ var drawAggregatedBarChart = function(data, id) {
     .rangeRound([height, 0]);
 
   var color = d3.scale.ordinal()
-    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+    .range(["#00a7ba", "#0b6f7e", "#5d76ec", "#265e8d", "#9b7fc9", "#b93082", "#ff8c00"]);
 
   var xAxis = d3.svg.axis()
     .scale(x)
@@ -26,7 +34,7 @@ var drawAggregatedBarChart = function(data, id) {
     .orient("left")
     .tickFormat(d3.format(".2s"));
 
-  var svg = d3.select("#"+id).append("svg")
+  var svg = d3.select("#" + id).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
@@ -69,8 +77,8 @@ var drawAggregatedBarChart = function(data, id) {
     .attr("y", 6)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
-    //.text("Collecte")
-    ;
+  //.text("Collecte")
+  ;
 
   var annee = svg.selectAll(".annee")
     .data(data)
@@ -102,22 +110,26 @@ var drawAggregatedBarChart = function(data, id) {
     .attr("class", "legend")
     .attr("transform", function(d, i) {
     //return "translate(0," + i * 20 + ")";
-    return "translate(0"+i * 50 +",0)";
+    return "translate(0" + i * 70 + ",30)";
   });
 
-  legend.append("rect")
-    .attr("x", 2)
-    .attr("y", height+20)
-    .attr("width", 10)
-    .attr("height", 10)
-    .style("fill", color);
+
 
   legend.append("text")
-    .attr("x", 0)
-    .attr("y", height+25)
-    .attr("dy", ".35em")
-    .style("text-anchor", "end")
+    .attr("x", 17)
+    .attr("y", height + 25)
+    .attr("dy", ".50em")
+    .style("text-anchor", "start")
     .text(function(d) {
     return d;
   });
+
+  legend.append("rect")
+    .attr("x", 0)
+    .attr("y", height + 20)
+    .attr("width", 15)
+    .attr("height", 15)
+    .attr("rx", 2)
+    .attr("ry", 2)
+    .style("fill", color);
 }

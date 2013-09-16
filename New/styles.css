@@ -1,7 +1,13 @@
+@font-face {
+  font-family: 'Dosis';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Dosis Regular'), local('Dosis-Regular'), url(http://themes.googleusercontent.com/static/fonts/dosis/v1/xIAtSaglM8LZOYdGmG1JqQ.woff) format('woff');
+}
+
 html{
 	font-family: 'Dosis';
 	font-style: normal;
-	font-weight:400;
 
 }
 
@@ -335,7 +341,23 @@ select option {
 }
 
 .info-title{
-    background-image: url("img/info-title-bg.png");
+    /*border-bottom: 4px solid rgb(62, 83, 96);*/
+    border-bottom:1px solid #181619;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.info-title h{
+    font-size: x-large;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+
+}
+
+.info-footer{
+    margin-left: 20px;
+    margin-right: 20px;    
 }
 
 .center{
@@ -344,14 +366,15 @@ select option {
     height:40px;
 }
 
-#choix-materiels{
 
+#choix-materiels{
 }
+
 
 .animate {
   transition-duration: 1s;
   transition-timing-function: linear;
-  stroke: white;
+  stroke: black;
 
 }
 
@@ -364,12 +387,12 @@ select option {
 
 .departement {
     cursor: pointer;
-    stroke:white;
+    stroke:black;
     stroke-width:.5px;
 }
 
 .departement:hover {
-    stroke: white;
+    stroke: black;
     stroke-width: 3px;
     fill-opacity: .67;
 
@@ -382,13 +405,47 @@ select option {
     -moz-border-radius: 5px; 
     -webkit-border-radius: 5px; 
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
-    position: absolute; left: 1em; top: 2em; z-index: 99;
-    margin-left: 0; width: 250px;
-    font-family: Candara, Tahoma, Geneva, sans-serif; font-size: 1.2em; font-weight: bold;
+    position: absolute; 
+    left: 1em; 
+    top: 2em; 
+    z-index: 99;
+    margin-left: 0; 
+    width: 200px;
     display: block;
-    background: #9FDAEE; border: 1px solid #2BB0D7;
+    background: #efeef3; border: 1px solid #efeef3;
     padding: 0.5em 0.8em 0.8em 2em;
-    height : 30px;
+    height : 110px;
+}
+
+.tooltip h{
+    font-size: x-large;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+
+
+.tooltip a{
+    color:#05986c;
+    font-size: xx-large;
+    position: relative;
+    display: inline-block;
+}
+
+
+
+.tooltip:before{
+   content:"";
+   position: absolute;
+   right: 100%;
+   top: 26px;
+   width: 0;
+   height: 0;
+   border-top: 13px solid transparent;
+   border-right: 26px solid #efeef3;
+   border-bottom: 13px solid transparent;
+}
+
 }
 
 .axis path,
@@ -409,5 +466,20 @@ select option {
 .ademe-search{
     stroke: white;
     stroke-width: 3px;
+}
 
+.infoPie-label{
+    
+}
+
+.infoPie-total{
+
+}
+.infoPie-units{
+    
+}
+
+
+.infoPie-units{
+    color:#05986c;
 }

@@ -40,15 +40,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div>\r\n	<div class=\"info-title\">\r\n		<h5>\r\n			\r\n			 <!--";
+  buffer += "<div>\r\n	<div class=\"info-title\">\r\n		<h>\r\n			 ";
   if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "-->TITLE Of departement\r\n		</h5>\r\n	</div>\r\n	<div id='id-piechart'>\r\n	</div>\r\n	<div class=\"\"></div>\r\n	<div class=\"clearfix\">\r\n		<!-- ";
+    + "\r\n		</h>\r\n	</div>\r\n	<div id='id-piechart'>\r\n	</div>\r\n	<div class=\"info-footer\">";
   if (stack1 = helpers.text) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.text; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "--> Elements collected here\r\n	</div>\r\n</div>\r\n";
+    + "</div>\r\n</div>\r\n";
   return buffer;
   });
 templates['barInfo'] = template(function (Handlebars,depth0,helpers,partials,data) {
@@ -57,11 +57,15 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div>\r\n	<div class=\"info-title\">\r\n		<h5>\r\n			\r\n			 <!--";
+  buffer += "<div>\r\n	<div class=\"info-title\">\r\n		<h>\r\n			 ";
   if (stack1 = helpers.title) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = depth0.title; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
   buffer += escapeExpression(stack1)
-    + "-->TITLE Of departement\r\n		</h5>\r\n	</div>\r\n	<div id='id-barchart'>\r\n	</div>\r\n	<div class=\"\"></div>\r\n	\r\n</div>\r\n";
+    + "\r\n		</h>\r\n	</div>\r\n	<div id='id-barchart'></div>\r\n	<!-- <div class=\"info-footer\">";
+  if (stack1 = helpers.text) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = depth0.text; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</div> -->\r\n</div>\r\n";
   return buffer;
   });
 })();
