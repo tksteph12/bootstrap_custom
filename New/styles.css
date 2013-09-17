@@ -30,7 +30,8 @@ header {
 }
 footer {
     position: fixed;
-    width: 100%;
+    margin: auto;
+    width: 80%;
     bottom: 0px;
     height: 82px;
     z-index: 1;
@@ -43,7 +44,7 @@ footer {
 }
 
 .filterPanel {
-	margin-top: 0px;
+	margin-top: -25px;
 	background-image: url("img/filter-bg.png");
     z-index: 0;
     width: 100%;
@@ -69,15 +70,25 @@ footer {
 }
 
 .extendedFilters {
+
+    cursor: auto;
+    position relative;
+    border: 1px ;
     opacity: 1;
-    margin-top: -3px;
-    margin-bottom: -5px;
+    /*margin-top: -3px;
+    margin-bottom: 3px;*/
+    margin:auto;
     padding-top: 20px;
     padding-bottom: 12px;
-    width: 100%;
+    /*width: 90%;*/
+    width:1249px;
+    margin-top: 10px;
     overflow: hidden;
-    height: 110px;
+    height: 50px;
     transition-duration: 0.5s;
+    /*background: url("img/slider.png");*/
+    background: url("img/empty-slider.png");
+}
 }
 
 .top {
@@ -104,7 +115,7 @@ footer {
     height: 55px;
     margin-top: -18px;
     border-radius: 2px 2px 2px 2px;
-    background: url("/img/sprites.png") no-repeat scroll -137px 18px rgb(49, 192, 164);
+    background: url("img/sprites.png") no-repeat scroll -137px 18px rgb(49, 192, 164);
     transition-duration: 0.5s;
 }
 
@@ -162,7 +173,7 @@ footer {
 .filterTabs.first{
 	cursor: pointer;
     margin-top: 4px;
-    width: 110px;
+    width: 105px;
     overflow: hidden;
     height: 40px;
     float: left;
@@ -191,10 +202,10 @@ footer {
 
 .filterTabs.third{
 	cursor: pointer;
-    margin-top: 4px;
-    width: 640px;
+    margin-top: -16px;
+    width: 910px;
     overflow: hidden;
-    height: 50px;
+    height: 70px;
     float: left;
     margin-right: -1px;
     /*border: 1px solid rgb(204, 204, 204);*/
@@ -221,16 +232,16 @@ footer {
    height: 100%;
    overflow: hidden;
    background: url("img/selector.png") no-repeat right #ddd;
-   border: 1px solid #ccc;
+   border: 1px  #ccc;
    margin-top: -2px;
    -webkit-appearance: none;
    z-index:1;
 }
 
-.filterTabs-cirle{
+.filterTabs-circle{
     margin-top: -1px;
-    margin-bottom: -2px;
-    width: 55px;
+    margin-bottom: -4px;
+    width: 58px;
     overflow: hidden;
     height: 55px;
     float: left;
@@ -249,7 +260,7 @@ footer {
     opacity: 0;
     float: left;
     margin-top: -27px;
-    background: url("../img/sprites.png") no-repeat scroll -37px -91px transparent;
+    background: url("img/sprites.png") no-repeat scroll -37px -91px transparent;
     transition-duration: 0.3s;
 }
 
@@ -295,7 +306,7 @@ span.input-icon {
 }
 
 select option {
-    
+
 
 }
 
@@ -316,8 +327,8 @@ select option {
     width:712px;
     float: left;  
     /*min-height: 1px;  */
-    margin-left: 70px;
-    border:1px solid;
+    margin-left: 80px;
+    border:1px ;
     /*background: url("img/map.png");*/
     height:655px;
     overflow:hidden;
@@ -326,8 +337,8 @@ select option {
     width:536px;
     float: left;  
     /*min-height: 1px;  */
-    margin-left: 10px;
-    border:1px solid;
+    margin-left: 1px;
+    border:1px ;
     /*background: url("img/pie.png");*/
     background: url("img/info-bg.png");    
     height:324px;
@@ -342,7 +353,7 @@ select option {
 
 .info-title{
     /*border-bottom: 4px solid rgb(62, 83, 96);*/
-    border-bottom:1px solid #181619;
+    border-bottom:1px  #181619;
     margin-left: 20px;
     margin-right: 20px;
 }
@@ -452,16 +463,26 @@ select option {
 .axis line {
   fill: none;
   stroke: #000;
-  shape-rendering: crispEdges;
+  stroke-width:1;
+  /*shape-rendering: crispEdges;*/
 }
 
-.bar {
+.axis.tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+
+/*.bar {
   fill: steelblue;
-}
+  }*/
 
-.x.axis path {
-  display: none;
-}        
+  .x.axis path {
+      display: none;
+  }
+
+  .y.axis path{
+    fill:none;
+}
 
 .ademe-search{
     stroke: white;
@@ -469,17 +490,97 @@ select option {
 }
 
 .infoPie-label{
-    
+
 }
 
 .infoPie-total{
 
 }
 .infoPie-units{
-    
+
 }
 
 
 .infoPie-units{
     color:#05986c;
+}
+
+.unselectable-removed{
+
+    margin-top: 20px;
+    height: 150px;
+    background-image: url("img/body-bg.png");
+    border: 1px solid rgb(204, 204, 204);
+}
+
+
+.unselectable-removed.closed{
+    opacity: 0;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 0px;
+    transition-duration: 0.5s;
+}
+
+#id-slider{
+    height:10px;
+    cursor: pointer;
+    border: 1px solid rgb(204, 204, 204);
+    margin-top: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+#play-button{
+    cursor: pointer;
+    margin-top: 5px;
+    height: 40px;
+    width: 40px;
+    float: left;
+    margin-left: 5px;
+    /*border: 1px solid rgb(204, 204, 204);*/
+    border: 1px  rgb(204, 204, 204);
+    color: rgb(204, 204, 204);
+    border-radius: 2px 2px 2px 2px;
+}
+
+.slider-wrapper{
+
+    display: inline-block;    
+    margin-top: 3px;
+    height: 40px;
+    width: 820px;
+    float: left;
+    margin-left: 20px;
+    /*border: 1px solid rgb(204, 204, 204);*/
+    border: 1px  rgb(204, 204, 204);
+    border-radius: 2px 2px 2px 2px;
+}
+
+
+
+.ui-slider .ui-slider-handle {
+
+    width: 33px;
+    height: 35px;
+    background-image: url("img/slider-handle.png") !important;
+}
+
+.ui-slider .ui-slider-range {
+    position: relative;
+    z-index: 1;
+    font-size: .7em;
+    display: block;
+    border: 0;
+    background-position: 0 0;
+
+}
+/*For jquery slider range*/
+div.ui-slider-range.ui-widget-header {
+    background: #21d1a0;
+    background-image: repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,.5) 5px, rgba(255,255,255,.5) 10px);
+}
+
+.playing{
+    background-image: url("img/playing.png") ;
 }

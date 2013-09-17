@@ -119,7 +119,7 @@ function set_map_focus_on(dept) {
 function general_things() {
     var PLAY_PAUSE = 1;
 
-    $("#sliderbar").hide();
+    //$("#sliderbar").hide();
     /*$('.ace-nav [class*="icon-animated-"]').closest("a").on("click", function() {
         var b = $(this).find('[class*="icon-animated-"]').eq(0);
         var a = b.attr("class").match(/icon\-animated\-([\d\w]+)/);
@@ -154,33 +154,47 @@ function general_things() {
     */
 
     $('.filterPanel').mouseover(function() {
+        $('.unselectable-removed').toggleClass("closed");
         $('.extendedFilters').toggleClass("closed");
     });
 
     $('.filterPanel').mouseout(function() {
+        
         $('.extendedFilters').toggleClass("closed");
+        $('.unselectable-removed').toggleClass("closed");
+
     });
 
     $('#button-collecte').on("click", function() {
-        $(this).toggleClass("choosed");
-
-
+        
         var myClass = $(this).attr("class");
         if (myClass.indexOf("choosed") != -1) {
+
+        }
+        else{
+            $(this).toggleClass("choosed");
+            $('#button-production').removeClass("choosed");
             mapParameters.typeOfdata = "collecte";
             //$('#button-production').toggleClass("choosed");
+            updateMap();
         }
-        updateMap();
+        
     });
 
     $('#button-production').on("click", function() {
-        $(this).toggleClass("choosed");
+        
 
         var myClass = $(this).attr("class");
         if (myClass.indexOf("choosed") != -1) {
-            mapParameters.typeOfdata = "production";
+           
         }
-        updateMap();
+        else{
+            $(this).toggleClass("choosed");
+            $('#button-collecte').removeClass("choosed");
+             mapParameters.typeOfdata = "production";
+              updateMap();
+        }
+       
     });
 
 
@@ -188,15 +202,16 @@ function general_things() {
 
         var filiere = $('#select-filiere option:selected').text();
         if (filiere === "Filières") {
-            $("#choix-materiels").empty();
+            $("#choix-materiels").hide();
             //mapParameters.url = getSourceFile("DEE");
-            $("#sliderbar").hide();
+           // $("#sliderbar").hide();
         } else {
+            $("#choix-materiels").show();
             mapParameters.filiere = filiere;
             mapParameters.url = getSourceFile(filiere);
             fetchCheckboxOptions(filiere);
             updateMap();
-            $("#sliderbar").show();
+            //$("#sliderbar").show();
         }
     });
 
@@ -208,18 +223,20 @@ function general_things() {
                 mapParameters.year = 2006;
             }
             $("#id-slider").slider("value", mapParameters.year);
-            $("#id-slider").find(".ui-slider-handle").text(mapParameters.year);
+            //$("#id-slider").find(".ui-slider-handle").text(mapParameters.year);
             $('#map').updateColors({}, 'map');
         }, 4000);
     }
 
-    $("#play").click(function() {
+    $("#play-button").click(function() {
+        $("#play-button").toggleClass("playing");
+
         if (PLAY_PAUSE == 1) {
-            $(this).removeClass("icon-play").addClass("icon-pause");
+            //$(this).removeClass("icon-play").addClass("icon-pause");
             PLAY_PAUSE = 0;
             playing();
         } else if (PLAY_PAUSE == 0) {
-            $(this).removeClass("icon-pause").addClass("icon-play");
+            //$(this).removeClass("icon-pause").addClass("icon-play");
             PLAY_PAUSE = 1;
             clearInterval(change);
         }
@@ -273,14 +290,16 @@ function general_things() {
     //initializing the select boxes
     $("#id-slider").slider({
         //orientation: "vertical",
+        range: "min",
         value: 2010,
         min: 2006,
         max: 2013,
         step: 1,
 
         slide: function(event, ui) {
-            $("#amount").val("$" + ui.value);
-            $("#id-slider").find(".ui-slider-handle").text(ui.value);
+            //$("#amount").val("$" + ui.value);
+
+            //$("#id-slider").find(".ui-slider-handle").text(ui.value);
             mapParameters.year = ui.value;
             $('#map').updateColors({}, 'map');
             //updateMap();

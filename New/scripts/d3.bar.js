@@ -67,14 +67,15 @@ var drawAggregatedBarChart = function(data, id) {
   svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
-    .call(xAxis);
+    .call(xAxis)
+    ;
 
   svg.append("g")
     .attr("class", "y axis")
     .call(yAxis)
     .append("text")
     .attr("transform", "rotate(-90)")
-    .attr("y", 6)
+    .attr("y", .6)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
   //.text("Collecte")
@@ -112,7 +113,6 @@ var drawAggregatedBarChart = function(data, id) {
     //return "translate(0," + i * 20 + ")";
     return "translate(0" + i * 70 + ",30)";
   });
-
 
 
   legend.append("text")

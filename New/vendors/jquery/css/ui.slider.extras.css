@@ -2,6 +2,7 @@
 /* slider widget */
 .ui-slider  {
 	text-decoration: none !important;
+
 }
 .ui-slider .ui-slider-handle  {
 	overflow: visible !important;
@@ -25,6 +26,7 @@
 	font-size: .9em;
 	width: 8em;
 	margin-left: -3.7em;
+
 }
 .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down, .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down-inner {
 	position: absolute; 
@@ -33,6 +35,7 @@
 	height:0; 
 	border-bottom-width: 0;
 	background: none;
+
 }
 .ui-slider .ui-slider-tooltip .ui-tooltip-pointer-down {	
 	border-left: 7px dashed transparent; 
@@ -106,5 +109,6 @@
 }
 .ui-slider .first .ui-slider-tic, .ui-slider .last .ui-slider-tic {
 	display: none;
+	color:red
 }
 
