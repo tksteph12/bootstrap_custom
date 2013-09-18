@@ -31,7 +31,7 @@ function setGlobalParameters() {
     mapParameters = {
         year: 2010,
         typeOfdata: "collecte",
-        filiere: "PA",
+        filiere: undefined,
         types: defaultTypes, // types d'équipements ou types d' piles/Accumulateurs
         url: undefined
     }
@@ -159,52 +159,63 @@ function general_things() {
     });
 
     $('.filterPanel').mouseout(function() {
-        
+
         $('.extendedFilters').toggleClass("closed");
         $('.unselectable-removed').toggleClass("closed");
 
     });
 
     $('#button-collecte').on("click", function() {
-        
+
         var myClass = $(this).attr("class");
         if (myClass.indexOf("choosed") != -1) {
 
-        }
-        else{
+        } else {
             $(this).toggleClass("choosed");
             $('#button-production').removeClass("choosed");
             mapParameters.typeOfdata = "collecte";
             //$('#button-production').toggleClass("choosed");
-            updateMap();
+
+            if((mapParameters.filiere!=undefined)&&(mapParameters.filiere!=="Filières")){
+                console.debug(mapParameters.filiere + "sfsdfsdf")
+                updateMap();
+            }
         }
-        
+
     });
 
     $('#button-production').on("click", function() {
-        
+
 
         var myClass = $(this).attr("class");
         if (myClass.indexOf("choosed") != -1) {
-           
-        }
-        else{
+
+        } else {
             $(this).toggleClass("choosed");
             $('#button-collecte').removeClass("choosed");
-             mapParameters.typeOfdata = "production";
-              updateMap();
+            mapParameters.typeOfdata = "production";
+            if(mapParameters.filiere!=="Filières"){
+            updateMap(); }
         }
-       
+
     });
 
 
     $("#select-filiere").change(function(event) {
+        var prodClass = $("#button-production").attr("class");
+        var colClass = $("#button-collecte").attr("class");
+
+        if ((prodClass.indexOf("choosed") == -1) && (colClass.indexOf("choosed") == -1)) {
+            alert("Choisir le type de données à afficher");
+            return
+        }
+
 
         var filiere = $('#select-filiere option:selected').text();
         if (filiere === "Filières") {
             $("#choix-materiels").hide();
             //mapParameters.url = getSourceFile("DEE");
-           // $("#sliderbar").hide();
+            // $("#sliderbar").hide();
         } else {
             $("#choix-materiels").show();
             mapParameters.filiere = filiere;
@@ -264,47 +275,72 @@ function general_things() {
     $(document).mouseup(function(e) {
         var container = $(".dropdown-checkbox");
         var thisClass = container.attr("class");
-        if (thisClass.indexOf("open") != -1) {
-            if (!container.is(e.target) // if the target of the click isn't the container...
-            && container.has(e.target).length === 0) // ... nor a descendant of the container
-            {
-                var checkedList = [];
-                $('#choix-materiels input:checked').each(function() {
-                    checkedList.push(this.nextSibling.innerHTML);
-                });
-                if (checkedList.length !== 0) {
-                    delete mapParameters.types;
-                }
-                mapParameters.types = checkedList;
-                //
-                $('#map').updateColors({}, 'map');
+        if (thisClass) {
+            if (thisClass.indexOf("open") != -1) {
+                if (!container.is(e.target) // if the target of the click isn't the container...
+                && container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    var checkedList = [];
+                    $('#choix-materiels input:checked').each(function() {
+                        checkedList.push(this.nextSibling.innerHTML);
+                    });
+                    if (checkedList.length !== 0) {
+                        delete mapParameters.types;
+                    }
+                    mapParameters.types = checkedList;
+                    //
+                    $('#map').updateColors({}, 'map');
 
-                console.debug(mapParameters.types);
+                    console.debug(mapParameters.types);
+                }
             }
-        }
+        };
     });
 
     // choix du type de données à afficher : collecte ou production
 
-
+    /*var handle = null,
+    valueDisplay = $("#id-slider > div"),*/
+    var initialValue = 2010,
+        minValue = 2006,
+        maxValue = 2013,
+        step = 1;
     //initializing the select boxes
     $("#id-slider").slider({
         //orientation: "vertical",
         range: "min",
-        value: 2010,
-        min: 2006,
-        max: 2013,
-        step: 1,
+        value: initialValue,
+        min: minValue,
+        max: maxValue,
+        step: step,
 
         slide: function(event, ui) {
-            //$("#amount").val("$" + ui.value);
-
+            /*handle = handle || $(".ui-slider-handle", this);
+            valueDisplay.text(ui.value || initialValue)
+              .css(handle.position());*/
             //$("#id-slider").find(".ui-slider-handle").text(ui.value);
             mapParameters.year = ui.value;
             $('#map').updateColors({}, 'map');
-            //updateMap();
+            $(this).find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + ui.value + '</div></div>');
+            //$(".slider-wrapper").html('<div class="min-value-label"> <div class="value-text">'+ui.value+'</div></div>'); 
+            //$(".slider-wrapper").html('<div class="max-value-label"> <div class="value-text">'+ui.value+'</div></div>'); 
+
+        },
+        create: function(event, ui) {
+            var $slider = $(event.target);
+            var max = $slider.slider("option", "max");
+            var min = $slider.slider("option", "min");
+            console.debug(min);
+            var spacing = 100 / (max - min);
+            spacing = 100;
+
+            $slider.find('.ui-slider-tick-mark').remove();
+            for (var i = 0; i < 2; i++) {
+                $('<span class="ui-slider-tick-mark">' + (min + i * (max - min)) + '</span>').css('left', (spacing * i) + '%').appendTo($slider);
+            }
+
         }
-        //        
+
     });
 }
 

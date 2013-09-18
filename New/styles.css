@@ -253,7 +253,6 @@ footer {
     border-radius: 2px 2px 2px 2px;
 }
 
-
 .separator {
     width: 14px;
     height: 50px;
@@ -307,9 +306,7 @@ span.input-icon {
 
 select option {
 
-
 }
-
 
 /***SEARCH AREA**************/
 
@@ -340,20 +337,42 @@ select option {
     margin-left: 1px;
     border:1px ;
     /*background: url("img/pie.png");*/
-    background: url("img/info-bg.png");    
+    /*background: url("img/info-bg.png");    */
     height:324px;
     display: inline-block;
     vertical-align: middle;
-    margin-bottom: 5px
+    margin-bottom: 5px;
+    -moz-transition: background 1s;
+    -webkit-transition: background 1s;
+    -o-transition: background 1s;
+    -ms-transition: background 1s;
+    transition: background 1s;
 }
+
+.pie-container.open{
+    width:536px;
+    float: left;  
+    /*min-height: 1px;  */
+    margin-left: 1px;
+    border:1px ;
+    background: url("img/info-bg.png");
+    height:324px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 5px;
+    transition-duration: 1.5s;
+}
+
 .bar-container{
     display: inline-block;
     vertical-align: middle;
 }
 
+
+
 .info-title{
     /*border-bottom: 4px solid rgb(62, 83, 96);*/
-    border-bottom:1px  #181619;
+    border-bottom:1px solid #181619;
     margin-left: 20px;
     margin-right: 20px;
 }
@@ -409,13 +428,16 @@ select option {
 
 }
 
+
+
+
 .tooltip {
     border-bottom: 1px dotted #000000; color: #000000; outline: none;
     text-decoration: none;
     border-radius: 5px 5px; 
     -moz-border-radius: 5px; 
     -webkit-border-radius: 5px; 
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0.5px 0.866px 4px 0px rgb( 0, 0, 0 ); 
     position: absolute; 
     left: 1em; 
     top: 2em; 
@@ -423,7 +445,9 @@ select option {
     margin-left: 0; 
     width: 200px;
     display: block;
-    background: #efeef3; border: 1px solid #efeef3;
+    background-image: -moz-linear-gradient( 90deg, rgb(210,210,210) 0%, rgb(227,227,228) 36%, rgb(243,243,246) 99%);
+    background-image: -webkit-linear-gradient( 90deg, rgb(210,210,210) 0%, rgb(227,227,228) 36%, rgb(243,243,246) 99%);
+    background-image: -ms-linear-gradient( 90deg, rgb(210,210,210) 0%, rgb(227,227,228) 36%, rgb(243,243,246) 99%);
     padding: 0.5em 0.8em 0.8em 2em;
     height : 110px;
 }
@@ -455,6 +479,7 @@ select option {
    border-top: 13px solid transparent;
    border-right: 26px solid #efeef3;
    border-bottom: 13px solid transparent;
+   
 }
 
 }
@@ -538,10 +563,11 @@ select option {
     width: 40px;
     float: left;
     margin-left: 5px;
-    /*border: 1px solid rgb(204, 204, 204);*/
     border: 1px  rgb(204, 204, 204);
     color: rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
+
+  
 }
 
 .slider-wrapper{
@@ -578,9 +604,87 @@ select option {
 /*For jquery slider range*/
 div.ui-slider-range.ui-widget-header {
     background: #21d1a0;
-    background-image: repeating-linear-gradient(-45deg, transparent, transparent 5px, rgba(255,255,255,.5) 5px, rgba(255,255,255,.5) 10px);
+    background-image: repeating-linear-gradient(-45deg, 
+        transparent, 
+        transparent 5px, 
+        rgba(255,255,255,.5) 5px, 
+        rgba(255,255,255,.5) 10px);
 }
 
 .playing{
     background-image: url("img/playing.png") ;
+}
+
+
+
+
+
+.value-label{
+    position:absolute;
+    height:30px;
+    width:78px;
+    background-image: url("img/slider-handle-value.png");
+    margin-top:25px;
+    margin-left:-25px;
+
+  /*background-image: -moz-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
+  background-image: -webkit-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
+  background-image: -ms-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
+  box-shadow: 0px 1px 0px 0px rgb( 255, 255, 255 );
+  position: absolute;
+  left: 790px;
+  top: 250px;
+  width: 73px;
+  height: 28px;
+  z-index: 14;*/
+}
+
+.value-text{
+    font-family: 'Dosis';
+    font-style: normal;
+    font-size: small;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.min-value-label{
+    position:absolute;
+    /*border:1px solid;*/
+    float:left;
+    height:30px;
+    width:78px;
+    margin-top:25px;
+    margin-left:-25px;
+}
+
+.max-value-label{
+    position:absolute;
+    float:right;
+    /*border:1px solid;*/
+    height:30px;
+    width:78px;
+    margin-top:25px;
+}
+
+.ui-slider-tick-mark{
+    display:inline-block;
+    width:1px;
+    background:grey;
+    height:10px;
+    position:relative;
+    top:10px;
+    font-style: 'Dosis';
+    font-size: small;
+    
+}
+
+.ui-slider-text{
+    top:35px;
+
+}
+
+.infoPie-value{
+    font-size: x-large;
+    font-weight: 800;
+    z-index: 100;
 }

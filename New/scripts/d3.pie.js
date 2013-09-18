@@ -22,6 +22,13 @@ var drawPieChart = function(datas,id) {
 	var filteredPieData = [];
 	var labelNumberColor = [];
 
+	var u=0;
+	for(r in data){
+		labelNumberColor[u] = data[r].color;
+		u++;
+	}
+	
+
 	var total = 0;
 	//D3 helper function to populate pie slice parameters from array data
 	var donut = d3.layout.pie().value(function(d) {
@@ -143,7 +150,10 @@ var drawPieChart = function(datas,id) {
 			.attr("stroke-width", 0.5)
 			.attr("fill", function(d, i) {
 			if (d.data.color === undefined) {
+
+				
 				return color(i);
+
 			}
 			return d.data.color;
 		})
@@ -157,8 +167,8 @@ var drawPieChart = function(datas,id) {
 		lines.enter().append("svg:line")
 			.attr("x1", 0)
 			.attr("x2", 0)
-			.attr("y1", -radius - 3)
-			.attr("y2", -radius - 8)
+			.attr("y1", -radius - 2)
+			.attr("y2", -radius - 6)
 			.attr("stroke", "gray")
 			.attr("transform", function(d) {
 			return "rotate(" + (d.startAngle + d.endAngle) / 2 * (180 / Math.PI) + ")";
@@ -213,8 +223,7 @@ var drawPieChart = function(datas,id) {
 			var percentage = (d.value / totalOctets) * 100;
 			return percentage.toFixed(1) + "%";
 		}).style("fill",function(d,i){
-
-			//return "#" + d.data.color;
+			return data[i].color;
 		});
 
 		valueLabels.transition().duration(tweenDuration).attrTween("transform", textTween);

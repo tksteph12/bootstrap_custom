@@ -193,14 +193,15 @@
           d3.select(this).style("fill", "grey");
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
           var departement = d3.select(this)[0][0].attributes['dept'].value;
-          var title = departement + ' -' + codeDept;
+          var title = departement + ' -' + codeDept ;
           var text = "Types d'équipement collectés : " + mapParameters.types.toString();
           var data = {
-            title: title,
+            title: title+ ' - '+mapParameters.year,
             text: text
           }
           $('#pie-info').html("");
           $("#id-pie").html("");
+         // $('#pie-info').addClass("open");
           $('#pie-info').html(Handlebars.templates.pieInfo(data));
 
           var coll = getTonneCollectedValue(codeDept, departs);
@@ -232,6 +233,7 @@
             text: text
           }
           $('#id-barchart').html("");
+        //  $('#bar-info').addClass("open");
           $('#bar-info').html(Handlebars.templates.barInfo(data));
           $("#id-barchart").html("");
           plotHistory(donnee_hist, "id-barchart"); //??
@@ -264,6 +266,8 @@
           //$('#bar-info').html(Handlebars.templates.barInfo(data));
           $("#id-barchart").html("");
           $('#bar-info').html("");
+          /*$('#bar-info').removeClass("open");
+          $('#pie-info').removeClass("open");*/
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
           // d3.select(this).style("fill", colors(codeDept))auxcolor
           d3.select(this).style("fill", auxcolor)

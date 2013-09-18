@@ -94,6 +94,8 @@ var drawAggregatedBarChart = function(data, id) {
     return d.types;
   })
     .enter().append("rect")
+    .transition().delay(function (d,i){ return i * 90;})
+    .duration(100)
     .attr("width", x.rangeBand())
     .attr("y", function(d) {
     return y(d.y1);
