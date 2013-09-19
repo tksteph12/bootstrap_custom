@@ -210,7 +210,7 @@ var drawPieChart = function(datas,id) {
 			if ((d.startAngle + d.endAngle) / 2 > Math.PI / 2 && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5) {
 				return 5;
 			} else {
-				return -7;
+				return 10;
 			}
 		})
 			.attr("text-anchor", function(d) {
@@ -235,7 +235,7 @@ var drawPieChart = function(datas,id) {
 		nameLabels = label_group.selectAll("text.units").data(filteredPieData)
 			.attr("dy", function(d) {
 			if ((d.startAngle + d.endAngle) / 2 > Math.PI / 2 && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5) {
-				return 17;
+				return 20;
 			} else {
 				return 5;
 			}
@@ -257,9 +257,9 @@ var drawPieChart = function(datas,id) {
 		})
 			.attr("dy", function(d) {
 			if ((d.startAngle + d.endAngle) / 2 > Math.PI / 2 && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5) {
-				return 17;
+				return -20;
 			} else {
-				return 5;
+				return 25;
 			}
 		})
 			.attr("text-anchor", function(d) {

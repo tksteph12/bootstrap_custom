@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'Dosis';
+  line-height: 0.875;
   font-style: normal;
-  font-weight: 400;
-  src: local('Dosis Regular'), local('Dosis-Regular'), url(http://themes.googleusercontent.com/static/fonts/dosis/v1/xIAtSaglM8LZOYdGmG1JqQ.woff) format('woff');
+  src: local('Dosis'), local('Dosis'), url(http://themes.googleusercontent.com/static/fonts/dosis/v1/xIAtSaglM8LZOYdGmG1JqQ.woff) format('woff');
 }
 
 html{
@@ -15,15 +15,20 @@ body{
 	font-family: 'Dosis';
 	font-style: normal;
 	background-image: url("img/body-bg.png");
+    height:100%;
 }
 
 header {
 	background-image: url("img/header.png");
-    border-bottom: 4px solid rgb(62, 83, 96);
+    border-bottom: 1px solid rgb(213, 210, 211);
     margin-bottom: 28px;
-    height: 111px;
+    height: 105px;
     z-index: 1;
 }
+
+
+
+
 
 .clearfix {
     display: inline-block;
@@ -44,7 +49,8 @@ footer {
 }
 
 .filterPanel {
-	margin-top: -25px;
+	margin-top: -28px;
+
 	background-image: url("img/filter-bg.png");
     z-index: 0;
     width: 100%;
@@ -54,11 +60,16 @@ footer {
 }
 
 .filterPanel .container {
+    height: 30px;
     padding-bottom: 23px;
     /*overflow: hidden;*/
     width: 970px;
     position: relative;
     margin: 0px auto -20px;
+    margin-top: 5px;
+    margin-bottom
+    border-bottom: 1px solid rgb(213, 210, 211);
+
 }
 
 .extendedFilters.closed {
@@ -215,27 +226,27 @@ footer {
 }
 
 .choix-filieres select{
-   background: transparent;
-   width: 100%;
-   padding: 5px;
-   font-size: 16px;
-   line-height: 1;
-   border: 0;
-   border-radius: 0;
-   height: 100%;
-   -webkit-appearance: none;
+ background: transparent;
+ width: 100%;
+ padding: 5px;
+ font-size: 16px;
+ line-height: 1;
+ border: 0;
+ border-radius: 0;
+ height: 100%;
+ -webkit-appearance: none;
 }   
 
 .choix-filieres {
-   display: inline-block;
-   width: 100%;
-   height: 100%;
-   overflow: hidden;
-   background: url("img/selector.png") no-repeat right #ddd;
-   border: 1px  #ccc;
-   margin-top: -2px;
-   -webkit-appearance: none;
-   z-index:1;
+ display: inline-block;
+ width: 100%;
+ height: 100%;
+ overflow: hidden;
+ background: url("img/selector.png") no-repeat right #ddd;
+ border: 1px  #ccc;
+ margin-top: -2px;
+ -webkit-appearance: none;
+ z-index:1;
 }
 
 .filterTabs-circle{
@@ -264,7 +275,7 @@ footer {
 }
 
 .collectFilter{
- text-align: center;
+   text-align: center;
 }
 
 /***SEARCH AREA**************/
@@ -330,12 +341,23 @@ select option {
     height:655px;
     overflow:hidden;
 }
+
+
+
+
+
 .pie-container{
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+
+    font-family: "Myriad Pro";
+    color: rgb( 26, 23, 27 );
+    line-height: 0.875;
     width:536px;
     float: left;  
     /*min-height: 1px;  */
     margin-left: 1px;
-    border:1px ;
+    
     /*background: url("img/pie.png");*/
     /*background: url("img/info-bg.png");    */
     height:324px;
@@ -350,6 +372,7 @@ select option {
 }
 
 .pie-container.open{
+    margin-top: 10px;
     width:536px;
     float: left;  
     /*min-height: 1px;  */
@@ -361,6 +384,7 @@ select option {
     vertical-align: middle;
     margin-bottom: 5px;
     transition-duration: 1.5s;
+    border: 1px  solid rgb(204, 204, 204);
 }
 
 .bar-container{
@@ -369,12 +393,13 @@ select option {
 }
 
 
-
 .info-title{
+
     /*border-bottom: 4px solid rgb(62, 83, 96);*/
     border-bottom:1px solid #181619;
     margin-left: 20px;
     margin-right: 20px;
+    font-size: 25pt;
 }
 
 .info-title h{
@@ -404,7 +429,7 @@ select option {
 .animate {
   transition-duration: 1s;
   transition-timing-function: linear;
-  stroke: black;
+  stroke: grey;
 
 }
 
@@ -417,13 +442,13 @@ select option {
 
 .departement {
     cursor: pointer;
-    stroke:black;
-    stroke-width:.5px;
+    stroke:grey;
+    stroke-width:1px;
 }
 
 .departement:hover {
-    stroke: black;
-    stroke-width: 3px;
+    stroke: grey;
+    stroke-width: 1px;
     fill-opacity: .67;
 
 }
@@ -432,6 +457,10 @@ select option {
 
 
 .tooltip {
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+
+    font-family: "Myriad Pro";
     border-bottom: 1px dotted #000000; color: #000000; outline: none;
     text-decoration: none;
     border-radius: 5px 5px; 
@@ -452,8 +481,11 @@ select option {
     height : 110px;
 }
 
+
+
 .tooltip h{
     font-size: x-large;
+    font-weight: 600;
     position: relative;
     display: inline-block;
     vertical-align: top;
@@ -463,6 +495,7 @@ select option {
 .tooltip a{
     color:#05986c;
     font-size: xx-large;
+    font-weight: bold;
     position: relative;
     display: inline-block;
 }
@@ -470,16 +503,16 @@ select option {
 
 
 .tooltip:before{
-   content:"";
-   position: absolute;
-   right: 100%;
-   top: 26px;
-   width: 0;
-   height: 0;
-   border-top: 13px solid transparent;
-   border-right: 26px solid #efeef3;
-   border-bottom: 13px solid transparent;
-   
+ content:"";
+ position: absolute;
+ right: 100%;
+ top: 26px;
+ width: 0;
+ height: 0;
+ border-top: 13px solid transparent;
+ border-right: 26px solid #efeef3;
+ border-bottom: 13px solid transparent;
+
 }
 
 }
@@ -535,7 +568,7 @@ select option {
     margin-top: 20px;
     height: 150px;
     background-image: url("img/body-bg.png");
-    border: 1px solid rgb(204, 204, 204);
+    border: 1px solid transparent;
 }
 
 
@@ -557,15 +590,43 @@ select option {
 }
 
 #play-button{
-    cursor: pointer;
-    margin-top: 5px;
-    height: 40px;
-    width: 40px;
-    float: left;
-    margin-left: 5px;
-    border: 1px  rgb(204, 204, 204);
-    color: rgb(204, 204, 204);
-    border-radius: 2px 2px 2px 2px;
+  float:left;
+  cursor: pointer;
+  border-radius: 50%;
+  background-color: rgb( 226, 226, 226 );
+  position: absolute;
+  left: 415px;
+  top: 192px;
+  width: 41px;
+  height: 41px;
+  z-index: 14;
+
+}
+
+
+
+
+.paused{
+  position:absolute;
+  margin-top:6px;
+  margin-left:15px;
+  z-index: 16;
+  width: 0; 
+  height: 0; 
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 18px solid #48d9b1;
+  
+}
+
+.playing{
+  position:absolute;
+  margin-top:12px;
+  margin-left:12px;
+  z-index: 16;
+  width: 18px; 
+  height: 18px;
+  background-color: #48d9b1;
 
   
 }
@@ -575,9 +636,10 @@ select option {
     display: inline-block;    
     margin-top: 3px;
     height: 40px;
-    width: 820px;
-    float: left;
-    margin-left: 20px;
+    width: 800px;
+    float: right;
+    margin-left: 40px;
+    margin-right: 40px;
     /*border: 1px solid rgb(204, 204, 204);*/
     border: 1px  rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
@@ -587,10 +649,38 @@ select option {
 
 .ui-slider .ui-slider-handle {
 
-    width: 33px;
-    height: 35px;
-    background-image: url("img/slider-handle.png") !important;
+  color:#f6931f;
+  border-radius: 50%;
+  background-image: -moz-linear-gradient( 90deg, rgba(255,255,255,0) 0%, rgb(255,255,255) 100%) !important;
+  background-image: -webkit-linear-gradient( 90deg, rgba(255,255,255,0) 0%, rgb(255,255,255) 100%) !important;
+  background-image: -ms-linear-gradient( 90deg, rgba(255,255,255,0) 0%, rgb(255,255,255) 100%) !important;
+  box-shadow: 0px 1px 1px 0px rgb( 67, 52, 62 );
+  position: absolute;
+  left: 810px;
+  top: 216px;
+  width: 32px;
+  height: 32px;
+  z-index: 21;
+
 }
+
+
+.ui-slider .ui-slider-handle .center-hand{
+
+  border-radius: 50%;
+  background-image: -moz-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
+  background-image: -webkit-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
+  background-image: -ms-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
+  box-shadow: 0px 1px 0px 0px rgb( 255, 255, 255 );
+  position: absolute;
+  left: 820px;
+  top: 226px;
+  width: 13px;
+  height: 13px;
+  z-index: 22;
+}
+
+
 
 .ui-slider .ui-slider-range {
     position: relative;
@@ -611,9 +701,7 @@ div.ui-slider-range.ui-widget-header {
         rgba(255,255,255,.5) 10px);
 }
 
-.playing{
-    background-image: url("img/playing.png") ;
-}
+
 
 
 
@@ -684,7 +772,16 @@ div.ui-slider-range.ui-widget-header {
 }
 
 .infoPie-value{
-    font-size: x-large;
+    font-size: xx-large;
     font-weight: 800;
     z-index: 100;
+}
+
+.legend{
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+
+    font-family: "Myriad Pro";
+    line-height: 0.875;
+    font-size: 13px;
 }

@@ -1,16 +1,3 @@
-/*jQuery(function() {
-    setGlobalParameters(); // initialisatio des paramètres par défaut
-    handle_side_menu();
-    fillSectorSelections();
-    enable_search_ahead();
-    add_browser_detection(jQuery);
-    general_things();
-    updateMap("");
-    enable_search_ahead();
-
-    $(document).off("click.dropdown-menu")
-});*/
-
 //Paramètres globaux
 
 function setGlobalParameters() {
@@ -119,40 +106,7 @@ function set_map_focus_on(dept) {
 function general_things() {
     var PLAY_PAUSE = 1;
 
-    //$("#sliderbar").hide();
-    /*$('.ace-nav [class*="icon-animated-"]').closest("a").on("click", function() {
-        var b = $(this).find('[class*="icon-animated-"]').eq(0);
-        var a = b.attr("class").match(/icon\-animated\-([\d\w]+)/);
-        b.removeClass(a[0]);
-        $(this).off("click")
-    });
-    $("#ace-settings-btn").on("click", function() {
-        $(this).toggleClass("open");
-        $("#ace-settings-box").toggleClass("open")
-    });
-    $("#ace-settings-procuced").removeAttr("checked").on("click", function() {
-        if (this.checked) {
-            $("#ace-settings-collect").removeAttr("checked");
-            mapParameters.typeOfdata = "production";
-            updateMap("produced");
-        }
-    });
-    $("#ace-settings-collect").removeAttr("checked").on("click", function() {
-        if (this.checked) {
-            $("#ace-settings-procuced").removeAttr("checked");
-            mapParameters.typeOfdata = "collecte";
-            updateMap("collected");
-        }
-    });
-    $("#btn-scroll-up").on("click", function() {
-        var a = Math.max(100, parseInt($("html").scrollTop() / 3));
-        $("html,body").animate({
-            scrollTop: 0
-        }, a);
-        return false
-    });
-    */
-
+    
     $('.filterPanel').mouseover(function() {
         $('.unselectable-removed').toggleClass("closed");
         $('.extendedFilters').toggleClass("closed");
@@ -174,7 +128,6 @@ function general_things() {
             $(this).toggleClass("choosed");
             $('#button-production').removeClass("choosed");
             mapParameters.typeOfdata = "collecte";
-            //$('#button-production').toggleClass("choosed");
 
             if((mapParameters.filiere!=undefined)&&(mapParameters.filiere!=="Filières")){
                 console.debug(mapParameters.filiere + "sfsdfsdf")
@@ -207,6 +160,8 @@ function general_things() {
 
         if ((prodClass.indexOf("choosed") == -1) && (colClass.indexOf("choosed") == -1)) {
             alert("Choisir le type de données à afficher");
+            //revenir ici à type filière
+            jQuery('#select-filiere').val(parameters.filieres[0].sector);
             return
         }
 
@@ -214,15 +169,12 @@ function general_things() {
         var filiere = $('#select-filiere option:selected').text();
         if (filiere === "Filières") {
             $("#choix-materiels").hide();
-            //mapParameters.url = getSourceFile("DEE");
-            // $("#sliderbar").hide();
         } else {
             $("#choix-materiels").show();
             mapParameters.filiere = filiere;
             mapParameters.url = getSourceFile(filiere);
             fetchCheckboxOptions(filiere);
             updateMap();
-            //$("#sliderbar").show();
         }
     });
 
@@ -233,14 +185,21 @@ function general_things() {
             if (mapParameters.year == 2013) {
                 mapParameters.year = 2006;
             }
-            $("#id-slider").slider("value", mapParameters.year);
-            //$("#id-slider").find(".ui-slider-handle").text(mapParameters.year);
+            $("#id-slider").slider('value', mapParameters.year);
+            console.debug(mapParameters.year);
             $('#map').updateColors({}, 'map');
         }, 4000);
     }
 
     $("#play-button").click(function() {
-        $("#play-button").toggleClass("playing");
+        var myClass = $("#innerPlay-button").attr("class");
+        if(myClass==='paused'){
+            $("#innerPlay-button").removeClass("paused");
+            $("#innerPlay-button").addClass("playing");
+        }else if(myClass=='playing'){
+            $("#innerPlay-button").removeClass("playing");
+            $("#innerPlay-button").addClass("paused");
+        }
 
         if (PLAY_PAUSE == 1) {
             //$(this).removeClass("icon-play").addClass("icon-pause");
@@ -251,23 +210,6 @@ function general_things() {
             PLAY_PAUSE = 1;
             clearInterval(change);
         }
-    });
-
-    //Retirer le boutton test
-
-
-    $('#test').click(function() {
-        var checkedList = [];
-        $('#choix-materiels input:checked').each(function() {
-            checkedList.push(this.nextSibling.innerHTML);
-        });
-        if (checkedList.length !== 0) {
-            delete mapParameters.types;
-        }
-        mapParameters.types = checkedList;
-        //
-        $('#map').updateColors({}, 'map');
-
     });
 
 
@@ -299,8 +241,6 @@ function general_things() {
 
     // choix du type de données à afficher : collecte ou production
 
-    /*var handle = null,
-    valueDisplay = $("#id-slider > div"),*/
     var initialValue = 2010,
         minValue = 2006,
         maxValue = 2013,
@@ -321,6 +261,7 @@ function general_things() {
             //$("#id-slider").find(".ui-slider-handle").text(ui.value);
             mapParameters.year = ui.value;
             $('#map').updateColors({}, 'map');
+            $(this).find('.ui-slider-handle').html('<span class="center-hand"> </span>');
             $(this).find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + ui.value + '</div></div>');
             //$(".slider-wrapper").html('<div class="min-value-label"> <div class="value-text">'+ui.value+'</div></div>'); 
             //$(".slider-wrapper").html('<div class="max-value-label"> <div class="value-text">'+ui.value+'</div></div>'); 
@@ -338,9 +279,7 @@ function general_things() {
             for (var i = 0; i < 2; i++) {
                 $('<span class="ui-slider-tick-mark">' + (min + i * (max - min)) + '</span>').css('left', (spacing * i) + '%').appendTo($slider);
             }
-
         }
-
     });
 }
 
@@ -402,7 +341,6 @@ function loadcheckboxOptions(data, filiere) {
     mapParameters.types = aux;
     delete aux;
 
-    //$('#choix-materiels').html("");
     if ($('#choix-materiels').html() == "") {
         $('#choix-materiels').dropdownCheckbox({
             data: tab,

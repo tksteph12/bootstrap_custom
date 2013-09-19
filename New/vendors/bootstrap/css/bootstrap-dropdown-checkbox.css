@@ -103,7 +103,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 .dropdown-checkbox.open .dropdown-checkbox-content li .layout:hover {
   background: #21d1a0;
-  color: white;
+  color: black;
   cursor: pointer;
 }
 .dropdown-checkbox.open .dropdown-checkbox-content li .layout input[type=checkbox] {
