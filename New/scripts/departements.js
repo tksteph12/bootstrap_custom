@@ -193,15 +193,15 @@
           d3.select(this).style("fill", "grey");
           var codeDept = d3.select(this)[0][0].attributes['code'].value;
           var departement = d3.select(this)[0][0].attributes['dept'].value;
-          var title = departement + ' -' + codeDept ;
+          var title = departement + ' -' + codeDept;
           var text = "Types d'équipement collectés : " + mapParameters.types.toString();
           var data = {
-            title: title+ ' - '+mapParameters.year,
+            title: title + ' - ' + mapParameters.year,
             text: text
           }
           $('#pie-info').html("");
           $("#id-pie").html("");
-         // $('#pie-info').addClass("open");
+          // $('#pie-info').addClass("open");
           $('#pie-info').html(Handlebars.templates.pieInfo(data));
 
           var coll = getTonneCollectedValue(codeDept, departs);
@@ -233,7 +233,7 @@
             text: text
           }
           $('#id-barchart').html("");
-        //  $('#bar-info').addClass("open");
+          //  $('#bar-info').addClass("open");
           $('#bar-info').html(Handlebars.templates.barInfo(data));
           $("#id-barchart").html("");
           plotHistory(donnee_hist, "id-barchart"); //??
@@ -245,15 +245,15 @@
           toolTip.html(function() {
             var numb = Number(getTonneCollectedValue(codeDept, departs)).toFixed(2);
             if (numb === 'NaN') {
-              return "<div><h>"+ departement+" -"+codeDept +"</h></div><div> Pas de collecte en " + mapParameters.year+" ou Pas de donnee disponible</div>";
+              return "<div><h>" + departement + " -" + codeDept + "</h></div><div> Pas de collecte en " + mapParameters.year + " ou Pas de donnee disponible</div>";
             } else {
-              return "<div><h>"+ departement+" -"+codeDept +"</h></div> <div><a> "  + numb + "</a></div><div> Tonnes collectés en " + mapParameters.year+"</div>";
+              return "<div><h>" + departement + " -" + codeDept + "</h></div> <div><a> " + numb + "</a></div><div> Tonnes collectés en " + mapParameters.year + "</div>";
             }
           })
-            /*.style("left", (d3.event.pageX - 110) + "px")
+          /*.style("left", (d3.event.pageX - 110) + "px")
             .style("top", (d3.event.pageY - 380) + "px");*/
-            .style("left", (d3.event.pageX +20) + "px")
-            .style("top", (d3.event.pageY -260) + "px");
+          .style("left", (d3.event.pageX + 20) + "px")
+            .style("top", (d3.event.pageY - 260) + "px");
         })
           .on("mouseout", function(d, i) {
           toolTip.transition().duration(200).style("opacity", 1e-6);
@@ -478,6 +478,14 @@
     }
 
     $.fn.updateColors = function(datas, idElement) {
+
+      //***********************************
+      
+      if (mapParameters.typeOfdata === "production") {
+        alert("Données non disponible");
+        return
+      }
+      //***********************************
 
       var legendArray = [];
       var container = $(this);
@@ -1002,7 +1010,8 @@
     }, {
       'rgn': '11',
       'dpts': [
-        /*75*/ {
+        /*75*/
+        {
           'dept': "",
           'code': '',
           'path': 'M 280.28125,129.0625 L 277.75,129.09375 L 276.625,129.59375 L 276.15625,130.21875 L 275.125,130.28125 L 274.1875,131.34375 L 274.21875,131.9375 L 274.4375,132.625 L 276,133.0625 L 277.90625,134.03125 L 279.125,134.09375 L 279.9375,133.875 L 280.78125,133.28125 L 281.0625,133.53125 L 282.875,133.78125 L 283.1875,133.125 L 283.1875,132.46875 L 282.875,132.34375 L 281.625,132.40625 L 281.71875,132.71875 L 281.5,132.90625 L 281.09375,132.90625 L 281.25,132.5 L 281.3125,132.0625 L 281.25,132.0625 L 281.09375,130.3125 L 280.28125,129.0625 z '
@@ -1019,17 +1028,20 @@
           'code': '91',
           'path': 'M 274.21875,136.40625 L 272.46875,137.1875 L 270.5625,137.9375 L 270.1875,140.0625 L 267.3125,141.40625 L 266.9375,143.5 L 268.28125,145.8125 L 266.34375,148.46875 L 263.5,148.46875 L 264.625,150.1875 L 263.28125,151.71875 L 262.8125,154.8125 L 263.75,155 L 264.125,157.53125 L 264.53125,158.125 L 264.9375,163.375 L 271.1875,162.8125 L 273.71875,160.46875 L 275.875,162.21875 L 281.125,162.59375 L 281.875,163.71875 L 281.875,159.78125 L 286.25,156.90625 L 284.9375,155.1875 L 285.5,150 L 286.25,148.875 L 285.3125,143.6875 L 287.03125,142.34375 L 286.6875,139.90625 L 284.53125,138.90625 L 280.90625,138.90625 L 278.8125,137.75 L 277.28125,138.53125 L 274.21875,136.40625 z '
         },
-        /*92*/ {
+        /*92*/
+        {
           'dept': "",
           'code': '',
           'path': 'M 277.3125,125.78125 L 273.8125,127.65625 L 273.4375,127.71875 L 271.71875,131.46875 L 272.8125,134.4375 L 274.5625,136.40625 L 274.5625,136.625 L 277.28125,138.53125 L 277.9375,138.1875 L 277.4375,137.25 L 277.9375,135.78125 L 277.625,135.25 L 277.96875,134.03125 L 277.90625,134.03125 L 276,133.0625 L 274.4375,132.625 L 274.21875,131.9375 L 274.1875,131.34375 L 275.125,130.28125 L 276.15625,130.21875 L 276.625,129.59375 L 277.75,129.09375 L 277.375,128.1875 L 277.90625,128.09375 L 278.3125,127.21875 L 277.90625,126.59375 L 277.46875,126.5 L 277.3125,125.78125 z '
         },
-        /*93*/ {
+        /*93*/
+        {
           'dept': "",
           'code': '',
           'path': 'M 287.28125,122.8125 L 285.4375,124.125 L 282.5625,125.4375 L 277.3125,125.78125 L 277.46875,126.5 L 277.90625,126.59375 L 278.3125,127.21875 L 277.90625,128.09375 L 277.375,128.1875 L 277.75,129.09375 L 280.28125,129.0625 L 281.09375,130.3125 L 281.25,132.0625 L 282.125,131.9375 L 282.9375,131.28125 L 284.15625,131.34375 L 285.6875,132.21875 L 286.5625,133.1875 L 286.96875,133.375 L 287.21875,133.84375 L 288.1875,134.09375 L 288.1875,131.25 L 287.03125,124.375 L 287.28125,122.8125 z '
         },
-        /*94*/ {
+        /*94*/
+        {
           'dept': "",
           'code': '',
           'path': 'M 282.9375,131.28125 L 282.125,131.9375 L 281.3125,132.0625 L 281.25,132.5 L 281.09375,132.90625 L 281.5,132.90625 L 281.71875,132.71875 L 281.625,132.40625 L 282.875,132.34375 L 283.1875,132.46875 L 283.1875,133.125 L 282.875,133.78125 L 281.0625,133.53125 L 280.78125,133.28125 L 279.9375,133.875 L 279.125,134.09375 L 277.96875,134.03125 L 277.625,135.25 L 277.9375,135.78125 L 277.4375,137.25 L 277.9375,138.1875 L 278.8125,137.75 L 280.90625,138.90625 L 284.53125,138.90625 L 286.6875,139.90625 L 286.65625,139.6875 L 288.1875,135.84375 L 288.1875,134.09375 L 287.21875,133.84375 L 286.96875,133.375 L 286.5625,133.1875 L 285.6875,132.21875 L 284.15625,131.34375 L 282.9375,131.28125 z '

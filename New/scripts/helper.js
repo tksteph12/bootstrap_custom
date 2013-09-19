@@ -215,6 +215,7 @@ function general_things() {
 
     //event on clik after editing the checkboxes elements update the map after this
     $(document).mouseup(function(e) {
+        
         var container = $(".dropdown-checkbox");
         var thisClass = container.attr("class");
         if (thisClass) {
@@ -261,7 +262,7 @@ function general_things() {
             //$("#id-slider").find(".ui-slider-handle").text(ui.value);
             mapParameters.year = ui.value;
             $('#map').updateColors({}, 'map');
-            $(this).find('.ui-slider-handle').html('<span class="center-hand"> </span>');
+            $(this).find('.ui-slider-handle').html('<div class="center-hand"> </div>');
             $(this).find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + ui.value + '</div></div>');
             //$(".slider-wrapper").html('<div class="min-value-label"> <div class="value-text">'+ui.value+'</div></div>'); 
             //$(".slider-wrapper").html('<div class="max-value-label"> <div class="value-text">'+ui.value+'</div></div>'); 

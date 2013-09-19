@@ -23,9 +23,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 .hide-text {
   font: NaN a;
-  color: transparent;
+  /*color: transparent;*/
   text-shadow: none;
-  background-color: transparent;
+  /*background-color: transparent;*/
   border: 0;
 }
 .input-block-level {
