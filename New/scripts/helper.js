@@ -103,10 +103,63 @@ function set_map_focus_on(dept) {
 }
 
 
+
+function enableSelectBoxes() {
+    $('div.selectBox').each(function() {
+        $(this).children('span.selected').html($(this).children('ul.selectOptions').children('li.selectOption:first').html());
+        $('input.price_values').attr('value', $(this).children('ul.selectOptions').children('li.selectOption:first').attr('data-value'));
+
+        $(this).children('span.selected,span.selectArrow').click(function() {
+            // .addClass("highlighted");
+            //.removeClass("highlighted");
+            
+            var prodClass = $("#button-production").attr("class");
+            var colClass = $("#button-collecte").attr("class");
+
+            if ((prodClass.indexOf("choosed") == -1) && (colClass.indexOf("choosed") == -1)) {
+                alert("Choisir le type de données à afficher");
+                //revenir ici à type filière
+                jQuery('#select-filiere').val(parameters.filieres[0].sector);
+                return
+            }
+            $('span.selected').toggleClass("highlighted");
+            if ($(this).parent().children('ul.selectOptions').css('display') == 'none') {
+                $(this).parent().children('ul.selectOptions').css('display', 'block');
+            } else {
+                $(this).parent().children('ul.selectOptions').css('display', 'none');
+            }
+
+        });
+
+        $(this).find('li.selectOption').click(function() {
+
+            $('span.selected').toggleClass("highlighted");
+            var filiere = $(this).html();
+            var myClass = $(this).attr("class");
+            $(this).parent().css('display', 'none');
+            $('input.price_values').attr('value', $(this).attr('data-value'));
+            $(this).parent().siblings('span.selected').html(filiere);
+            mapParameters.filiere = filiere;
+
+            if ((filiere === "Filières")||(myClass.indexOf('selected')!==-1)) {
+                $("#choix-materiels").hide();
+            } else {
+                $("#choix-materiels").show();
+
+                mapParameters.url = getSourceFile(filiere);
+                fetchCheckboxOptions(filiere);
+                updateMap();
+                $(this).siblings().removeClass("selected");
+                $(this).addClass("selected");
+            }
+        });
+    });
+}
+
 function general_things() {
     var PLAY_PAUSE = 1;
 
-    
+
     $('.filterPanel').mouseover(function() {
         $('.unselectable-removed').toggleClass("closed");
         $('.extendedFilters').toggleClass("closed");
@@ -120,7 +173,6 @@ function general_things() {
     });
 
     $('#button-collecte').on("click", function() {
-
         var myClass = $(this).attr("class");
         if (myClass.indexOf("choosed") != -1) {
 
@@ -129,7 +181,7 @@ function general_things() {
             $('#button-production').removeClass("choosed");
             mapParameters.typeOfdata = "collecte";
 
-            if((mapParameters.filiere!=undefined)&&(mapParameters.filiere!=="Filières")){
+            if ((mapParameters.filiere != undefined) && (mapParameters.filiere !== "Filières")) {
                 console.debug(mapParameters.filiere + "sfsdfsdf")
                 updateMap();
             }
@@ -138,8 +190,6 @@ function general_things() {
     });
 
     $('#button-production').on("click", function() {
-
-
         var myClass = $(this).attr("class");
         if (myClass.indexOf("choosed") != -1) {
 
@@ -147,14 +197,14 @@ function general_things() {
             $(this).toggleClass("choosed");
             $('#button-collecte').removeClass("choosed");
             mapParameters.typeOfdata = "production";
-            if(mapParameters.filiere!=="Filières"){
-            updateMap(); }
+            if (mapParameters.filiere !== "Filières") {
+                updateMap();
+            }
         }
-
     });
 
 
-    $("#select-filiere").change(function(event) {
+    /*$("#select-filiere").change(function(event) {
         var prodClass = $("#button-production").attr("class");
         var colClass = $("#button-collecte").attr("class");
 
@@ -176,7 +226,7 @@ function general_things() {
             fetchCheckboxOptions(filiere);
             updateMap();
         }
-    });
+    });*/
 
     var change;
     playing = function() {
@@ -192,11 +242,16 @@ function general_things() {
     }
 
     $("#play-button").click(function() {
+        var filiere = jQuery('.selectBox.selected').html();
+        if ((mapParameters.filiere === undefined) || (mapParameters.filiere == "Filières")) {
+            alert("Choisir une filiere pour continuer");
+            return
+        }
         var myClass = $("#innerPlay-button").attr("class");
-        if(myClass==='paused'){
+        if (myClass === 'paused') {
             $("#innerPlay-button").removeClass("paused");
             $("#innerPlay-button").addClass("playing");
-        }else if(myClass=='playing'){
+        } else if (myClass == 'playing') {
             $("#innerPlay-button").removeClass("playing");
             $("#innerPlay-button").addClass("paused");
         }
@@ -215,7 +270,7 @@ function general_things() {
 
     //event on clik after editing the checkboxes elements update the map after this
     $(document).mouseup(function(e) {
-        
+
         var container = $(".dropdown-checkbox");
         var thisClass = container.attr("class");
         if (thisClass) {
@@ -367,16 +422,17 @@ function loadcheckboxOptions(data, filiere) {
 //remplir le menu de selection du choix de filières
 
 function fillSectorSelections() {
-    var select = jQuery('#select-filiere')[0];
-    if (typeof select === undefined) {
-        select = document.getElementById("select-filiere");
-    }
 
-    select.options.length = 0;
+    $('#thumb-tray').html('<div id="thumb-back"></div><div id="thumb-forward"></div>');
+    var select = jQuery('.selectOptions');
+    select.empty();
+
 
     for (index in parameters.filieres) {
-        select.options[select.options.length] = new Option(parameters.filieres[index].sector, index);
+        select.append('<li class="selectOption" data-value=' + parameters.filieres[index].label + '>' + parameters.filieres[index].sector + '</li>');
     }
+
+
 }
 
 function updateMap() { // produced or collected data

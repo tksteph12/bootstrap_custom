@@ -253,7 +253,7 @@
           /*.style("left", (d3.event.pageX - 110) + "px")
             .style("top", (d3.event.pageY - 380) + "px");*/
           .style("left", (d3.event.pageX + 20) + "px")
-            .style("top", (d3.event.pageY - 260) + "px");
+            .style("top", (d3.event.pageY - 220) + "px");
         })
           .on("mouseout", function(d, i) {
           toolTip.transition().duration(200).style("opacity", 1e-6);
