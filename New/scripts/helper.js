@@ -42,68 +42,7 @@ function printImg() {
     }
 }
 
-function enable_search_ahead() {
-    var source = getDepartments();
-
-    $("#nav-search-input").typeahead({
-        source: source,
-        updater: function(a) {
-            $("#nav-search-input").focus();
-            console.log(a)
-            set_map_focus_on(a);
-            return a
-        }
-
-    })
-}
-
-//set focus on dept on the map
-
-function set_map_focus_on(dept) {
-    var map = $('#map');
-    if (map.html === "") {
-        throw "Empty map"
-    }
-
-    $('div[id*="map"]').each(function(i) {
-        $('svg').each(function(i) {
-            $(this).find('path[dept="' + dept + '"]').each(function(index) {
-                //this.setAttribute('class','ademe-search');
-                var path = d3.select(this);
-                var style = path.style('fill');
-                //path.style("fill", 'black');
-
-                var codeDept = this.getAttribute('code');
-                var title = dept + ' ( ' + codeDept + ' )  Evolution des collectes';
-                var text = "Types d'équipement collectés:" + mapParameters.types.toString();
-                var data = {
-                    title: title,
-                    text: text
-                }
-                $('#bar-info').html(Handlebars.templates.tabInfo(data));
-
-                var donnee_hist = {};
-                donnee_hist.types = mapParameters.types;
-                donnee_hist.filiere = mapParameters.filiere;
-                donnee_hist.codeDept = codeDept;
-                donnee_hist.departement = dept;
-                donnee_hist.sourcefile = mapParameters.url;
-                title += " Evolution des collectes";
-                data = {
-                    title: title,
-                    text: text
-                }
-                plotHistory(donnee_hist, "id-Piechart");
-                // path.style("fill", style);
-            });
-
-        });
-    });
-
-}
-
-
-
+//ecouteurs sur la liste déroulante de choix des filières
 function enableSelectBoxes() {
     $('div.selectBox').each(function() {
         $(this).children('span.selected').html($(this).children('ul.selectOptions').children('li.selectOption:first').html());
@@ -112,7 +51,7 @@ function enableSelectBoxes() {
         $(this).children('span.selected,span.selectArrow').click(function() {
             // .addClass("highlighted");
             //.removeClass("highlighted");
-            
+
             var prodClass = $("#button-production").attr("class");
             var colClass = $("#button-collecte").attr("class");
 
@@ -141,7 +80,7 @@ function enableSelectBoxes() {
             $(this).parent().siblings('span.selected').html(filiere);
             mapParameters.filiere = filiere;
 
-            if ((filiere === "Filières")||(myClass.indexOf('selected')!==-1)) {
+            if ((filiere === parameters.filieres[0].sector)||(myClass.indexOf('selected')!==-1)) {
                 $("#choix-materiels").hide();
             } else {
                 $("#choix-materiels").show();
@@ -156,6 +95,8 @@ function enableSelectBoxes() {
     });
 }
 
+
+// Ecouteurs globaux sur toute la page
 function general_things() {
     var PLAY_PAUSE = 1;
 
@@ -181,12 +122,11 @@ function general_things() {
             $('#button-production').removeClass("choosed");
             mapParameters.typeOfdata = "collecte";
 
-            if ((mapParameters.filiere != undefined) && (mapParameters.filiere !== "Filières")) {
+            if ((mapParameters.filiere != undefined) && (mapParameters.filiere !== parameters.filieres[0].sector)) {
                 console.debug(mapParameters.filiere + "sfsdfsdf")
                 updateMap();
             }
         }
-
     });
 
     $('#button-production').on("click", function() {
@@ -197,36 +137,11 @@ function general_things() {
             $(this).toggleClass("choosed");
             $('#button-collecte').removeClass("choosed");
             mapParameters.typeOfdata = "production";
-            if (mapParameters.filiere !== "Filières") {
+            if (mapParameters.filiere !== parameters.filieres[0].sector) {
                 updateMap();
             }
         }
     });
-
-
-    /*$("#select-filiere").change(function(event) {
-        var prodClass = $("#button-production").attr("class");
-        var colClass = $("#button-collecte").attr("class");
-
-        if ((prodClass.indexOf("choosed") == -1) && (colClass.indexOf("choosed") == -1)) {
-            alert("Choisir le type de données à afficher");
-            //revenir ici à type filière
-            jQuery('#select-filiere').val(parameters.filieres[0].sector);
-            return
-        }
-
-
-        var filiere = $('#select-filiere option:selected').text();
-        if (filiere === "Filières") {
-            $("#choix-materiels").hide();
-        } else {
-            $("#choix-materiels").show();
-            mapParameters.filiere = filiere;
-            mapParameters.url = getSourceFile(filiere);
-            fetchCheckboxOptions(filiere);
-            updateMap();
-        }
-    });*/
 
     var change;
     playing = function() {
@@ -236,14 +151,17 @@ function general_things() {
                 mapParameters.year = 2006;
             }
             $("#id-slider").slider('value', mapParameters.year);
+            $("#id-slider").find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + mapParameters.year + '</div></div>');
+
             console.debug(mapParameters.year);
             $('#map').updateColors({}, 'map');
         }, 4000);
     }
 
+
     $("#play-button").click(function() {
         var filiere = jQuery('.selectBox.selected').html();
-        if ((mapParameters.filiere === undefined) || (mapParameters.filiere == "Filières")) {
+        if ((mapParameters.filiere === undefined) || (mapParameters.filiere == parameters.filieres[0].sector)) {
             alert("Choisir une filiere pour continuer");
             return
         }
@@ -267,8 +185,9 @@ function general_things() {
         }
     });
 
+    
 
-    //event on clik after editing the checkboxes elements update the map after this
+    //evenement de mise à jour de la carte après choix des types de matériels sur les cases à cocher
     $(document).mouseup(function(e) {
 
         var container = $(".dropdown-checkbox");
@@ -295,8 +214,10 @@ function general_things() {
         };
     });
 
-    // choix du type de données à afficher : collecte ou production
 
+    /*
+        Slider pour naviguer entre les années : départ 2006 et fin:2010
+    */
     var initialValue = 2010,
         minValue = 2006,
         maxValue = 2013,
@@ -311,17 +232,11 @@ function general_things() {
         step: step,
 
         slide: function(event, ui) {
-            /*handle = handle || $(".ui-slider-handle", this);
-            valueDisplay.text(ui.value || initialValue)
-              .css(handle.position());*/
-            //$("#id-slider").find(".ui-slider-handle").text(ui.value);
             mapParameters.year = ui.value;
             $('#map').updateColors({}, 'map');
             $(this).find('.ui-slider-handle').html('<div class="center-hand"> </div>');
             $(this).find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + ui.value + '</div></div>');
-            //$(".slider-wrapper").html('<div class="min-value-label"> <div class="value-text">'+ui.value+'</div></div>'); 
-            //$(".slider-wrapper").html('<div class="max-value-label"> <div class="value-text">'+ui.value+'</div></div>'); 
-
+        
         },
         create: function(event, ui) {
             var $slider = $(event.target);
@@ -356,6 +271,7 @@ function fetchCheckboxOptions(filiere) {
 }
 
 
+// charge les types de matériels dans les cases à cocher
 function loadcheckboxOptions(data, filiere) {
 
     var tab = [];
@@ -420,22 +336,20 @@ function loadcheckboxOptions(data, filiere) {
 
 
 //remplir le menu de selection du choix de filières
-
 function fillSectorSelections() {
 
-    $('#thumb-tray').html('<div id="thumb-back"></div><div id="thumb-forward"></div>');
     var select = jQuery('.selectOptions');
+
     select.empty();
-
-
     for (index in parameters.filieres) {
         select.append('<li class="selectOption" data-value=' + parameters.filieres[index].label + '>' + parameters.filieres[index].sector + '</li>');
     }
-
-
 }
 
-function updateMap() { // produced or collected data
+/*
+    
+*/
+function updateMap() { 
 
     if ($('#map')) {
         $("#map").html("");
@@ -444,10 +358,12 @@ function updateMap() { // produced or collected data
         alert("Données non disponible");
         return
     }
-    console.log(parameters.filieres[0].sourcefile);
     $('#map').drawMap(parameters.filieres[0].sourcefile, 'map');
 }
 
+/*
+    Detection du  navigateur : non utilisé pour l'instant
+*/
 function add_browser_detection(c) {
     if (!c.browser) {
         var a, b;
@@ -476,6 +392,11 @@ function add_browser_detection(c) {
     }
 };
 
+
+/*
+    sector: la filière
+    @return: l'url de la filière correspondante
+*/
 function getSourceFile(sector) {
     for (var i = 0; i < parameters.filieres.length; i++) {
         if (parameters.filieres[i].sector === sector) {
@@ -485,6 +406,10 @@ function getSourceFile(sector) {
     throw new Error("Unknown Filiere");
 }
 
+/*
+    @return: Liste des départements
+    @param: geodatas : variable contenant les départements
+*/
 function getDepartments() {
     var departements = [];
     if (typeof geodatas === 'undefined') {

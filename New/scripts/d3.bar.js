@@ -1,4 +1,8 @@
 var drawAggregatedBarChart = function(data, id) {
+
+  /*
+    Variables globales : marges, dimensions, couleurs des barres
+  */
   var margin = {
     top: 30,
     right: 30,
@@ -7,8 +11,7 @@ var drawAggregatedBarChart = function(data, id) {
   },
     height = 280 - margin.top - margin.bottom,
 
-    container = $("#" + id);
-  console.debug(container);
+  container = $("#" + id);
   width = 350;
   if (container) {
     width = container.width();
@@ -22,6 +25,7 @@ var drawAggregatedBarChart = function(data, id) {
   var y = d3.scale.linear()
     .rangeRound([height, 0]);
 
+
   var color = d3.scale.ordinal()
     .range(["#00a7ba", "#0b6f7e", "#5d76ec", "#265e8d", "#9b7fc9", "#b93082", "#ff8c00"]);
 
@@ -33,6 +37,9 @@ var drawAggregatedBarChart = function(data, id) {
     .scale(y)
     .orient("left")
     .tickFormat(d3.format(".2s"));
+
+
+  // 
 
   var svg = d3.select("#" + id).append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -64,11 +71,11 @@ var drawAggregatedBarChart = function(data, id) {
       return d.total;
     })]);
 
+  //
   svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
-    .call(xAxis)
-    ;
+    .call(xAxis);
 
   svg.append("g")
     .attr("class", "y axis")

@@ -21,13 +21,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .clearfix:after {
   clear: both;
 }
+
 .hide-text {
   font: NaN a;
+  
+
   color: transparent;
   text-shadow: none;
   background-color: transparent;
   border: 0;
 }
+
 .input-block-level {
   display: block;
   width: 100%;
@@ -36,16 +40,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
 .dropdown-checkbox {
   position: relative;
 }
+
 .dropdown-checkbox.dropdown.open .caret {
   border-top-color: #000000 !important;
 }
+
 .dropdown-checkbox .caret {
   margin-top: 8px;
   margin-left: 2px;
 }
+
 .dropdown-checkbox .dropdown-checkbox-content {
   z-index: 1000;
   position: absolute;

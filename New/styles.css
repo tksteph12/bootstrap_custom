@@ -50,13 +50,12 @@ footer {
 
 .filterPanel {
 	margin-top: -28px;
-
 	background-image: url("img/filter-bg.png");
     z-index: 0;
     width: 100%;
     opacity: 1;
     overflow: hidden;
-    transition-duration: 0.3s;
+    transition-duration: 0.5s;
 }
 
 .filterPanel .container {
@@ -620,7 +619,6 @@ padding-top:10px;
 
 .ui-slider .ui-slider-handle {
 
-  color:#f6931f;
   border-radius: 50%;
   background-image: -moz-linear-gradient( 90deg, rgba(255,255,255,0) 0%, rgb(255,255,255) 100%) !important;
   background-image: -webkit-linear-gradient( 90deg, rgba(255,255,255,0) 0%, rgb(255,255,255) 100%) !important;
@@ -636,10 +634,6 @@ padding-top:10px;
 }
 
 
-.ui-slider .ui-slider-handle .center-hand{
-
-
-}
 
 
 
@@ -675,21 +669,11 @@ div.ui-slider-range.ui-widget-header {
     background-image: url("img/slider-handle-value.png");
     margin-top:25px;
     margin-left:-25px;
-
-  /*background-image: -moz-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
-  background-image: -webkit-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
-  background-image: -ms-linear-gradient( 90deg, rgba(47,37,40,0) 0%, rgb(47,37,40) 100%);
-  box-shadow: 0px 1px 0px 0px rgb( 255, 255, 255 );
-  position: absolute;
-  left: 790px;
-  top: 250px;
-  width: 73px;
-  height: 28px;
-  z-index: 14;*/
 }
 
 .value-text{
     font-family: 'Dosis Regular';
+    font-family: "Myriad Pro";
     font-style: normal;
     font-size: small;
     margin-top: 8px;
@@ -770,8 +754,8 @@ span.selected {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     color: rgb( 26, 23, 27 );
-    font-size: 17pt;
-    font-weight: 500;
+    font-size: 16pt;
+    font-weight: 400;
     text-align: center;
     overflow: hidden;
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 );
@@ -800,7 +784,7 @@ span.selected {
 
 
 ul.selectOptions {
-    z-index: 2;
+    z-index: 1001;
     position: relative;
     top: 42px; /*mettre 40*/
     left: 0;
@@ -825,13 +809,14 @@ li.selectOption {
 
     text-align: left;
     height: 30px;
-   color: rgb( 26, 23, 27 );
+    color: rgb( 26, 23, 27 );
     display: block;
     line-height: 20px;
     padding: 5px 0 5px 10px;
     font-size: 16px;
-    font-weight: 600;    
+    font-weight: 400;    
     font-family: "Dosis Regular";
+    font-family: "Myriad Pro";
     list-style: none;
     margin: 0;
 }
