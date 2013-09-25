@@ -199,9 +199,7 @@
             title: title + ' - ' + mapParameters.year,
             text: text
           }
-          $('#pie-info').html("");
-          $("#id-pie").html("");
-          // $('#pie-info').addClass("open");
+          
           $('#pie-info').html(Handlebars.templates.pieInfo(data));
 
           var coll = getTonneCollectedValue(codeDept, departs);
@@ -232,10 +230,7 @@
             title: title,
             text: text
           }
-          $('#id-barchart').html("");
-          //  $('#bar-info').addClass("open");
           $('#bar-info').html(Handlebars.templates.barInfo(data));
-          $("#id-barchart").html("");
           plotHistory(donnee_hist, "id-barchart"); //??
 
         })
@@ -253,7 +248,7 @@
           /*.style("left", (d3.event.pageX - 110) + "px")
             .style("top", (d3.event.pageY - 380) + "px");*/
           .style("left", (d3.event.pageX + 20) + "px")
-            .style("top", (d3.event.pageY - 220) + "px");
+            .style("top", (d3.event.pageY - 300) + "px");
         })
           .on("mouseout", function(d, i) {
           toolTip.transition().duration(200).style("opacity", 1e-6);
@@ -274,7 +269,6 @@
         })
           .on("click", function(d, i) {
 
-          //gBrowser.selectedTab = gBrowser.addTab("http://www.google.com/");
 
 
           var path = {};
@@ -311,8 +305,8 @@
           .duration(2000)
           .attr("d", 'M 432,545.25 L 432,475 L 496.25,433')
           .style("fill", 'none')
-          .style("stroke", '#86aae0')
-          .style("stroke-width", '1.5')
+          .style("stroke", '#acacac')
+          .style("stroke-width", '0.5')
           .style("stroke-opacity", '1');
 
         //Représentation du carré un zoom sur paris et les 3 departements. 
@@ -322,7 +316,7 @@
         .style("stroke",'#86aae0')
         .style("stroke-width",'1.5')
         .style("stroke-opacity",'1');
-
+        
         layer.push(RR.rect(7.2526245, 280.14719, 82.539658, 82.53965)
             .attr({x: '7.2526245',y: '280.14719',fill: 'none',stroke: '#86aae0',"stroke-width": '1.46',"stroke-miterlimit": '4',"stroke-opacity": '1',"stroke-dasharray": 'none'}));*/
 
@@ -333,8 +327,8 @@
           .duration(2000)
           .attr("d", 'M 4.9513254,493.17701 L 245.37144,493.17701 L 275.37144,520 L 275.37144,546.92063')
           .style("fill", 'none')
-          .style("stroke", '#86aae0')
-          .style("stroke-width", '1.5')
+          .style("stroke", '#acacac')
+          .style("stroke-width", '0.5')
           .style("stroke-opacity", '1');
 
         //idPiechart
@@ -385,8 +379,6 @@
         var toolTip = d3.select("#" + idElement).append("div")
           .attr("class", "tooltip")
           .style("opacity", 1e-6);
-
-
       }
     };
     //cette fonction retourne le tonnage collecté pour le département passé en paramètres

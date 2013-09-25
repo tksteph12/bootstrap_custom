@@ -126,7 +126,7 @@ var drawAggregatedBarChart = function(data, id) {
 
   legend.append("text")
     .attr("x", 17)
-    .attr("y", height + 25)
+    .attr("y", height + 15)
     .attr("dy", ".50em")
     .style("text-anchor", "start")
     .text(function(d) {
@@ -135,7 +135,7 @@ var drawAggregatedBarChart = function(data, id) {
 
   legend.append("rect")
     .attr("x", 0)
-    .attr("y", height + 20)
+    .attr("y", height + 10)
     .attr("width", 15)
     .attr("height", 15)
     .attr("rx", 2)

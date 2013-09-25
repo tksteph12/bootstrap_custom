@@ -14,7 +14,6 @@ function setGlobalParameters() {
             sourcefile: ""
         }
     ];
-
     mapParameters = {
         year: 2010,
         typeOfdata: "collecte",
@@ -24,23 +23,6 @@ function setGlobalParameters() {
     }
 }
 
-//fonction d'impression de l'image svg à appeller comme action sur un bouton.
-//Une fois appelée, elle ouvre un nouvel onglet avec l'image.
-
-
-function printImg() {
-    pwin = window.open();
-    pwin.document.write("<div class = &quot;page-header&quot; > <h1>Cartographie des collectes de déchets dans les départements de france</h1></div>");
-    pwin.document.write($("#map").html());
-    pwin.document.write("<div class = &quot;page-header&quot; > <h1> Filière " + mapParameters.filiere + "</h1></div>");
-    pwin.document.write("<div class = &quot;page-header&quot; > <h1> Type d'équipements :" + mapParameters.types.toString() + " </h1></div>");
-    pwin.focus();
-    pwin.document.close();
-
-    pwin.onload = function() {
-        window.print();
-    }
-}
 
 //ecouteurs sur la liste déroulante de choix des filières
 function enableSelectBoxes() {
@@ -49,8 +31,6 @@ function enableSelectBoxes() {
         $('input.price_values').attr('value', $(this).children('ul.selectOptions').children('li.selectOption:first').attr('data-value'));
 
         $(this).children('span.selected,span.selectArrow').click(function() {
-            // .addClass("highlighted");
-            //.removeClass("highlighted");
 
             var prodClass = $("#button-production").attr("class");
             var colClass = $("#button-collecte").attr("class");
@@ -71,7 +51,6 @@ function enableSelectBoxes() {
         });
 
         $(this).find('li.selectOption').click(function() {
-
             $('span.selected').toggleClass("highlighted");
             var filiere = $(this).html();
             var myClass = $(this).attr("class");
@@ -102,16 +81,16 @@ function general_things() {
 
 
     $('.filterPanel').mouseover(function() {
-        $('.unselectable-removed').toggleClass("closed");
-        $('.extendedFilters').toggleClass("closed");
+        $('.unselectable-removed').removeClass("closed");
+        $('.extendedFilters').removeClass("closed");
     });
 
-    $('.filterPanel').mouseout(function() {
+    /*$('.filterPanel').mouseout(function() {
 
         $('.extendedFilters').toggleClass("closed");
         $('.unselectable-removed').toggleClass("closed");
 
-    });
+    });*/
 
     $('#button-collecte').on("click", function() {
         var myClass = $(this).attr("class");
@@ -123,7 +102,6 @@ function general_things() {
             mapParameters.typeOfdata = "collecte";
 
             if ((mapParameters.filiere != undefined) && (mapParameters.filiere !== parameters.filieres[0].sector)) {
-                console.debug(mapParameters.filiere + "sfsdfsdf")
                 updateMap();
             }
         }
@@ -152,8 +130,6 @@ function general_things() {
             }
             $("#id-slider").slider('value', mapParameters.year);
             $("#id-slider").find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + mapParameters.year + '</div></div>');
-
-            console.debug(mapParameters.year);
             $('#map').updateColors({}, 'map');
         }, 4000);
     }
@@ -175,18 +151,15 @@ function general_things() {
         }
 
         if (PLAY_PAUSE == 1) {
-            //$(this).removeClass("icon-play").addClass("icon-pause");
             PLAY_PAUSE = 0;
             playing();
         } else if (PLAY_PAUSE == 0) {
-            //$(this).removeClass("icon-pause").addClass("icon-play");
             PLAY_PAUSE = 1;
             clearInterval(change);
         }
     });
 
     
-
     //evenement de mise à jour de la carte après choix des types de matériels sur les cases à cocher
     $(document).mouseup(function(e) {
 
@@ -236,7 +209,6 @@ function general_things() {
             $('#map').updateColors({}, 'map');
             $(this).find('.ui-slider-handle').html('<div class="center-hand"> </div>');
             $(this).find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + ui.value + '</div></div>');
-        
         },
         create: function(event, ui) {
             var $slider = $(event.target);
@@ -258,7 +230,6 @@ function general_things() {
 //faire une requête ajax qui renvoie les valeurs des types dans un tableau
 
 function fetchCheckboxOptions(filiere) {
-
     sourcefile = mapParameters.url;
     $.ajax({
         type: "GET",
@@ -269,7 +240,6 @@ function fetchCheckboxOptions(filiere) {
         }
     });
 }
-
 
 // charge les types de matériels dans les cases à cocher
 function loadcheckboxOptions(data, filiere) {
@@ -319,7 +289,7 @@ function loadcheckboxOptions(data, filiere) {
             autosearch: false,
             title: "My Dropdown Checkbox",
             hideHeader: true,
-            templateButton: '<div class="dropdown-checkbox-toggle center" data-toggle="dropdown">Type de matériel</div>'
+            templateButton: '<div class="dropdown-checkbox-toggle center" data-toggle="dropdown"><span>Type de matériel</span></div>'
         });
     } else {
         var IDs = [];
@@ -347,7 +317,6 @@ function fillSectorSelections() {
 }
 
 /*
-    
 */
 function updateMap() { 
 
@@ -355,9 +324,14 @@ function updateMap() {
         $("#map").html("");
     }
     if (mapParameters.typeOfdata === "production") {
-        alert("Données non disponible");
+        //mettre le gif ici pour chargement en cours
+
+        var img_url = "img/loading-gif-animation.gif"
+        $('#map').html(Handlebars.templates.loader({img:img_url}));
+        /*alert("Données non disponible");*/
         return
     }
+
     $('#map').drawMap(parameters.filieres[0].sourcefile, 'map');
 }
 
@@ -394,7 +368,7 @@ function add_browser_detection(c) {
 
 
 /*
-    sector: la filière
+    @param : sector, la filière
     @return: l'url de la filière correspondante
 */
 function getSourceFile(sector) {
