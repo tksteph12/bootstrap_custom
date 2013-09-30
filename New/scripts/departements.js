@@ -18,7 +18,6 @@
       });
 
 
-
       function processData(allText, idElement) {
 
         //var height = 600;
@@ -129,21 +128,21 @@
 
           if (dpts[dpt] > 3 * space)
             if (dpts[dpt] > 3 * space) {
-              legendArray[3].color = "#f5f8ed";
-              return "#f5f8ed";
+            legendArray[3].color = "#69c7ad";
+            return "#69c7ad";
+              
             } //rouge foncé
           if (dpts[dpt] > 2 * space) {
-            legendArray[2].color = "#d7fff4";
-            return "#d7fff4";
+            legendArray[2].color = "#9ae5d0";
+            return "#9ae5d0";
           } //rouge
           if (dpts[dpt] > space) {
-            legendArray[1].color = "#9ae5d0";
-            return "#9ae5d0";
-
+            legendArray[1].color = "#d7fff4";
+            return "#d7fff4";
           } //oranger foncéé
           if (dpts[dpt] < space) {
-            legendArray[0].color = "#69c7ad";
-            return "#69c7ad";
+            legendArray[3].color = "#f5f8ed";
+              return "#f5f8ed";
 
           } //oranger
           legendArray[4].color = "#acacac";
@@ -156,14 +155,11 @@
         }
 
 
+
         var svg = d3.select('#' + idElement).append("svg:svg")
           .attr("viewBox", "0 0 " + width + " " + height) //adapter le composant à la fenêtre
         .attr("preserveAspectRatio", "xMidYMid meet");
-        //.append("g") // incompatible firefox
-        /*.attr("width", width)
-          .attr("height", height)
-          .attr("viewBox", "0 0 100 100")
-          ;*/
+        
 
         for (var i in geodatas) {
           var rgn = geodatas[i];
@@ -267,9 +263,34 @@
           // d3.select(this).style("fill", colors(codeDept))auxcolor
           d3.select(this).style("fill", auxcolor)
         })
-          .on("click", function(d, i) {
+          .on("click", function(d) {
 
+                /*var x, y, k;
 
+                if (d && centered !== d) {
+                  var centroid = path.centroid(d);
+                  x = centroid[0];
+                  y = centroid[1];
+                  k = 5;
+                  centered = d;
+                } else {
+                  x = width / 2;
+                  y = height / 2;
+                  k = 1;
+                  centered = null;
+                }
+
+                svg.selectAll("path")
+                  .classed("active", centered && function(d) { return d === centered; });
+
+                var trStr = "translate(" + width / 2 + "," + height / 2 + ")" +
+                  "scale(" + k + ")translate(" + -x + "," + -y + ")";
+                
+                svg.transition()
+                  .duration(1000)
+                  .attr("transform", trStr);
+
+            /*
 
           var path = {};
           var data = d3.select(this)[0][0];
@@ -285,12 +306,12 @@
           var graph = Handlebars.templates.departement(path);
           /*win.document.write(graph);
           win.focus();*/
-
+          /*
           var newTabBrowser = gBrowser.getBrowserForTab(gBrowser.addTab("depart.html"));
           newTabBrowser.addEventListener("load", function() {
             newTabBrowser.contentDocument.body.innerHTML = "<div>" + graph + "/div>";
             $('#body').html(Handlebars.templates.departement(path));
-          }, true);
+          }, true);*/
 
           // $('#body').html(Handlebars.templates.departement(path));
         });
@@ -300,7 +321,7 @@
 
         //Représentation du trait pour la Corse
         svg.append("svg:path")
-          .style("stroke", 'white')
+          
           .transition()
           .duration(2000)
           .attr("d", 'M 432,545.25 L 432,475 L 496.25,433')
@@ -322,7 +343,7 @@
 
         //Représentation de la séparation des doms
         svg.append("svg:path")
-          .style("stroke", 'white')
+          
           .transition()
           .duration(2000)
           .attr("d", 'M 4.9513254,493.17701 L 245.37144,493.17701 L 275.37144,520 L 275.37144,546.92063')

@@ -402,29 +402,3 @@ function getDepartments() {
     return departements;
 }
 
-//************************Variables globales************************************************
-
-var parameters = {};
-
-parameters.filieres = [{
-        sector: "Filières",
-        label: "Choix des filières",
-        sourcefile: "deee.csv"
-    }, {
-        sector: "PA",
-        label: "Piles et Accumulateurs",
-        sourcefile: "dec_pa_collecte.csv"
-    }, {
-        sector: "DEE",
-        label: "Dechets Équipements électriques et electroniques",
-        sourcefile: "dec_deee_collecte_men.csv"
-    }
-];
-
-var mapParameters = {
-    year: undefined,
-    typeOfdata: "collecte", //default
-    filiere: undefined, //default
-    types: [], // types d'équipements ou types d' piles/Accumulateurs
-    url: "dec_pa_collecte.csv"
-}

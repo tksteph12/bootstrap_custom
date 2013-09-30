@@ -2,7 +2,23 @@
   font-family: 'Dosis Regular';
   line-height: 0.875;
   font-style: normal;
-  src: local('Dosis Regular'), local('Dosis Regular'), url(http://themes.googleusercontent.com/static/fonts/dosis/v1/xIAtSaglM8LZOYdGmG1JqQ.woff) format('woff');
+  font-weight: 400;
+  src: local('Dosis Regular'), local('Dosis-Regular'), url('dosis/xIAtSaglM8LZOYdGmG1JqQ.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Dosis SemiBold';
+  line-height: 0.875;
+  font-style: normal;
+  src: local('Dosis SemiBold'), local('Dosis Regular'), url('dosis/Dosis-SemiBold.ttf') format('truetype');
+}
+
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url('openSans/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
 }
 
 html{
@@ -842,24 +858,11 @@ li.selected{
     color: rgb( 255, 255, 255 );
     background: url("img/bg-select.png");
     padding-top:10px; 
-    font-weight: bold;
-    font-family: "Dosis Regular";
+    font-family: "Dosis SemiBold";
     text-shadow: 0.5px 0.866px 1px rgb( 0, 0, 0 );
 }
 
-.Tonnes_collectés_en_2010_ {
-  font-size: 17px;
-  font-family: "Dosis";
-  color: rgb( 26, 23, 27 );
-  line-height: 0.824;
-  text-align: left;
-  position: absolute;
-  left: 383.422px;
-  top: 515.709px;
-  width: 158px;
-  height: 13px;
-  z-index: 124;
-}
+
 
 
 
