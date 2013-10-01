@@ -26,14 +26,14 @@ function setGlobalParameters() {
 
 //ecouteurs sur la liste déroulante de choix des filières
 function enableSelectBoxes() {
-    $('div.selectBox').each(function() {
-        $(this).children('span.selected').html($(this).children('ul.selectOptions').children('li.selectOption:first').html());
-        $('input.price_values').attr('value', $(this).children('ul.selectOptions').children('li.selectOption:first').attr('data-value'));
+    jQuery('div.selectBox').each(function() {
+        jQuery(this).children('span.selected').html(jQuery(this).children('ul.selectOptions').children('li.selectOption:first').html());
+        jQuery('input.price_values').attr('value', jQuery(this).children('ul.selectOptions').children('li.selectOption:first').attr('data-value'));
 
-        $(this).children('span.selected,span.selectArrow').click(function() {
+        jQuery(this).children('span.selected,span.selectArrow').click(function() {
 
-            var prodClass = $("#button-production").attr("class");
-            var colClass = $("#button-collecte").attr("class");
+            var prodClass = jQuery("#button-production").attr("class");
+            var colClass = jQuery("#button-collecte").attr("class");
 
             if ((prodClass.indexOf("choosed") == -1) && (colClass.indexOf("choosed") == -1)) {
                 alert("Choisir le type de données à afficher");
@@ -41,34 +41,34 @@ function enableSelectBoxes() {
                 jQuery('#select-filiere').val(parameters.filieres[0].sector);
                 return
             }
-            $('span.selected').toggleClass("highlighted");
-            if ($(this).parent().children('ul.selectOptions').css('display') == 'none') {
-                $(this).parent().children('ul.selectOptions').css('display', 'block');
+            jQuery('span.selected').toggleClass("highlighted");
+            if (jQuery(this).parent().children('ul.selectOptions').css('display') == 'none') {
+                jQuery(this).parent().children('ul.selectOptions').css('display', 'block');
             } else {
-                $(this).parent().children('ul.selectOptions').css('display', 'none');
+                jQuery(this).parent().children('ul.selectOptions').css('display', 'none');
             }
 
         });
 
-        $(this).find('li.selectOption').click(function() {
-            $('span.selected').toggleClass("highlighted");
-            var filiere = $(this).html();
-            var myClass = $(this).attr("class");
-            $(this).parent().css('display', 'none');
-            $('input.price_values').attr('value', $(this).attr('data-value'));
-            $(this).parent().siblings('span.selected').html(filiere);
+        jQuery(this).find('li.selectOption').click(function() {
+            jQuery('span.selected').toggleClass("highlighted");
+            var filiere = jQuery(this).html();
+            var myClass = jQuery(this).attr("class");
+            jQuery(this).parent().css('display', 'none');
+            jQuery('input.price_values').attr('value', jQuery(this).attr('data-value'));
+            jQuery(this).parent().siblings('span.selected').html(filiere);
             mapParameters.filiere = filiere;
 
             if ((filiere === parameters.filieres[0].sector)||(myClass.indexOf('selected')!==-1)) {
-                $("#choix-materiels").hide();
+                jQuery("#choix-materiels").hide();
             } else {
-                $("#choix-materiels").show();
+                jQuery("#choix-materiels").show();
 
                 mapParameters.url = getSourceFile(filiere);
                 fetchCheckboxOptions(filiere);
                 updateMap();
-                $(this).siblings().removeClass("selected");
-                $(this).addClass("selected");
+                jQuery(this).siblings().removeClass("selected");
+                jQuery(this).addClass("selected");
             }
         });
     });
@@ -80,25 +80,25 @@ function general_things() {
     var PLAY_PAUSE = 1;
 
 
-    $('.filterPanel').mouseover(function() {
-        $('.unselectable-removed').removeClass("closed");
-        $('.extendedFilters').removeClass("closed");
+    jQuery('.filterPanel').mouseover(function() {
+        jQuery('.unselectable-removed').removeClass("closed");
+        jQuery('.extendedFilters').removeClass("closed");
     });
 
-    /*$('.filterPanel').mouseout(function() {
+    /*jQuery('.filterPanel').mouseout(function() {
 
-        $('.extendedFilters').toggleClass("closed");
-        $('.unselectable-removed').toggleClass("closed");
+        jQuery('.extendedFilters').toggleClass("closed");
+        jQuery('.unselectable-removed').toggleClass("closed");
 
     });*/
 
-    $('#button-collecte').on("click", function() {
-        var myClass = $(this).attr("class");
+    jQuery('#button-collecte').on("click", function() {
+        var myClass = jQuery(this).attr("class");
         if (myClass.indexOf("choosed") != -1) {
 
         } else {
-            $(this).toggleClass("choosed");
-            $('#button-production').removeClass("choosed");
+            jQuery(this).toggleClass("choosed");
+            jQuery('#button-production').removeClass("choosed");
             mapParameters.typeOfdata = "collecte";
 
             if ((mapParameters.filiere != undefined) && (mapParameters.filiere !== parameters.filieres[0].sector)) {
@@ -107,13 +107,13 @@ function general_things() {
         }
     });
 
-    $('#button-production').on("click", function() {
-        var myClass = $(this).attr("class");
+    jQuery('#button-production').on("click", function() {
+        var myClass = jQuery(this).attr("class");
         if (myClass.indexOf("choosed") != -1) {
 
         } else {
-            $(this).toggleClass("choosed");
-            $('#button-collecte').removeClass("choosed");
+            jQuery(this).toggleClass("choosed");
+            jQuery('#button-collecte').removeClass("choosed");
             mapParameters.typeOfdata = "production";
             if (mapParameters.filiere !== parameters.filieres[0].sector) {
                 updateMap();
@@ -128,26 +128,26 @@ function general_things() {
             if (mapParameters.year == 2013) {
                 mapParameters.year = 2006;
             }
-            $("#id-slider").slider('value', mapParameters.year);
-            $("#id-slider").find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + mapParameters.year + '</div></div>');
-            $('#map').updateColors({}, 'map');
+            jQuery("#id-slider").slider('value', mapParameters.year);
+            jQuery("#id-slider").find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + mapParameters.year + '</div></div>');
+            jQuery('#map').updateColors('map');
         }, 4000);
     }
 
 
-    $("#play-button").click(function() {
+    jQuery("#play-button").click(function() {
         var filiere = jQuery('.selectBox.selected').html();
         if ((mapParameters.filiere === undefined) || (mapParameters.filiere == parameters.filieres[0].sector)) {
             alert("Choisir une filiere pour continuer");
             return
         }
-        var myClass = $("#innerPlay-button").attr("class");
+        var myClass = jQuery("#innerPlay-button").attr("class");
         if (myClass === 'paused') {
-            $("#innerPlay-button").removeClass("paused");
-            $("#innerPlay-button").addClass("playing");
+            jQuery("#innerPlay-button").removeClass("paused");
+            jQuery("#innerPlay-button").addClass("playing");
         } else if (myClass == 'playing') {
-            $("#innerPlay-button").removeClass("playing");
-            $("#innerPlay-button").addClass("paused");
+            jQuery("#innerPlay-button").removeClass("playing");
+            jQuery("#innerPlay-button").addClass("paused");
         }
 
         if (PLAY_PAUSE == 1) {
@@ -161,9 +161,9 @@ function general_things() {
 
     
     //evenement de mise à jour de la carte après choix des types de matériels sur les cases à cocher
-    $(document).mouseup(function(e) {
+    jQuery(document).mouseup(function(e) {
 
-        var container = $(".dropdown-checkbox");
+        var container = jQuery(".dropdown-checkbox");
         var thisClass = container.attr("class");
         if (thisClass) {
             if (thisClass.indexOf("open") != -1) {
@@ -171,7 +171,7 @@ function general_things() {
                 && container.has(e.target).length === 0) // ... nor a descendant of the container
                 {
                     var checkedList = [];
-                    $('#choix-materiels input:checked').each(function() {
+                    jQuery('#choix-materiels input:checked').each(function() {
                         checkedList.push(this.nextSibling.innerHTML);
                     });
                     if (checkedList.length !== 0) {
@@ -179,7 +179,7 @@ function general_things() {
                     }
                     mapParameters.types = checkedList;
                     //
-                    $('#map').updateColors({}, 'map');
+                    jQuery('#map').updateColors('map');
 
                     console.debug(mapParameters.types);
                 }
@@ -196,7 +196,7 @@ function general_things() {
         maxValue = 2013,
         step = 1;
     //initializing the select boxes
-    $("#id-slider").slider({
+    jQuery("#id-slider").slider({
         //orientation: "vertical",
         range: "min",
         value: initialValue,
@@ -206,12 +206,12 @@ function general_things() {
 
         slide: function(event, ui) {
             mapParameters.year = ui.value;
-            $('#map').updateColors({}, 'map');
-            $(this).find('.ui-slider-handle').html('<div class="center-hand"> </div>');
-            $(this).find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + ui.value + '</div></div>');
+            jQuery('#map').updateColors('map');
+            jQuery(this).find('.ui-slider-handle').html('<div class="center-hand"> </div>');
+            jQuery(this).find('.ui-slider-handle').html('<div class="value-label"> <div class="value-text">' + ui.value + '</div></div>');
         },
         create: function(event, ui) {
-            var $slider = $(event.target);
+            var $slider = jQuery(event.target);
             var max = $slider.slider("option", "max");
             var min = $slider.slider("option", "min");
             console.debug(min);
@@ -220,7 +220,7 @@ function general_things() {
 
             $slider.find('.ui-slider-tick-mark').remove();
             for (var i = 0; i < 2; i++) {
-                $('<span class="ui-slider-tick-mark">' + (min + i * (max - min)) + '</span>').css('left', (spacing * i) + '%').appendTo($slider);
+                jQuery('<span class="ui-slider-tick-mark">' + (min + i * (max - min)) + '</span>').css('left', (spacing * i) + '%').appendTo($slider);
             }
         }
     });
@@ -283,8 +283,8 @@ function loadcheckboxOptions(data, filiere) {
     mapParameters.types = aux;
     delete aux;
 
-    if ($('#choix-materiels').html() == "") {
-        $('#choix-materiels').dropdownCheckbox({
+    if (jQuery('#choix-materiels').html() == "") {
+        jQuery('#choix-materiels').dropdownCheckbox({
             data: tab,
             autosearch: false,
             title: "My Dropdown Checkbox",
@@ -294,11 +294,11 @@ function loadcheckboxOptions(data, filiere) {
     } else {
         var IDs = [];
 
-        $("#choix-materiels").find("input").each(function(i) {
+        jQuery("#choix-materiels").find("input").each(function(i) {
             IDs.push(++i);
         });
-        $("#choix-materiels").dropdownCheckbox("remove", IDs);
-        $("#choix-materiels").dropdownCheckbox("append", tab);
+        jQuery("#choix-materiels").dropdownCheckbox("remove", IDs);
+        jQuery("#choix-materiels").dropdownCheckbox("append", tab);
 
     }
     return tab;
@@ -320,19 +320,19 @@ function fillSectorSelections() {
 */
 function updateMap() { 
 
-    if ($('#map')) {
-        $("#map").html("");
+    if (jQuery('#map')) {
+        jQuery("#map").html("");
     }
     if (mapParameters.typeOfdata === "production") {
         //mettre le gif ici pour chargement en cours
 
         var img_url = "img/loading-gif-animation.gif"
-        $('#map').html(Handlebars.templates.loader({img:img_url}));
+        jQuery('#map').html(Handlebars.templates.loader({img:img_url}));
         /*alert("Données non disponible");*/
         return
     }
 
-    $('#map').drawMap(parameters.filieres[0].sourcefile, 'map');
+    jQuery('#map').drawMap('map');
 }
 
 /*
@@ -401,4 +401,18 @@ function getDepartments() {
     }
     return departements;
 }
-
+function getJson() {
+    jQuery.ajax({
+        url: 'map.json',
+        dataType: 'json',
+        success: function(data) {
+            jQuery.each(data, function(key, val) {
+                geodatas.push(val);
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('ERROR', textStatus, errorThrown);
+        }
+    });
+    console.log(geodatas);
+}

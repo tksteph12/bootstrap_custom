@@ -24,7 +24,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div class=\"left\">\r\n	<div id='map' class=\"map-container\"></div>\r\n</div>\r\n<div class=\"right\">\r\n	<div id='pie-info' class=\"pie-container open\"></div>\r\n	<div id='bar-info' class=\"pie-container open\"></div>\r\n</div>";
+  return "<div class=\"left\">\r\n	<div id='map' class=\"map-container\"></div>\r\n</div>\r\n<div class=\"right\">\r\n	<div id='pie-info' class=\"pie-container\"></div>\r\n	<div id='bar-info' class=\"pie-container\"></div>\r\n</div>";
   });
 templates['footer'] = template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];

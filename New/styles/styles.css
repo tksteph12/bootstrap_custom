@@ -110,18 +110,14 @@ footer {
     position relative;
     border: 1px ;
     opacity: 1;
-    /*margin-top: -3px;
-    margin-bottom: 3px;*/
     margin:auto;
     padding-top: 20px;
     padding-bottom: 12px;
-    /*width: 90%;*/
     width:1249px;
     margin-top: 10px;
     overflow: hidden;
     height: 50px;
     transition-duration: 0.5s;
-    /*background: url("img/slider.png");*/
     background: url("img/empty-slider.png");
 }
 }
@@ -165,7 +161,6 @@ footer {
     float: left;
     margin-right: -1px;
     border: 1px rgb(204, 204, 204);
-    /*border: 1px solid rgb(204, 204, 204); */
     color: rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
     z-index: 10;
@@ -178,7 +173,6 @@ footer {
     float: left;
     margin-right: -1px;
     border: 1px rgb(204, 204, 204);
-    /*border: 1px solid rgb(204, 204, 204); */
     color: rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
     left:50% !important;
@@ -221,8 +215,6 @@ footer {
     float: left;
     margin-right: -1px;
     border: 1px rgb(204, 204, 204);
-    /*border: 1px solid rgb(204, 204, 204);*/
-
     color: rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
 }
@@ -232,12 +224,10 @@ footer {
     cursor: pointer;
     margin-top: 4px;
     width: 235px;
-    /*overflow: hidden;*/
     height: 40px;
     float: left;
     margin-right: -1px;
     border: 1px  rgb(204, 204, 204);
-    /*border: 1px solid rgb(204, 204, 204);*/
 
     color: rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
@@ -252,7 +242,6 @@ footer {
     height: 70px;
     float: left;
     margin-right: -1px;
-    /*border: 1px solid rgb(204, 204, 204);*/
     border: 1px  rgb(204, 204, 204);
     color: rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
@@ -327,10 +316,8 @@ footer {
     width: 310px;
     overflow: hidden;
     height: 50px;
-    float: right !important;
-    
+    float: right !important;    
     border: 1px rgb(204, 204, 204);
-    /*border: 1px solid rgb(204, 204, 204); */
     color: rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
     z-index: 10;
@@ -349,10 +336,8 @@ footer {
 .map-container{
     width:712px;
     float: left;  
-    /*min-height: 1px;  */
     margin-left: 80px;
     border:1px ;
-    /*background: url("img/map.png");*/
     height:607px;
     overflow:hidden;
     border: 1px   rgb(204, 204, 204);
@@ -372,11 +357,7 @@ footer {
     line-height: 0.875;
     width:536px;
     float: left;  
-    /*min-height: 1px;  */
     margin-left: 1px;
-    
-    /*background: url("img/pie.png");*/
-    /*background: url("img/info-bg.png");    */
     height:300px;
     display: inline-block;
     vertical-align: middle;
@@ -392,10 +373,8 @@ footer {
 .pie-container.open{
     z-index: 1;
     position:relative;
-
     width:536px;
     float: left;  
-    /*min-height: 1px;  */
     margin-left: 1px;
     border:1px ;
     background: url("img/info-bg.png");
@@ -414,8 +393,6 @@ footer {
 
 
 .info-title{
-
-    /*border-bottom: 4px solid rgb(62, 83, 96);*/
     border-bottom:1px solid #181619;
     margin-left: 20px;
     margin-right: 20px;
@@ -429,6 +406,7 @@ footer {
     position: relative;
     display: inline-block;
     vertical-align: top;
+
     color: rgb( 26, 23, 27 );
 
 }
@@ -526,7 +504,6 @@ footer {
 }
 
 
-
 .tooltip:before{
    content:"";
    position: absolute;
@@ -537,23 +514,18 @@ footer {
    border-top: 13px solid transparent;
    border-right: 26px solid #efeef3;
    border-bottom: 13px solid transparent;
-
 }
-
 
 
 .axis path{
   fill: none;
   stroke: #9d9c9c;
   shape-rendering: crispEdges;
-  
-  /*shape-rendering: crispEdges;*/
-}
+  }
 
 .axis line {
     display:none;
 }
-
 
 
 .infoPie-label{
@@ -591,6 +563,7 @@ footer {
 }
 
 #id-slider{
+    position:relative;
     height:10px;
     cursor: pointer;
     border: 1px solid rgb(204, 204, 204);
@@ -604,14 +577,15 @@ footer {
   cursor: pointer;
   border-radius: 50%;
   background-color: rgb( 226, 226, 226 );
-  position: absolute;
-  left: 415px;
-  top: 178px;
+  left: 415px!important;
+  top: 178px!important;
   width: 41px;
   height: 41px;
   z-index: 14;
 
 }
+
+
 
 
 .paused{
@@ -641,11 +615,10 @@ footer {
     display: inline-block;    
     margin-top: 3px;
     height: 40px;
-    width: 800px;
+    width: 780px;
     float: right;
     margin-left: 40px;
     margin-right: 40px;
-    /*border: 1px solid rgb(204, 204, 204);*/
     border: 1px  rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
 }
@@ -666,7 +639,6 @@ footer {
 }
 
 
-
 .ui-slider .ui-slider-range {
     z-index: 1;
     position: relative;
@@ -676,6 +648,7 @@ footer {
     background-position: 0 0;
 
 }
+
 /*For jquery slider range*/
 div.ui-slider-range.ui-widget-header {
     background: #21d1a0;
@@ -685,7 +658,6 @@ div.ui-slider-range.ui-widget-header {
         rgba(255,255,255,.5) 5px, 
         rgba(255,255,255,.5) 10px);
 }
-
 
 
 .value-label{
@@ -707,7 +679,6 @@ div.ui-slider-range.ui-widget-header {
 
 .min-value-label{
     position:absolute;
-    /*border:1px solid;*/
     float:left;
     height:30px;
     width:78px;
@@ -718,7 +689,6 @@ div.ui-slider-range.ui-widget-header {
 .max-value-label{
     position:absolute;
     float:right;
-    /*border:1px solid;*/
     height:30px;
     width:78px;
     margin-top:25px;
@@ -758,7 +728,6 @@ div.ui-slider-range.ui-widget-header {
 }
 
 
-
 //************** OPtion SELECT*/
 div.selectBox {
 
@@ -766,10 +735,9 @@ div.selectBox {
     position: relative;
     display: inline-block;
     cursor: default;
-    
-    /*line-height: 40px;*/
     clear: both;
 }
+
 span.selected {
     display:inline-block;
     line-height: normal;
@@ -814,14 +782,12 @@ span.selected {
 ul.selectOptions {
     z-index: 1002 ;
     position: relative;
-    /*top: 42px; /*mettre 40*/
     top:42px;
     left: 0;
     width: 100%;
     
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    /*overflow: hidden;*/
     background: rgb(250, 250, 250);
     padding-top: 2px;
     display: none;
@@ -829,11 +795,10 @@ ul.selectOptions {
     list-style: none inside none;
     padding-left: 0;
     border:1px solid lightgrey;
-
     overflow-x:visible;
-    
 
 }
+
 li.selectOption {
 
     text-align: left;
@@ -863,9 +828,6 @@ li.selected{
 }
 
 
-
-
-
 .dropdown-checkbox-toggle{
     font-size: 20px;
     text-indent: 10px;
@@ -883,4 +845,3 @@ li.selected{
     display: block;
     background:url("img/loading-gif-animationCopie.gif");     
 }
-

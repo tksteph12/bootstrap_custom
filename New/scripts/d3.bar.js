@@ -11,7 +11,7 @@ var drawAggregatedBarChart = function(data, id) {
   },
     height = 280 - margin.top - margin.bottom,
 
-  container = $("#" + id);
+  container = jQuery("#" + id);
   width = 350;
   if (container) {
     width = container.width();

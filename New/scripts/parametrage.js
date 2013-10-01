@@ -34,3 +34,5 @@ var mapParameters = {
     types: [], // types d'équipements ou types d' piles/Accumulateurs
     url: ".csv"
 }
+
+var geodatas = [];

@@ -3,7 +3,7 @@ var drawPieChart = function(datas,id) {
 	var unit = datas.unit;
 	//-----------------------------------------------------
 	var defaultColors = d3.scale.category20c();
-	var container = $("#"+id);
+	var container = jQuery("#"+id);
 	var width = 330;
 	var height = 250;
 	

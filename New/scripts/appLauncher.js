@@ -1,4 +1,5 @@
 jQuery(window).load(function() {
+	//getJson();
 	loadTemplates();
 	fillSectorSelections();
 	enableSelectBoxes();
@@ -7,10 +8,10 @@ jQuery(window).load(function() {
 });
 
 function loadTemplates() {
-	$('#id-header').html(Handlebars.templates.header());
-	$('#id-filterPanel').html(Handlebars.templates.filterPanel());
-	$('#container').html(Handlebars.templates.container());
-	$('#id-footer').html(Handlebars.templates.footer({
+	jQuery('#id-header').html(Handlebars.templates.header());
+	jQuery('#id-filterPanel').html(Handlebars.templates.filterPanel());
+	jQuery('#container').html(Handlebars.templates.container());
+	jQuery('#id-footer').html(Handlebars.templates.footer({
 		text: "© 2013 ADEME"
 	}));
 }
