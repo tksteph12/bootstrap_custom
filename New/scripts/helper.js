@@ -1,5 +1,16 @@
-//Paramètres globaux
 
+//Chargement des templates
+function loadTemplates() {
+    jQuery('#id-header').html(Handlebars.templates.header());
+    jQuery('#id-filterPanel').html(Handlebars.templates.filterPanel());
+    jQuery('#container').html(Handlebars.templates.container());
+    jQuery('#id-footer').html(Handlebars.templates.footer({
+        text: "© 2013 ADEME"
+    }));
+}
+
+
+//Paramètres globaux
 function setGlobalParameters() {
     var parameters = {};
     var defaultTypes = ["ND"];
@@ -121,6 +132,10 @@ function general_things() {
         }
     });
 
+    /*
+        fonction d'annimation du slider
+    */
+
     var change;
     playing = function() {
         change = window.setInterval(function() {
@@ -134,7 +149,7 @@ function general_things() {
         }, 4000);
     }
 
-
+    //Ecouteur sur le boutton PLAY/PAUSE d'annimation
     jQuery("#play-button").click(function() {
         var filiere = jQuery('.selectBox.selected').html();
         if ((mapParameters.filiere === undefined) || (mapParameters.filiere == parameters.filieres[0].sector)) {
@@ -317,6 +332,7 @@ function fillSectorSelections() {
 }
 
 /*
+Mise à jour de la carte
 */
 function updateMap() { 
 
@@ -401,6 +417,12 @@ function getDepartments() {
     }
     return departements;
 }
+
+
+
+/*
+    Pour récupérer les données géographique
+*/
 function getJson() {
     jQuery.ajax({
         url: 'map.json',

@@ -9,7 +9,6 @@ var drawPieChart = function(datas,id) {
 	
 	if (container){
 		width = container.width();
-		//height = container.height();
 	}
 
 	var radius = 90;
@@ -30,16 +29,16 @@ var drawPieChart = function(datas,id) {
 	
 
 	var total = 0;
-	//D3 helper function to populate pie slice parameters from array data
+	//D3 helper pour réaliser les découpages en sections à partir du tableau de données
 	var donut = d3.layout.pie().value(function(d) {
 		total += d.itemValue;
 		return d.itemValue;
 	}).sort(null);
 
-	//D3 helper function to create colors from an ordinal scale
+	//helper D3 pour les couleurs si jamais les couleurs ne sont pas précisés en donnée
 	var color = defaultColors;
 
-	//D3 helper function to draw arcs, populates parameter "d" in path object
+	//D3 helper pour representer les arcs
 	var arc = d3.svg.arc()
 		.startAngle(function(d) {
 		return d.startAngle;
@@ -50,9 +49,7 @@ var drawPieChart = function(datas,id) {
 		.innerRadius(innerradius)
 		.outerRadius(radius);
 
-	///////////////////////////////////////////////////////////
 	// CREATE VIS & GROUPS ////////////////////////////////////
-	///////////////////////////////////////////////////////////
 
 	var vis = d3.select("#" + id).append("svg:svg")
 		.attr("width", width)
@@ -73,15 +70,10 @@ var drawPieChart = function(datas,id) {
 		.attr("class", "center_group")
 		.attr("transform", "translate(" + (width / 2) + "," + (height / 2) + ")");
 
-	//PLACEHOLDER GRAY CIRCLE
-	// var paths = arc_group.append("svg:circle")
-	//     .attr("fill", "#EFEFEF")
-	//     .attr("r", r);
 
-	///////////////////////////////////////////////////////////
-	// CENTER TEXT ////////////////////////////////////////////
-	///////////////////////////////////////////////////////////
 
+	// Texte au centre ////////////////////////////////////////////
+	
 	//WHITE CIRCLE BEHIND LABELS
 	var whiteCircle = center_group.append("svg:circle")
 		.attr("fill", "white")
@@ -94,38 +86,34 @@ var drawPieChart = function(datas,id) {
                     .attr("y2", -10)
                     .attr("stroke-width", .80)
                     .attr("stroke", "black");
-	// "TOTAL" LABEL
+	// "TOTAL" 
 	var totalLabel = center_group.append("svg:text")
 		.attr("class", "infoPie-label")
 		.attr("dy", -15)
-		.attr("text-anchor", "middle") // text-align: right
+		.attr("text-anchor", "middle") 
 	.text("TOTAL");
 
-	//TOTAL TRAFFIC VALUE
+	//Valeur totale du centre
 	var totalValue = center_group.append("svg:text")
 		.attr("class", "infoPie-total")
 		.attr("dy", 15)
-		.attr("text-anchor", "middle") // text-align: right
+		.attr("text-anchor", "middle") 
 	.text(".......");
 
-	//UNITS LABEL
+	//unité
 	var totalUnits = center_group.append("svg:text")
 		.attr("class", "infoPie-units")
 		.attr("dy", 35)
-		.attr("text-anchor", "middle") // text-align: right
+		.attr("text-anchor", "middle") 
 	.text(unit);
 
-	///////////////////////////////////////////////////////////
-	// STREAKER CONNECTION ////////////////////////////////////
-	///////////////////////////////////////////////////////////
 
-	// to draw the chart
-
+	// representation du graphe
 	function draw() {
 
 		pieData = donut(data);
 
-		var sliceProportion = 0; //size of this slice
+		var sliceProportion = 0; 
 		filteredPieData = pieData.filter(filterData);
 		var totalOctets = total;
 
@@ -137,23 +125,21 @@ var drawPieChart = function(datas,id) {
 			return (element.value > 0);
 		}
 
-		//REMOVE PLACEHOLDER CIRCLE
+		
 
 		totalValue.text(function() {
 			return totalOctets.toFixed(2); // à recalculer
 		});
 
 		//DRAW ARC PATHS
+		//
 		paths = arc_group.selectAll("path").data(filteredPieData);
 		paths.enter().append("svg:path")
 			.attr("stroke", "white")
 			.attr("stroke-width", 0.5)
 			.attr("fill", function(d, i) {
-			if (d.data.color === undefined) {
-
-				
+			if (d.data.color === undefined) {				
 				return color(i);
-
 			}
 			return d.data.color;
 		})
@@ -162,7 +148,7 @@ var drawPieChart = function(datas,id) {
 			.attrTween("d", pieTween);
 
 
-		//DRAW TICK MARK LINES FOR LABELS
+		//Dessiner les traits près des labels
 		lines = label_group.selectAll("line").data(filteredPieData);
 		lines.enter().append("svg:line")
 			.attr("x1", 0)
@@ -180,7 +166,7 @@ var drawPieChart = function(datas,id) {
 		});
 		lines.exit().remove();
 
-		//DRAW LABELS WITH PERCENTAGE VALUES
+		//Representation des pourcentages
 		valueLabels = label_group.selectAll("text.value").data(filteredPieData)
 			.attr("dy", function(d) {
 			if ((d.startAngle + d.endAngle) / 2 > Math.PI / 2 && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5) {
@@ -231,7 +217,7 @@ var drawPieChart = function(datas,id) {
 		valueLabels.exit().remove();
 
 
-		//DRAW LABELS WITH ENTITY NAMES
+		//ajout des textes
 		nameLabels = label_group.selectAll("text.units").data(filteredPieData)
 			.attr("dy", function(d) {
 			if ((d.startAngle + d.endAngle) / 2 > Math.PI / 2 && (d.startAngle + d.endAngle) / 2 < Math.PI * 1.5) {
@@ -278,11 +264,9 @@ var drawPieChart = function(datas,id) {
 
 	}
 
-	///////////////////////////////////////////////////////////
 	// FUNCTIONS //////////////////////////////////////////////
-	///////////////////////////////////////////////////////////
 
-	// Interpolate the arcs in data space.
+	// Rotation des portions du graphique.
 
 	function pieTween(d, i) {
 		var s0 = 0;

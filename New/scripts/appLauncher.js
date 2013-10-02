@@ -1,3 +1,4 @@
+//Point d'entrée de l'application
 jQuery(window).load(function() {
 	//getJson();
 	loadTemplates();
@@ -7,13 +8,5 @@ jQuery(window).load(function() {
 	general_things();
 });
 
-function loadTemplates() {
-	jQuery('#id-header').html(Handlebars.templates.header());
-	jQuery('#id-filterPanel').html(Handlebars.templates.filterPanel());
-	jQuery('#container').html(Handlebars.templates.container());
-	jQuery('#id-footer').html(Handlebars.templates.footer({
-		text: "© 2013 ADEME"
-	}));
-}
 
 

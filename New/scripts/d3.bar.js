@@ -11,7 +11,7 @@ var drawAggregatedBarChart = function(data, id) {
   },
     height = 280 - margin.top - margin.bottom,
 
-  container = jQuery("#" + id);
+  container = jQuery("#" + id); 
   width = 350;
   if (container) {
     width = container.width();
@@ -19,6 +19,7 @@ var drawAggregatedBarChart = function(data, id) {
   width = width - margin.left - margin.right;
 
 
+//Définition d'echelle pour les axes
   var x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1);
 
@@ -29,6 +30,7 @@ var drawAggregatedBarChart = function(data, id) {
   var color = d3.scale.ordinal()
     .range(["#00a7ba", "#0b6f7e", "#5d76ec", "#265e8d", "#9b7fc9", "#b93082", "#ff8c00"]);
 
+  //Axes : vertical et horizontal
   var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom");
@@ -39,8 +41,7 @@ var drawAggregatedBarChart = function(data, id) {
     .tickFormat(d3.format(".2s"));
 
 
-  // 
-
+  //Construction des barres
   var svg = d3.select("#" + id).append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -51,6 +52,10 @@ var drawAggregatedBarChart = function(data, id) {
     return key !== "annee";
   }));
 
+  /*
+    filtre des données en rajoutant un paramètre types 
+  */
+  console.log(data);
   data.forEach(function(d) {
     var y0 = 0;
     d.types = color.domain().map(function(name) {
@@ -62,7 +67,7 @@ var drawAggregatedBarChart = function(data, id) {
     });
     d.total = d.types[d.types.length - 1].y1;
   });
-
+  console.log(data);
 
   x.domain(data.map(function(d) {
     return d.annee;
@@ -71,7 +76,7 @@ var drawAggregatedBarChart = function(data, id) {
       return d.total;
     })]);
 
-  //
+    
   svg.append("g")
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
@@ -85,7 +90,6 @@ var drawAggregatedBarChart = function(data, id) {
     .attr("y", .6)
     .attr("dy", ".71em")
     .style("text-anchor", "end")
-  //.text("Collecte")
   ;
 
   var annee = svg.selectAll(".annee")
@@ -114,12 +118,12 @@ var drawAggregatedBarChart = function(data, id) {
     return color(d.name);
   });
 
+//Construction de la legende
   var legend = svg.selectAll(".legend")
     .data(color.domain().slice().reverse())
     .enter().append("g")
     .attr("class", "legend")
     .attr("transform", function(d, i) {
-    //return "translate(0," + i * 20 + ")";
     return "translate(0" + i * 70 + ",30)";
   });
 
